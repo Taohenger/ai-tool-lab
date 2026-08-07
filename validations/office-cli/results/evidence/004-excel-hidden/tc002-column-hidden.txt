@@ -1,0 +1,8 @@
+Error: Element not found: column[3]
+{
+  "success": false,
+  "error": {
+    "error": "Element not found: column[3]",
+    "code": "not_found"
+  }
+}

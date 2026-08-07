@@ -1,0 +1,76 @@
+xlsx validation
+---------------
+Parent: sheet
+Paths: /SheetName/dataValidation[N]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type validation [--prop key=val ...]
+  officecli set <file> /SheetName/dataValidation[N] --prop key=val ...
+  officecli get <file> /SheetName/dataValidation[N]
+  officecli query <file> validation
+  officecli remove <file> /SheetName/dataValidation[N]
+
+Properties:
+  type   enum   [add/set/get]
+    values: list, whole, decimal, date, time, textlength, custom
+    example: --prop type=list
+    readback: validation type
+  ref   string   [add/set/get]   aliases: sqref
+    description: target cell range. Aliases: sqref.
+    example: --prop ref=A1:A10
+    example: --prop sqref=A1:A10
+    readback: cell range
+  allowBlank   bool   [add/set/get]
+    description: allow blank cells. Default: true.
+    example: --prop allowBlank=false
+    readback: true/false
+  showError   bool   [add/set/get]
+    description: show error message on invalid input. Default: true.
+    example: --prop showError=true
+    readback: true/false
+  showInput   bool   [add/set/get]
+    description: show input prompt when cell selected. Default: true.
+    example: --prop showInput=true
+    readback: true/false
+  errorTitle   string   [add/set/get]
+    description: title of the error popup.
+    example: --prop errorTitle="Bad value"
+    readback: title text
+  promptTitle   string   [add/set/get]
+    description: title of the input prompt popup.
+    example: --prop promptTitle="Hint"
+    readback: title text
+  errorStyle   enum   [add/set/get]
+    description: severity of error popup. Default: stop. Aliases: warn=warning, info=information.
+    values: stop, warning, information
+    example: --prop errorStyle=warning
+    readback: stop|warning|information
+  inCellDropdown   bool   [add/set/get]
+    description: show in-cell dropdown arrow for type=list. Default: true. Inverse of OOXML showDropDown.
+    example: --prop inCellDropdown=false
+    readback: true/false
+  showDropDown   bool   [add/set]
+    description: raw OOXML showDropDown flag (INVERTED: true = HIDE arrow). Prefer inCellDropdown for clarity.
+    example: --prop showDropDown=true
+    readback: raw OOXML flag
+  operator   enum   [add/set/get]
+    values: between, notBetween, equal, notEqual, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual
+    example: --prop operator=between
+    readback: operator name
+  formula1   string   [add/set/get]
+    example: --prop formula1="Yes,No,Maybe"
+    readback: formula1 content
+  formula2   string   [add/set/get]
+    example: --prop formula2=100
+    readback: formula2 content
+  prompt   string   [add/set/get]
+    description: message shown when cell selected.
+    example: --prop prompt="Enter 1-100"
+    readback: prompt text
+  error   string   [add/set/get]
+    description: error message on invalid input.
+    example: --prop error="Invalid value"
+    readback: error text
+
+Note: Aliases: datavalidation. Target cell range via 'ref'. Type determines which of formula1/formula2 are used. Alias 'validation' accepted in path segments by query/set/remove (e.g. /SheetName/validation[N]); Add and Get echo back the canonical 'dataValidation[N]' form.

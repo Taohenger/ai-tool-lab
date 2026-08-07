@@ -1,0 +1,2 @@
+Added table at /slide[2]/table[@id=100002]
+UNSUPPORTED props: rows (did you mean: cols?), cols (did you mean: bold?). Run 'officecli help <format> <element>' to see valid props, or raw-set for raw XML.

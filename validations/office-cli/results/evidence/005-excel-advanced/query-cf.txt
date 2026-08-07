@@ -1,0 +1,4 @@
+/worksheet[1]/conditionalFormatting[1] (conditionalFormatting) "100" children=1 sqref=B1:B6
+/worksheet[1]/conditionalFormatting[2] (conditionalFormatting) children=1 sqref=C1:C6
+/worksheet[1]/conditionalFormatting[3] (conditionalFormatting) "{4E0B0110-3271-40F1-BA55-423CC32154A7}" children=1 sqref=B1:B6
+/worksheet[1]/extLst[1]/ext[1]/conditionalFormattings[1]/conditionalFormatting[1] (conditionalFormatting) "B1:B6" children=2

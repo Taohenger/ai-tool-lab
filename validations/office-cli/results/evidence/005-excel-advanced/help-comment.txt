@@ -1,0 +1,29 @@
+xlsx comment
+--------------
+Parent: sheet|cell
+Paths: /SheetName/comment[N]  /SheetName/CellRef/comment
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type comment [--prop key=val ...]
+  officecli set <file> /SheetName/comment[N] --prop key=val ...
+  officecli get <file> /SheetName/comment[N]
+  officecli query <file> comment
+  officecli remove <file> /SheetName/comment[N]
+
+Properties:
+  ref   string   [add/set/get]
+    description: target cell address (e.g. B2).
+    example: --prop ref=B2
+    readback: cell reference
+  author   string   [add/set/get]
+    example: --prop author="Alice"
+    readback: Author attribute
+  text   string   [add/set/get]
+    description: comment body. Required.
+    example: --prop text="Check formula"
+    example: --prop text="Reword this bullet"
+    example: --prop text="Review this"
+    readback: concatenated text
+
+Note: Aliases: note. Anchored to a cell via 'ref' (or path tail). Modern Excel also supports threaded comments; this handler emits classic comments.

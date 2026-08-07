@@ -1,0 +1,4 @@
+Added cell at /Sheet1/B6
+        "text": "15",
+          "formula": "SUM(B1:B5)",
+          "computedValue": "15",

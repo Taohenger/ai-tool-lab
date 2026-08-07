@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/3_详细明細/G12",
+        "type": "cell",
+        "text": "重大",
+        "preview": "G12",
+        "childCount": 0,
+        "format": {
+          "type": "String",
+          "font.size": "11pt",
+          "border.left": "thin",
+          "border.right": "thin",
+          "border.top": "thin",
+          "border.bottom": "thin",
+          "alignment.wrapText": true,
+          "alignment.horizontal": "left",
+          "alignment.vertical": "center"
+        },
+        "children": []
+      }
+    ]
+  }
+}

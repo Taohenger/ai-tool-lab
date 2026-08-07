@@ -1,0 +1,21 @@
+Added sheet at /Sheet2
+Updated /Sheet2: hidden=true
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet2",
+        "type": "sheet",
+        "preview": "Sheet2",
+        "childCount": 0,
+        "format": {
+          "hidden": true,
+          "visibility": "hidden"
+        },
+        "children": []
+      }
+    ]
+  }
+}

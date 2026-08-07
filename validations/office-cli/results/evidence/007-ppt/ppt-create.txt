@@ -1,0 +1,4 @@
+Created: validations/office-cli/test-data/ppt-test.pptx (kept open in background for faster subsequent commands)
+  totalSlides: 0
+  slideWidth: 960pt
+  slideHeight: 540pt

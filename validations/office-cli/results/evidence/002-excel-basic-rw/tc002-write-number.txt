@@ -1,0 +1,20 @@
+Added cell at /Sheet1/B1
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/B1",
+        "type": "cell",
+        "text": "123.45",
+        "preview": "B1",
+        "childCount": 0,
+        "format": {
+          "type": "Number"
+        },
+        "children": []
+      }
+    ]
+  }
+}

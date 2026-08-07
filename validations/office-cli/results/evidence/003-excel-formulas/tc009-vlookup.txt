@@ -1,0 +1,4 @@
+Added cell at /Sheet1/H2
+        "text": "香蕉",
+          "formula": "VLOOKUP(2,F2:G4,2,FALSE)",
+          "computedValue": "香蕉",

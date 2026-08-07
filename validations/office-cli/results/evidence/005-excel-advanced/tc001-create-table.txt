@@ -1,0 +1,30 @@
+Added table at /Sheet1/table[1]
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/table[1]",
+        "type": "table",
+        "text": "SalesTable",
+        "preview": "SalesTable (A1:C4)",
+        "childCount": 3,
+        "format": {
+          "name": "SalesTable",
+          "displayName": "SalesTable",
+          "ref": "A1:C4",
+          "style": "TableStyleMedium2",
+          "bandedRows": true,
+          "bandedCols": false,
+          "firstCol": false,
+          "lastCol": false,
+          "headerRow": true,
+          "totalRow": false,
+          "columns": "产品,销量,单价"
+        },
+        "children": []
+      }
+    ]
+  }
+}

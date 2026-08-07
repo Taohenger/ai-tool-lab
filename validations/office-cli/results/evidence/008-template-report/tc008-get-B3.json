@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/1_横展开报告/B3",
+        "type": "cell",
+        "text": "OOO-2026-0804-001",
+        "preview": "B3",
+        "childCount": 0,
+        "format": {
+          "type": "String",
+          "font.size": "11pt",
+          "alignment.wrapText": true,
+          "alignment.horizontal": "left",
+          "alignment.vertical": "center"
+        },
+        "children": []
+      }
+    ]
+  }
+}

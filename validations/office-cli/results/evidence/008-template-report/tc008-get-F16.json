@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/2_监测一览/F16",
+        "type": "cell",
+        "text": "15",
+        "preview": "F16",
+        "childCount": 0,
+        "format": {
+          "type": "Number",
+          "font.bold": true,
+          "font.size": "11pt",
+          "fill": "#FFF2CC00",
+          "border.left": "thin",
+          "border.right": "thin",
+          "border.top": "thin",
+          "border.bottom": "thin",
+          "alignment.wrapText": true,
+          "alignment.horizontal": "left",
+          "alignment.vertical": "center"
+        },
+        "children": []
+      }
+    ]
+  }
+}

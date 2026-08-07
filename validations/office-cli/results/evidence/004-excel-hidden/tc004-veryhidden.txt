@@ -1,0 +1,24 @@
+Added sheet at /Sheet3
+    description: sheetView gridline visibility. Emitted only when hidden (false); default-on is omitted (CONSISTENCY(default-omission)).
+    description: row/column header visibility. Emitted only when hidden (false); default-on is omitted (CONSISTENCY(default-omission)).
+  visibility   enum   [get]
+Updated /Sheet3: visibility=veryHidden
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet3",
+        "type": "sheet",
+        "preview": "Sheet3",
+        "childCount": 0,
+        "format": {
+          "hidden": true,
+          "visibility": "veryHidden"
+        },
+        "children": []
+      }
+    ]
+  }
+}

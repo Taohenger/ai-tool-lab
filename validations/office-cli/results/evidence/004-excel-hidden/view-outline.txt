@@ -1,0 +1,2 @@
+File: hidden-test.xlsx
+├── "Sheet1" (10 rows × 4 cols)

@@ -1,0 +1,56 @@
+xlsx row
+--------------
+Parent: sheet
+Paths: /SheetName/row[N]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type row [--prop key=val ...]
+  officecli set <file> /SheetName/row[N] --prop key=val ...
+  officecli get <file> /SheetName/row[N]
+  officecli query <file> row
+  officecli remove <file> /SheetName/row[N]
+
+Properties:
+  matchedTable   string   [get]
+    description: label of the table whose column predicate this row matched (emitted on row nodes returned by a row[Col op val] selector). Get-only.
+  tableSource   string   [get]
+    description: `detected` when matchedTable came from a header-sniffed (not real listObject) table. Get-only.
+  cols   int   [add]
+    description: number of empty cells to seed in the new row.
+    example: --prop cols=5
+    readback: n/a (structural only)
+  height   length   [add/set/get]
+    description: row height in points.
+    example: --prop height=24
+    readback: numeric points (raw double as stored)
+  hidden   bool   [add/set/get]
+    description: hide row.
+    example: --prop hidden=true
+    readback: true when hidden, key absent otherwise
+  outline   int   [set]   aliases: outlinelevel, group
+    description: outline/group level 0-7. Aliases: outlineLevel, group. Set accepts `outline`/`outlineLevel`/`group`; Get readback uses canonical key `outlineLevel`.
+    example: --prop outline=1
+    readback: see `outlineLevel`
+  outlineLevel   number   [get]
+    description: row outline grouping level (0 = ungrouped, 1..7 = nested group depth). Get-only readback of the value set via `outline`.
+    readback: integer 0..7; key omitted when row has no outline level
+  collapsed   bool   [set/get]
+    description: collapsed row-group flag; omitted from Get when not collapsed.
+    example: --prop collapsed=true
+    readback: true when the row group is collapsed
+  customHeight   bool   [get]
+    description: true when the row carries an explicit height (Row @customHeight). Get-only flag.
+    readback: true when row has a custom height
+
+Note: Row index N is 1-based. Add/Set asymmetry: all formatting props are currently Set-only. Insert/move/clone at an occupied slot shifts every row at or past the slot down by one, and every range-bearing structure on the sheet (mergeCells, CF/DV sqref, autoFilter, hyperlink/table refs, named ranges, formula cell-refs) follows the displacement. 'add --from /SheetName/row[K]' with --before/--after clones cells + single-row mergeCells; relative formula refs are delta-shifted to the new anchor (Excel 'Insert Copied Cells' parity). Excel-style whole-row references (1:1; 2:5 spans on set) are accepted as input aliases for row[N]; readback paths stay canonical. Set also accepts TABLE COLUMN names as prop keys (`--prop Salary=9000` writes that column's cell in the row, symmetric with query row[Salary>5000]). When a key names BOTH a row property and a table column (e.g. a column headed 'Height'), the bare key is rejected as ambiguous (invalid_selector) — force the side with `--prop col.Height=180` (column cell) or `--prop @height=25` (row property); same col./@ escape vocabulary as query row[col.X…]/row[@X…].
+
+Examples:
+  Filter rows by column name (resolves against a ListObject or a detected header-row table):
+    officecli query book.xlsx "row[Salary>5000]"
+    officecli query book.xlsx "row[Region=West and Sales>1000]"
+    officecli query book.xlsx "row[Status=open or Priority=high]"
+  Write a table column's cell on a row; disambiguate a column that shadows a row property:
+    officecli set book.xlsx "/Sheet1/row[2]" --prop Salary=9000
+    officecli set book.xlsx "/Sheet1/row[2]" --prop col.Height=180
+    officecli set book.xlsx "/Sheet1/row[2]" --prop @height=25

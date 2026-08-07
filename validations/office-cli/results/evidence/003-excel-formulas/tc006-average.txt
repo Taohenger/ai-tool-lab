@@ -1,0 +1,4 @@
+Added cell at /Sheet1/C4
+        "text": "20",
+          "formula": "AVERAGE(C1:C3)",
+          "computedValue": "20",

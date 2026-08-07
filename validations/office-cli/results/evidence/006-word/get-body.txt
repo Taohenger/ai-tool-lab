@@ -1,0 +1,100 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/body",
+        "type": "body",
+        "childCount": 10,
+        "format": {},
+        "children": [
+          {
+            "path": "/body/p[@paraId=00100000]",
+            "type": "paragraph",
+            "text": "Hello World from OfficeCLI",
+            "preview": "Hello World from OfficeCLI",
+            "style": "Normal",
+            "childCount": 1,
+            "format": {
+              "paraId": "00100000",
+              "effective.size": "11pt",
+              "effective.size.src": "/docDefaults",
+              "effective.font.ascii": "Calibri",
+              "effective.font.ascii.src": "/docDefaults",
+              "effective.font.hAnsi": "Calibri",
+              "effective.font.hAnsi.src": "/docDefaults"
+            },
+            "children": []
+          },
+          {
+            "path": "/body/p[@paraId=00100002]",
+            "type": "paragraph",
+            "text": "这是一个测试文档，用于验证 Word CLI 的各种功能。",
+            "preview": "这是一个测试文档，用于验证 Word CLI 的各种功能。",
+            "style": "Normal",
+            "childCount": 1,
+            "format": {
+              "paraId": "00100002",
+              "effective.size": "11pt",
+              "effective.size.src": "/docDefaults",
+              "effective.font.ascii": "Calibri",
+              "effective.font.ascii.src": "/docDefaults",
+              "effective.font.hAnsi": "Calibri",
+              "effective.font.hAnsi.src": "/docDefaults"
+            },
+            "children": []
+          },
+          {
+            "path": "/body/p[@paraId=00100004]",
+            "type": "paragraph",
+            "text": "第一章 引言",
+            "preview": "第一章 引言",
+            "style": "Normal",
+            "childCount": 1,
+            "format": {
+              "paraId": "00100004",
+              "effective.size": "11pt",
+              "effective.size.src": "/docDefaults",
+              "effective.font.ascii": "Calibri",
+              "effective.font.ascii.src": "/docDefaults",
+              "effective.font.hAnsi": "Calibri",
+              "effective.font.hAnsi.src": "/docDefaults"
+            },
+            "children": []
+          },
+          {
+            "path": "/body/p[@paraId=00100006]",
+            "type": "paragraph",
+            "text": "这段文字加粗并斜体",
+            "preview": "这段文字加粗并斜体",
+            "style": "Normal",
+            "childCount": 1,
+            "format": {
+              "paraId": "00100006",
+              "bold": true,
+              "italic": true,
+              "effective.size": "11pt",
+              "effective.size.src": "/docDefaults",
+              "effective.font.ascii": "Calibri",
+              "effective.font.ascii.src": "/docDefaults",
+              "effective.font.hAnsi": "Calibri",
+              "effective.font.hAnsi.src": "/docDefaults"
+            },
+            "children": []
+          },
+          {
+            "path": "/body/tbl[1]",
+            "type": "table",
+            "childCount": 3,
+            "format": {
+              "cols": "3",
+              "rows": "3",
+              "_gridCols": "3",
+              "border.top": "single",
+              "border.top.sz": 4,
+              "border.bottom": "single",
+              "border.bottom.sz": 4,
+              "border.insideH": "single",
+              "border.insideH.sz": 4,
+              "border.insideV": "single",

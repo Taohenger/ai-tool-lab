@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A1",
+        "type": "cell",
+        "text": "香蕉",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "String"
+        },
+        "children": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+xlsx hyperlink
+--------------
+Parent: cell
+Paths: /SheetName/CellRef
+Operations: get query
+
+Usage:
+  officecli get <file> /SheetName/CellRef
+  officecli query <file> hyperlink
+
+Properties:
+  url   string   [get]
+    description: external URL readback (read-only at this element). For cell-level Set use cell `link=URL`.
+    readback: URL string
+  ref   string   [get]
+    description: target cell range. Readback only (from <hyperlink ref=.../>).
+    readback: cell reference
+  location   string   [get]
+    description: internal sheet/cell target (Sheet1!A1). Readback only here; create via cell `link=` property.
+    readback: internal target
+  display   string   [get]
+    description: display text. Readback only here; set via cell `display=` property.
+    readback: display string
+  tooltip   string   [get]
+    description: hover tooltip. Readback only here; set via cell `tooltip=` property.
+    example: --prop tooltip="Next section"
+    readback: tooltip text
+
+Note: In Excel, hyperlinks are a cell-level property, not a standalone addressable element. To create or modify one, use `officecli xlsx add cell` / `set` on the owning cell with `--prop link=URL` (optionally `tooltip=`, `display=`). Query returns discoverable hyperlink nodes whose `Path` points at the owning cell (e.g. `/Sheet1/A1`) so agents can Get/Set from there. Removal: Set the cell's `link=none`. Aliases on cell input: link, href.

@@ -1,0 +1,18 @@
+Added autofilter at /Sheet1/autofilter
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/autofilter",
+        "type": "autofilter",
+        "childCount": 0,
+        "format": {
+          "range": "A1:C6"
+        },
+        "children": []
+      }
+    ]
+  }
+}

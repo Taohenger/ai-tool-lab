@@ -1,0 +1,44 @@
+Elements for xlsx:
+  aboveaverage
+  autofilter
+  cell
+    comment
+    hyperlink
+    run
+  cellis
+  cfextended
+  chart
+    chart-axis
+    chart-series
+  colbreak
+  colorscale
+  column
+  conditionalformatting
+  containstext
+  databar
+  dateoccurring
+  detectedtable
+  duplicatevalues
+  formulacf
+  iconset
+  namedrange
+  ole
+  pagebreak
+  picture
+  pivottable
+  range
+    sort
+  raw
+  row
+  rowbreak
+  shape
+  sheet
+  slicer
+  sparkline
+  table
+  topn
+  uniquevalues
+  validation
+  workbook
+
+Run 'officecli help xlsx <element>' for detail.
