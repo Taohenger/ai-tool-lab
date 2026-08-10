@@ -202,6 +202,13 @@ def col_num_to_letter(n):
         n //= 26
     return result
 
+def col_letters_to_idx(letters):
+    """Excel 列字母 → 0基索引（A→0, B→1, Z→25, AA→26）"""
+    result = 0
+    for ch in letters.upper():
+        result = result * 26 + (ord(ch) - 64)
+    return result - 1
+
 def shape_position(fmt):
     """解析 shape 的 x/y/width/height，返回位置描述"""
     x = fmt.get("x")
@@ -338,8 +345,60 @@ def shape_to_md_rich(text, fmt):
 
     return f"{prefix} {md}"
 
+def _detect_tables(row_cells):
+    """自动检测表格区域：连续行、有共同表头 → 识别为表格
+    
+    策略：
+    1. 找到至少 2 列的连续行段
+    2. 用段内第一行作为表头，确定列基准
+    3. 后续行即使列数不同也纳入，缺失列用空字符串填充
+    """
+    if not row_cells:
+        return []
+    
+    sorted_rows = sorted(row_cells.keys())
+    if len(sorted_rows) < 2:
+        return []
+    
+    tables = []
+    i = 0
+    while i < len(sorted_rows):
+        r = sorted_rows[i]
+        cells = row_cells[r]
+        if len(cells) < 2:
+            i += 1
+            continue
+        
+        has_text = any(not c.get("format", {}).get("empty") and c.get("text", "").strip() 
+                      for c in cells)
+        if not has_text:
+            i += 1
+            continue
+        
+        # 找连续段：允许列数不完全相同，但都 >= 2 列
+        j = i + 1
+        while j < len(sorted_rows):
+            nr = sorted_rows[j]
+            ncells = row_cells[nr]
+            if len(ncells) >= 2:
+                j += 1
+            else:
+                break
+        
+        if j - i >= 2:
+            # 确定最大列数作为表头列数
+            max_cols = max(len(row_cells[rr]) for rr in sorted_rows[i:j])
+            # 重新映射：以列位置（A=0, B=1...）而非实际存在的单元格来对齐
+            tables.append((sorted_rows[i], sorted_rows[i:j], max_cols))
+            i = j
+        else:
+            i += 1
+    
+    return tables
+
+
 def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
-    """构建完整 Markdown 文档"""
+    """构建完整 Markdown 文档 — 自动表格检测 + 保留精度"""
     lines = list(header_lines)
 
     for sheet_name, data in sheet_data.items():
@@ -355,15 +414,21 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
                 row_num = int(m.group(2))
                 row_cells.setdefault(row_num, []).append(c)
 
-        table_rows = {r: cells for r, cells in row_cells.items() if 16 <= r <= 20}
-        normal_rows = {r: cells for r, cells in row_cells.items() if r < 15 or r > 20}
+        # 自动检测表格
+        tables = _detect_tables(row_cells)
+        table_row_nums = set()
+        for _, rows, _ in tables:
+            table_row_nums.update(rows)
 
-        for row_num in sorted(normal_rows.keys()):
+        # 输出非表格行
+        for row_num in sorted(row_cells.keys()):
+            if row_num in table_row_nums:
+                continue
             row_texts = []
-            for c in sorted(normal_rows[row_num], key=lambda c: c["path"]):
+            for c in sorted(row_cells[row_num], key=lambda c: c["path"]):
                 text = c.get("text", "")
                 fmt = c.get("format", {})
-                if fmt.get("empty"):
+                if fmt.get("empty") and not text.strip():
                     continue
                 line = cell_fn(text, fmt)
                 if line:
@@ -372,24 +437,69 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
                 lines.extend(row_texts)
                 lines.append("")
 
-        if table_rows:
-            title_row = row_cells.get(15, [])
-            if title_row:
-                t = cell_fn(title_row[0].get("text", ""), title_row[0].get("format", {}))
-                if t:
-                    lines.append(t + "\n")
+        # 输出表格
+        for header_row, all_rows, max_cols in tables:
+            # 表头：按列位置对齐到 max_cols
+            header_cells = sorted(row_cells[header_row], key=lambda c: c["path"])
+            # 建立 col_index → cell 映射
+            def get_col_idx(cell):
+                m = re.match(r"([A-Z]+)(\d+)", cell["path"].split("/")[-1])
+                return col_letters_to_idx(m.group(1)) if m else 0
+            
+            # 收集表头列信息
+            header_map = {}
+            for c in header_cells:
+                idx = get_col_idx(c)
+                header_map[idx] = c.get("text", "").strip()
+            
+            # 确定列范围：从表头最小列到最大列
+            if header_map:
+                min_col = min(header_map.keys())
+                max_col_idx = max(header_map.keys())
             else:
-                lines.append("### 设计规格表\n")
-
-            sorted_rows = sorted(table_rows.keys())
-            headers = [c.get("text", "") for c in sorted(table_rows[sorted_rows[0]], key=lambda c: c["path"])]
+                min_col = 0
+                max_col_idx = max_cols - 1
+            
+            col_count = max_col_idx - min_col + 1
+            
+            # 生成表头行
+            headers = []
+            for ci in range(min_col, min_col + col_count):
+                headers.append(header_map.get(ci, ""))
+            
+            # 表格标题检测
+            title_candidates = [r for r in [header_row - 1, header_row - 2] 
+                               if r in row_cells]
+            for tr in title_candidates:
+                tc = row_cells[tr]
+                if len(tc) == 1:
+                    t = cell_fn(tc[0].get("text", ""), tc[0].get("format", {}))
+                    if t and t not in lines[-3:-1]:
+                        lines.append(t + "\n")
+                        break
+            
             lines.append("| " + " | ".join(headers) + " |")
-            lines.append("|" + "|".join(["---"] * len(headers)) + "|")
+            lines.append("|" + "|".join(["---"] * col_count) + "|")
 
-            for row_num in sorted_rows[1:]:
+            # 输出数据行
+            for row_num in all_rows[1:]:
+                row_cell_map = {}
+                for c in row_cells[row_num]:
+                    idx = get_col_idx(c)
+                    row_cell_map[idx] = c
+                
                 row_mds = []
-                for c in sorted(table_rows[row_num], key=lambda c: c["path"]):
-                    row_mds.append(cell_fn(c.get("text", ""), c.get("format", {})))
+                for ci in range(min_col, min_col + col_count):
+                    if ci in row_cell_map:
+                        c = row_cell_map[ci]
+                        text = c.get("text", "")
+                        fmt = c.get("format", {})
+                        if fmt.get("empty") and not text.strip():
+                            row_mds.append("")
+                        else:
+                            row_mds.append(cell_fn(text, fmt))
+                    else:
+                        row_mds.append("")
                 lines.append("| " + " | ".join(row_mds) + " |")
             lines.append("")
 
