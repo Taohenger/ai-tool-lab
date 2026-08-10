@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/设计说明/A7",
+        "type": "cell",
+        "text": "这是废弃内容（删除线）",
+        "preview": "A7",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "strike": true
+        },
+        "children": []
+      }
+    ]
+  }
+}

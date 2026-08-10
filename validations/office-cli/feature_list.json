@@ -194,10 +194,53 @@
       "notes": "連続 130 回超の set 注入で 0 エラー。Agent×テンプレート注入の実用パターンを確立。デザイン（色・境界線）は openpyxl で事前に描画し、データ注入のみ OfficeCLI で行う役割分担が最も生産的。round-trip（set→get）で値と書式が完全保持されることを確認。",
       "passRate": "10/10 = 100%",
       "report": "tasks/008-template-report/results/result.md"
+    },
+    {
+      "id": "009-excel-to-md",
+      "priority": 7,
+      "area": "Excel 格式转换",
+      "title": "Excel 设计文档转 Markdown（格式保留验证）",
+      "user_visible_behavior": "读取 Excel 设计文档中的加粗、颜色、删除线、悬浮吹出形状等格式信息，完整转换为 Markdown",
+      "status": "passing",
+      "verification": [
+        "创建含 13 种格式类型的测试 Excel ✅（加粗/颜色/删除线/背景色/斜体/下划线/超链接/组合格式/字号/吹出形状）",
+        "读取加粗格式 font.bold=true ✅ → **文本**",
+        "读取颜色格式 font.color ✅ → <span style='color:...'>（RRGGBBAA 格式，取前6位）",
+        "读取删除线 strike=true ✅ → ~~文本~~",
+        "读取背景色 fill ✅ → <mark> 或 <span style='background-color:...'>",
+        "读取悬浮吹出形状 query shape ✅ → > 📌 text（geometry=wedgeRectCallout）",
+        "读取超链接 link ✅ → [文本](URL)",
+        "批量读取所有 39 个单元格 ✅",
+        "组合格式（加粗+颜色、删除线+颜色）正确转换 ✅",
+        "完整 Markdown 生成 ✅（54 行，2 Sheet + 表格 + 吹出形状）"
+      ],
+      "evidence": [
+        "results/evidence/009-excel-to-md/tc002-bold.json",
+        "results/evidence/009-excel-to-md/tc003-color.json",
+        "results/evidence/009-excel-to-md/tc004-strike.json",
+        "results/evidence/009-excel-to-md/tc005-fill.json",
+        "results/evidence/009-excel-to-md/tc006-query-shape.json",
+        "results/evidence/009-excel-to-md/tc006-shape1.json",
+        "results/evidence/009-excel-to-md/tc006-shape2.json",
+        "results/evidence/009-excel-to-md/tc007-link.json",
+        "results/evidence/009-excel-to-md/tc008-query-cell.json",
+        "results/evidence/009-excel-to-md/tc009-bold-color.json",
+        "results/evidence/009-excel-to-md/tc009-strike-color.json",
+        "results/evidence/009-excel-to-md/tc010-validate.txt",
+        "results/evidence/009-excel-to-md/tc011-view-outline.txt",
+        "results/evidence/009-excel-to-md/output-final.md",
+        "test-data/excel-to-md/create_design_doc.py",
+        "test-data/excel-to-md/excel_to_md.py",
+        "test-data/excel-to-md/设计文档测试.xlsx",
+        "test-data/excel-to-md/设计文档测试.md"
+      ],
+      "notes": "OfficeCLI 完全支持读取 Excel 格式信息。关键发现：颜色返回 RRGGBBAA 格式（8位），需取前6位。悬浮吹出形状（插入→形状→标注）通过 query shape 完整读取，包括 geometry/fill/color/bold 等属性。Markdown 不原生支持颜色，用 HTML span 标签弥补。",
+      "passRate": "10/10 = 100%",
+      "report": "tasks/009-excel-to-md/results/result.md"
     }
   ],
-  "overallPassRate": "42/44 = 95.5%（完全通过）；44/44 = 100%（含部分支持）",
-  "totalTestCases": 44,
-  "testDate": "2026-08-07",
+  "overallPassRate": "71/79 = 89.9%（完全通过）；79/79 = 100%（含部分支持）",
+  "totalTestCases": 79,
+  "testDate": "2026-08-08",
   "officecliVersion": "1.0.143"
 }

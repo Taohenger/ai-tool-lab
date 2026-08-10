@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/设计说明/A9",
+        "type": "cell",
+        "text": "加粗+红色组合",
+        "preview": "A9",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#FF000000"
+        },
+        "children": []
+      }
+    ]
+  }
+}

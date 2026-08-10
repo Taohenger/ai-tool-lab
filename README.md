@@ -12,7 +12,7 @@ AI 工具验证实验室 —— 用于系统性验证各种 AI CLI 工具、AI �
 
 | 优先级 | 工具 | 对应分支 | 状态 |
 |--------|------|----------|------|
-| 🔴 P0 | **Office CLI** | `verify/office-cli` | ✅ 验证完成（**69 用例，88.4% 完全通过**） |
+| 🔴 P0 | **Office CLI** | `verify/office-cli` | ✅ 验证完成（**79 用例，89.9% 完全通过**） |
 | 🟡 P1 | 其他 AI 工具（后续添加） | `verify/<tool-name>` | — |
 
 ### Office CLI 验证结果速览
@@ -20,10 +20,10 @@ AI 工具验证实验室 —— 用于系统性验证各种 AI CLI 工具、AI �
 | 维度 | 结果 |
 |------|------|
 | **验证版本** | v1.0.143 |
-| **测试用例** | **69 个**（8 任务：Excel 54 · Word 9 · PPT 6） |
-| **完全通过** | **61 个（88.4%）** |
-| **核心亮点** | 一键安装零依赖、公式实时重算、图表一键生成、全平台统一路径引用、**Agent × 横展开报告テンプレート自動生成実証** |
-| **对人类工作替代度** | Excel 数据录入 100% · 公式计算 100% · 图表 95% · **横展开报告自動生成 100%** · Word 85% · PPT 85% |
+| **测试用例** | **79 个**（9 任务：Excel 64 · Word 9 · PPT 6） |
+| **完全通过** | **71 个（89.9%）** |
+| **核心亮点** | 一键安装零依赖、公式实时重算、图表一键生成、全平台统一路径引用、**Agent × 横展开报告テンプレート自動生成実証**、**Excel→Markdown 格式转换（含吹出形状）** |
+| **对人类工作替代度** | Excel 数据录入 100% · 公式计算 100% · 图表 95% · **横展开报告自動生成 100%** · **Excel→MD 格式转换 100%** · Word 85% · PPT 85% |
 | **发现问题** | 6 个（cachedValue 不更新、排序不识别表头、CSV import 有 bug 等） |
 | **详细报告** | [validations/office-cli/README.md](validations/office-cli/README.md) |
 
@@ -57,6 +57,25 @@ bash fill-report.sh  →  横展开报告-OOO-XXXX-XXXX.xlsx
 ```
 
 → **いますぐデモを再現するには**：`cd validations/office-cli/test-data/template-demo && bash fill-report.sh`（1 分程度で完成版 Excel が新規作成されます）
+
+### ⭐ 新增：Excel 设计文档转 Markdown（任务 009）
+
+**位置**：`validations/office-cli/test-data/excel-to-md/`
+
+验证 OfficeCLI 读取 Excel 设计文档格式信息（加粗、颜色、删除线、**悬浮吹出形状**）并完整转换为 Markdown 的能力。
+
+| 格式类型 | OfficeCLI 属性 | Markdown 输出 | 状态 |
+|----------|---------------|-------------|------|
+| 加粗 | `font.bold` | `**文本**` | ✅ |
+| 颜色 | `font.color` (RRGGBBAA) | `<span style="color:#RRGGBB">文本</span>` | ✅ |
+| 删除线 | `strike` | `~~文本~~` | ✅ |
+| 背景色 | `fill` | `<mark>文本</mark>` | ✅ |
+| 斜体 | `font.italic` | `*文本*` | ✅ |
+| 下划线 | `underline` | `<u>文本</u>` | ✅ |
+| 超链接 | `link` | `[文本](URL)` | ✅ |
+| **悬浮吹出形状** | `query shape` (geometry=wedgeRectCallout) | `> 📌 text` | ✅ |
+
+**快速复现**：`cd validations/office-cli/test-data/excel-to-md && python3 excel_to_md.py`
 
 ## 目录结构
 

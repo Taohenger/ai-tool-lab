@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/设计说明/A8",
+        "type": "cell",
+        "text": "这是黄色背景的单元格",
+        "preview": "A8",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "fill": "#FFFF0000"
+        },
+        "children": []
+      }
+    ]
+  }
+}
