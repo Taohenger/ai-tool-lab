@@ -8,6 +8,14 @@
 
 **最新更新**：TC-011 完整设计文档测试 — 5 Sheet / 2278 单元格 / 5 图片 / 13 表格 / 16 格式类型，全部通过 ✅
 
+### 📌 完整版本测试输出（最重要）
+
+| 文件 | 说明 | 链接 |
+|------|------|------|
+| 完整设计文档测试.md | 纯净版（709 行，GitHub 兼容） | [查看](https://github.com/Taohenger/ai-tool-lab/blob/main/validations/office-cli/test-data/excel-to-md/完整设计文档测试.md) |
+| 完整设计文档测试_richtext.md | 富文本版（707 行，VS Code/Typora） | [查看](https://github.com/Taohenger/ai-tool-lab/blob/main/validations/office-cli/test-data/excel-to-md/完整设计文档测试_richtext.md) |
+| 完整设计文档测试.xlsx | 源文件（5 Sheet / 2278 单元格 / 5 图片） | [查看](https://github.com/Taohenger/ai-tool-lab/blob/main/validations/office-cli/test-data/excel-to-md/完整设计文档测试.xlsx) |
+
 ---
 
 ## 测试环境
