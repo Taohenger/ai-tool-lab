@@ -259,7 +259,8 @@
         "读取超链接 link ✅ → [文本](URL)",
         "批量读取所有 39 个单元格 ✅",
         "组合格式（加粗+颜色、删除线+颜色）正确转换 ✅",
-        "完整 Markdown 生成 ✅（54 行，2 Sheet + 表格 + 吹出形状）"
+        "完整 Markdown 生成 ✅（54 行，2 Sheet + 表格 + 吹出形状）",
+        "TC-011 完整设计文档测试 ✅：5 Sheet / 2278 单元格 / 5 图片 / 13 表格 / 16 格式类型，全部通过"
       ],
       "evidence": [
         "results/evidence/009-excel-to-md/tc002-bold.json",
@@ -279,15 +280,20 @@
         "test-data/excel-to-md/create_design_doc.py",
         "test-data/excel-to-md/excel_to_md.py",
         "test-data/excel-to-md/设计文档测试.xlsx",
-        "test-data/excel-to-md/设计文档测试.md"
+        "test-data/excel-to-md/设计文档测试.md",
+        "test-data/excel-to-md/create_full_design_doc.py",
+        "test-data/excel-to-md/完整设计文档测试.xlsx",
+        "test-data/excel-to-md/完整设计文档测试.md",
+        "test-data/excel-to-md/完整设计文档测试_richtext.md",
+        "test-data/excel-to-md/images/"
       ],
-      "notes": "OfficeCLI 完全支持读取 Excel 格式信息。关键发现：颜色返回 RRGGBBAA 格式（8位），需取前6位。悬浮吹出形状（插入→形状→标注）通过 query shape 完整读取，包括 geometry/fill/color/bold 等属性。Markdown 不原生支持颜色，用 HTML span 标签弥补。",
-      "passRate": "10/10 = 100%",
+      "notes": "OfficeCLI 完全支持读取 Excel 格式信息。关键发现：颜色返回 RRGGBBAA 格式（8位），需取前6位。悬浮吹出形状（插入→形状→标注）通过 query shape 完整读取。完整设计文档测试（TC-011）验证了 5 Sheet / 2278 单元格 / 5 图片 / 13 表格（含未标记表格自动检测）/ 16 格式类型 / 公式结果（PI=3.14159265358979, RAND, SUM, IF, VLOOKUP 等）/ 错误值（#DIV/0!, #N/A, #VALUE!）/ 组件状态列（确定/废弃/待定），全部通过。双版本输出：纯净版（Emoji+注释标记颜色，GitHub 兼容）+ 富文本版（HTML span 颜色，VS Code/Typora）。",
+      "passRate": "11/11 = 100%",
       "report": "tasks/009-excel-to-md/results/result.md"
     }
   ],
-  "overallPassRate": "71/79 = 89.9%（完全通过）；79/79 = 100%（含部分支持）",
-  "totalTestCases": 79,
-  "testDate": "2026-08-08",
+  "overallPassRate": "72/80 = 90.0%（完全通过）；80/80 = 100%（含部分支持）",
+  "totalTestCases": 80,
+  "testDate": "2026-08-10",
   "officecliVersion": "1.0.143"
 }

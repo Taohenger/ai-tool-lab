@@ -2,9 +2,11 @@
 
 ## 概要
 
-验证 OfficeCLI 读取 Excel 设计文档中的格式信息（加粗、颜色、删除线、悬浮吹出形状）并转换为 Markdown 的能力。
+验证 OfficeCLI 读取 Excel 设计文档中的格式信息（加粗、颜色、删除线、悬浮吹出形状、图片、公式结果）并转换为 Markdown 的能力。
 
-**结论：OfficeCLI 完全支持读取 Excel 格式信息并转换为 Markdown，10/10 测试用例通过（100%）。**
+**结论：OfficeCLI 完全支持读取 Excel 格式信息并转换为 Markdown，11/11 测试用例通过（100%）。**
+
+**最新更新**：TC-011 完整设计文档测试 — 5 Sheet / 2278 单元格 / 5 图片 / 13 表格 / 16 格式类型，全部通过 ✅
 
 ---
 
@@ -349,10 +351,13 @@ officecli query 设计文档测试.xlsx cell --json
 
 | 维度 | 结果 |
 |------|------|
-| 测试用例 | 10/10 = **100%** |
-| 格式类型 | 10 种全部正确转换 |
+| 测试用例 | 11/11 = **100%** |
+| 格式类型 | 16 种全部正确转换 |
 | 组合格式 | 4 种全部正确转换 |
 | 吹出形状 | 2/2 = 100% |
+| 图片提取 | 5/5 = 100%（完整设计文档） |
+| 表格识别 | 13/13 = 100%（含未标记表格自动检测） |
+| 公式结果 | 15/15 = 100%（PI/RAND/SUM/IF/VLOOKUP 等） |
 
 ---
 
@@ -362,9 +367,14 @@ officecli query 设计文档测试.xlsx cell --json
 |------|------|
 | `tasks/009-excel-to-md/task.md` | 测试计划 |
 | `test-data/excel-to-md/create_design_doc.py` | 测试 Excel 生成脚本（openpyxl） |
-| `test-data/excel-to-md/设计文档测试.xlsx` | 测试设计文档 |
+| `test-data/excel-to-md/设计文档测试.xlsx` | 测试设计文档（基础版，2 Sheet / 39 单元格） |
 | `test-data/excel-to-md/excel_to_md.py` | Excel→Markdown 转换脚本 |
-| `test-data/excel-to-md/设计文档测试.md` | 转换输出的 Markdown |
+| `test-data/excel-to-md/设计文档测试.md` | 转换输出的 Markdown（基础版） |
+| `test-data/excel-to-md/create_full_design_doc.py` | **完整设计文档生成脚本（5 Sheet / 100+ 行/Sheet / 图片 / 形状 / 公式）** |
+| `test-data/excel-to-md/完整设计文档测试.xlsx` | **完整设计文档（5 Sheet / 2185 单元格 / 5 图片）** |
+| `test-data/excel-to-md/完整设计文档测试.md` | **纯净版 Markdown（709 行，Emoji+注释标记颜色，GitHub 兼容）** |
+| `test-data/excel-to-md/完整设计文档测试_richtext.md` | **富文本版 Markdown（707 行，HTML span 颜色，VS Code/Typora）** |
+| `test-data/excel-to-md/images/` | **提取的 5 张图片** |
 | `results/evidence/009-excel-to-md/tc002-bold.json` | 加粗读取证据 |
 | `results/evidence/009-excel-to-md/tc003-color.json` | 颜色读取证据 |
 | `results/evidence/009-excel-to-md/tc004-strike.json` | 删除线读取证据 |
@@ -379,3 +389,65 @@ officecli query 设计文档测试.xlsx cell --json
 | `results/evidence/009-excel-to-md/tc010-validate.txt` | 文件验证 |
 | `results/evidence/009-excel-to-md/tc011-view-outline.txt` | outline 视图 |
 | `results/evidence/009-excel-to-md/output-final.md` | 最终输出的 md |
+
+---
+
+## TC-011: 完整设计文档测试（全功能深度验证）✅
+
+### 测试环境
+
+| 项目 | 内容 |
+|------|------|
+| OfficeCLI 版本 | v1.0.143 |
+| 测试文件 | `test-data/excel-to-md/完整设计文档测试.xlsx` |
+| Sheet 数 | 5（设计总览 / UI设计规格 / 数据与公式 / 检查清单 / 图片与附件） |
+| 单元格数 | 2278 |
+| 图片数 | 5（UI 设计稿、UI 副本、架构图、流程图、检查清单 banner） |
+| 转换脚本 | `test-data/excel-to-md/excel_to_md.py` |
+| 输出（纯净版） | `test-data/excel-to-md/完整设计文档测试.md`（709 行） |
+| 输出（富文本版） | `test-data/excel-to-md/完整设计文档测试_richtext.md`（707 行） |
+
+### 测试结果：全部通过 ✅
+
+| 验证维度 | 结果 | 详情 |
+|---------|------|------|
+| **图片提取** | 5/5 ✅ | image1~5 全部提取到 images/ 目录，MD 中正确引用，跨 Sheet 全局索引修复 |
+| **表格识别** | 13/13 ✅ | 共 355 行数据，含未标记表格自动检测（openpyxl 预检测 + 列范围重叠算法） |
+| **数值精度** | 15/15 ✅ | PI=3.14159265358979（15位）、RAND=0.05065714514315489（17位）、#DIV/0!/#N/A/#VALUE! 错误值保留 |
+| **公式结果** | 15/15 ✅ | SUM=189、AVERAGE=23.625、2^10=1024、IF/IFERROR/VLOOKUP/CONCATENATE 等全部正确 |
+| **格式转换** | 16/16 ✅ | 加粗/斜体/删除线/颜色/背景色/下划线/超链接/组合格式/字号→标题 全部正确 |
+| **组件状态列** | 58/58 ✅ | 确定20次/废弃19次/待定19次，全部有值 |
+| **文档结构** | 5/5 ✅ | 5 个 Sheet 标题齐全 |
+
+### 13 个识别的表格
+
+| # | 表格名 | 列×行 | 所属 Sheet |
+|---|--------|-------|-----------|
+| 1 | 文档信息表 | 2×6 | 设计总览 |
+| 2 | 修订记录 | 4×15 | 设计总览 |
+| 3 | 术语定义 | 3×43 | 设计总览 |
+| 4 | 页面布局规格 | 8×37 | UI设计规格 |
+| 5 | 组件规格表 | 9×58 | UI设计规格 |
+| 6 | 基础运算 | 6×27 | 数据与公式 |
+| 7 | 逻辑函数 | 6×23 | 数据与公式 |
+| 8 | 查找引用 | 6×23 | 数据与公式 |
+| 9 | 文本函数 | 6×13 | 数据与公式 |
+| 10 | 代码检查清单 | 7×98 | 检查清单 |
+| 11 | UI 设计稿 | 2×2 | 图片与附件 |
+| 12 | 架构图 | 2×4 | 图片与附件 |
+| 13 | 流程图 | 2×6 | 图片与附件 |
+
+### 关键技术发现
+
+1. **OfficeCLI 公式结果读取**：`query cell --json` 返回的 `text` 字段包含公式计算结果（如 PI=3.14159265358979），精度完整保留
+2. **表格自动检测算法**：基于 openpyxl 读取完整网格结构，通过列范围重叠检测、列数差异控制（≤2）、间隔行允许等策略，成功识别未标记的表格区域
+3. **图片跨 Sheet 全局索引**：`xl/media/imageN.png` 的编号是全局递增的，跨 Sheet 遍历 picture 时必须使用同一全局计数器
+4. **双版本输出**：纯净版用 Emoji+注释标记颜色（GitHub 兼容），富文本版用 HTML span 标签（VS Code/Typora/Obsidian 专用）
+
+### 修复记录
+
+| 问题 | 原因 | 修复 |
+|------|------|------|
+| 图片未提取 | OfficeCLI 未安装，fallback 到 openpyxl 模式不读取图片 | 安装 OfficeCLI v1.0.143 |
+| 公式结果为空 | openpyxl `data_only=True` 读取公式单元格返回 None（Excel 未缓存计算结果） | OfficeCLI `query cell --json` 返回完整计算结果 |
+| 图片索引错位 | 每个 Sheet 从 1 开始编号，但 imageN.png 是全局递增 | `build_document()` 中使用 `global_pic_idx` 全局计数器 |

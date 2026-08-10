@@ -16,9 +16,9 @@
 | **验证环境** | Linux x64 |
 | **验证日期** | 2026-08-08 |
 | **验证任务数** | 9 个（全部完成） |
-| **测试用例总数** | 79 个 |
-| **完全通过率** | 71/79 = **89.9%** |
-| **部分支持率** | 8/79 = **10.1%** |
+| **测试用例总数** | 80 个 |
+| **完全通过率** | 72/80 = **90.0%** |
+| **部分支持率** | 8/80 = **10.0%** |
 | **失败率** | 0% |
 
 ---
@@ -40,6 +40,7 @@ OfficeCLI 是一个 **功能非常完善的 AI 友好型 Office 操作工具**�
 | Excel 与 Excel 互操作 | ⚠️ 80% | cachedValue 问题可能导致 Excel 中显示旧公式值 |
 | CSV 批量导入 | ❌ 待修复 | import 功能当前有 bug |
 | **横展开报告テンプレ × Agent 自動生成** | **✅ 100%** | **3 Sheet + 130 回注入 0 エラー。CloudCode 検出結果 → Excel レポートのパイプライン完全実証** |
+| **Excel→Markdown 格式转换** | **✅ 100%** | **5 Sheet / 2278 单元格 / 5 图片 / 13 表格 / 16 格式类型，全功能深度测试通过** |
 
 ### 最亮眼的能力
 
@@ -63,7 +64,7 @@ OfficeCLI 是一个 **功能非常完善的 AI 友好型 Office 操作工具**�
 | 006 | Word CLI 功能 | 9 个 | 5/9 完全通过 | [result.md](tasks/006-word/results/result.md) |
 | 007 | PPT CLI 功能 | 6 个 | 5/6 完全通过 | [result.md](tasks/007-ppt/results/result.md) |
 | **008** | **横展开报告模板生成（Agent 連携デモ）** | **10 个** | **10/10 = 100%** | **[result.md](tasks/008-template-report/results/result.md)** |
-| **009** | **Excel 设计文档转 Markdown** | **10 个** | **10/10 = 100%** | **[result.md](tasks/009-excel-to-md/results/result.md)** |
+| **009** | **Excel 设计文档转 Markdown** | **11 个** | **11/11 = 100%** | **[result.md](tasks/009-excel-to-md/results/result.md)** |
 
 ### 各任务详细覆盖范围
 
@@ -102,12 +103,19 @@ OfficeCLI 是一个 **功能非常完善的 AI 友好型 Office 操作工具**�
 - **Round-trip 検証**：`officecli set → get --json` で値と書式完全一致
 - **推奨ワークフロー**：CloudCode 等の Agent が調査 → JSON 化 → OfficeCLI 注入 → 完成レポート共有
 
-**⭐ 任务 009 - Excel 设计文档转 Markdown（格式保留验证）**：
-- **10 种格式类型全覆盖**：加粗、颜色、删除线、背景色、斜体、下划线、超链接、组合格式、字号→标题映射、悬浮吹出形状
+**⭐ 任务 009 - Excel 设计文档转 Markdown（格式保留验证 + 完整设计文档全功能深度测试）**：
+- **16 种格式类型全覆盖**：加粗、颜色、删除线、背景色、斜体、下划线、超链接、组合格式、字号→标题映射、悬浮吹出形状、图片提取、公式结果、表格自动检测、错误值保留、组件状态标记、多版本输出
 - **悬浮吹出形状（Callout）读取**：`query shape` → geometry/fill/color/bold/text 完整读取，转换为 `> 📌 text` 引用块
 - **颜色格式发现**：OfficeCLI 返回 RRGGBBAA（8位），取前6位为 RGB 颜色
-- **转换脚本**：`excel_to_md.py` 自动读取 Excel → 生成完整 Markdown（表格识别 + 吹出形状 + 格式映射）
-- **输出示例**：`test-data/excel-to-md/设计文档测试.md`（54 行完整 Markdown）
+- **完整设计文档测试**：5 Sheet / 2278 单元格 / 5 图片 / 13 表格（355 行）/ 16 格式类型，全部通过 ✅
+  - 图片提取：5/5 全部提取到 images/ 目录
+  - 表格识别：13/13（含未标记表格的自动检测算法）
+  - 数值精度：PI=3.14159265358979（15位）、RAND=0.05065714514315489（17位）
+  - 公式结果：SUM/AVERAGE/IF/VLOOKUP/CONCATENATE 等全部正确
+  - 组件状态列：确定20次/废弃19次/待定19次（58 行全部有值）
+- **双版本输出**：纯净版（709 行，Emoji+注释标记颜色，GitHub 兼容）+ 富文本版（707 行，HTML span 颜色，VS Code/Typora）
+- **转换脚本**：`excel_to_md.py` 自动读取 Excel → 生成完整 Markdown（表格识别 + 吹出形状 + 图片提取 + 公式结果 + 格式映射）
+- **手顺文档**：[excel-to-md-guide.md](tasks/009-excel-to-md/excel-to-md-guide.md)（面向非开发者的 Step-by-Step 指南）
 
 ---
 
@@ -153,7 +161,7 @@ validations/office-cli/
 │   └── 009-excel-to-md/          → task.md + results/result.md
 ├── test-data/                    # 测试数据（10 个文件 + template-demo/ + excel-to-md/）
 │   ├── template-demo/            # → 横展开报告模板・サンプルコード・注入スクリプト一式
-│   └── excel-to-md/             # → 设计文档测试 + 转换脚本 + 出力 md
+│   └── excel-to-md/             # → 设计文档测试 + 完整设计文档 + 转换脚本 + 双版本 md + images/
 └── results/evidence/             # 测试证据（分 9 个任务存放）
 ```
 
