@@ -15,7 +15,11 @@ import re
 import zipfile
 import shutil
 
-XLSX_FILE = os.path.join(os.path.dirname(__file__), "设计文档测试.xlsx")
+# 支持命令行参数指定 Excel 文件，默认使用 设计文档测试.xlsx
+if len(sys.argv) > 1:
+    XLSX_FILE = os.path.abspath(sys.argv[1])
+else:
+    XLSX_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "设计文档测试.xlsx")
 BASE_NAME = os.path.splitext(os.path.basename(XLSX_FILE))[0]
 OUT_DIR = os.path.dirname(XLSX_FILE)
 OUTPUT_MD_PURE = os.path.join(OUT_DIR, f"{BASE_NAME}.md")
