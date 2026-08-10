@@ -615,8 +615,11 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping, xls
     """构建完整 Markdown 文档 — 自动表格检测 + 保留精度
     
     xlsx_path: 如果提供，用 openpyxl 预检测表格（更准确，能看到空单元格）
+    图片索引：img_mapping 中的 imageN.png 编号是**全局递增**的，
+    所以跨 sheet 遍历 picture 时必须使用同一个全局计数器，不能每个 sheet 从 1 开始。
     """
     lines = list(header_lines)
+    global_pic_idx = 0  # 全局 picture 计数器（从 1 开始编号）
 
     for sheet_name, data in sheet_data.items():
         lines.append(f"# {sheet_name}\n")
@@ -747,8 +750,9 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping, xls
         if data["pictures"]:
             lines.append("---\n")
             lines.append("## 图片（Picture）\n")
-            for idx, pic in enumerate(data["pictures"], 1):
-                line = picture_to_md(pic, idx, img_mapping)
+            for pic in data["pictures"]:
+                global_pic_idx += 1
+                line = picture_to_md(pic, global_pic_idx, img_mapping)
                 if line:
                     lines.append(line)
                     lines.append("")

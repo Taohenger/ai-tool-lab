@@ -16,25 +16,25 @@
 
 ~~废弃内容(删除线)~~
 
-<span style="color:#00FF00">Red</span>
+<span style="color:#FF0000">Red</span>
 
-Blue
+<span style="color:#0000FF">Blue</span>
 
-<span style="color:#000080">Green</span>
+<span style="color:#008000">Green</span>
 
-<span style="color:#008080">Gray</span>
+<span style="color:#808080">Gray</span>
 
-<span style="background-color:#00FFFF">Highlight 标注</span>
+<mark>Highlight 标注</mark>
 
-<span style="background-color:#00BDD7">Blue bg</span>
+<span style="background-color:#BDD7EE">Blue bg</span>
 
 <u>Underline</u>
 
-<span style="color:#00FF00">**Bold Red**</span>
+<span style="color:#FF0000">**Bold Red**</span>
 
-<span style="color:#008080">~~Old version~~</span>
+<span style="color:#808080">~~Old version~~</span>
 
-<span style="color:#000563"><u>[ai-tool-lab](https://github.com/Taohenger/ai-tool-lab)</u></span>
+<span style="color:#0563C1"><u>[ai-tool-lab](https://github.com/Taohenger/ai-tool-lab)</u></span>
 
 <u>***Triple***</u>
 
@@ -91,63 +91,63 @@ Small
 
 | 版本 | 日期 | 修改者 | 修改内容 |
 |---|---|---|---|
-| <span style="color:#008080">~~V0.9~~</span> | <span style="color:#008080">~~2025-02-01~~</span> | <span style="color:#008080">~~张三~~</span> | <span style="color:#008080">~~草稿(已废弃)~~</span> |
+| <span style="color:#808080">~~V0.9~~</span> | <span style="color:#808080">~~2025-02-01~~</span> | <span style="color:#808080">~~张三~~</span> | <span style="color:#808080">~~草稿(已废弃)~~</span> |
 | V1.0 | 2025-03-01 | 张三 | 初稿创建 |
 | V1.1 | 2025-04-10 | 李四 | 补充 UI 规格 |
 | V1.2 | 2025-05-18 | 王五 | 修订数据模型 |
 | V2.0 | 2025-07-02 | 张三 | 架构重构 |
 | V2.1 | 2025-08-15 | 李四 | 新增公式验证 |
 | V2.2 | 2025-09-20 | 王五 | 更新检查清单 |
-| <span style="color:#00FF00">~~**V2.3**~~</span> | <span style="color:#00FF00">~~**2025-10-11**~~</span> | <span style="color:#00FF00">~~**赵六**~~</span> | <span style="color:#00FF00">~~**废弃旧接口**~~</span> |
+| <span style="color:#FF0000">~~**V2.3**~~</span> | <span style="color:#FF0000">~~**2025-10-11**~~</span> | <span style="color:#FF0000">~~**赵六**~~</span> | <span style="color:#FF0000">~~**废弃旧接口**~~</span> |
 | V2.4 | 2025-11-05 | 张三 | 性能优化 |
 | V2.5 | 2025-12-12 | 李四 | 安全性增强 |
 | V2.6 | 2026-01-08 | 王五 | 文档结构整理 |
 | V2.7 | 2026-02-14 | 赵六 | 术语表更新 |
 | V2.8 | 2026-03-20 | 张三 | 修订记录补全 |
 | V2.9 | 2026-04-25 | 李四 | 格式矩阵扩充 |
-| <span style="color:#000080">**V3.0**</span> | <span style="color:#000080">**2026-08-10**</span> | <span style="color:#000080">**张三**</span> | <span style="color:#000080">**正式发布版本**</span> |
+| <span style="color:#008000">**V3.0**</span> | <span style="color:#008000">**2026-08-10**</span> | <span style="color:#008000">**张三**</span> | <span style="color:#008000">**正式发布版本**</span> |
 
 ### 3. 术语定义
 
 | 术语 | 英文 | 说明 |
 |---|---|---|
-| <span style="color:#000563"><u>**[OfficeCLI](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Office CLI | Office 命令行转换工具 |
-| <span style="color:#000563"><u>**[Markdown](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Markdown | 轻量标记语言 |
-| **OpenPyXL** | OpenPyXL | Python Excel 库 |
+| <span style="color:#0563C1"><u>**[OfficeCLI](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Office CLI | Office 命令行转换工具 |
+| <span style="color:#0563C1"><u>**[Markdown](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Markdown | 轻量标记语言 |
+| <span style="color:#0000FF">**OpenPyXL**</span> | OpenPyXL | Python Excel 库 |
 | **工作簿** | Workbook | Excel 文件 |
 | **工作表** | Worksheet | Excel Sheet 页 |
 | **单元格** | Cell | 表格最小单元 |
 | **合并单元格** | Merged Cell | 多个单元格合并 |
-| **条件格式** | Conditional Format | 基于规则的格式 |
+| <span style="color:#0000FF">**条件格式**</span> | Conditional Format | 基于规则的格式 |
 | **数据验证** | Data Validation | 单元格输入约束 |
 | **公式** | Formula | 单元格计算表达式 |
-| **超链接** | Hyperlink | 指向外部资源 |
+| <span style="color:#0000FF">**超链接**</span> | Hyperlink | 指向外部资源 |
 | **形状** | Shape | 绘制的几何对象 |
 | **吹出泡** | Callout | 带指向的标注形状 |
-| <span style="color:#000563"><u>**[图片](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Image | 嵌入的位图 |
+| <span style="color:#0563C1"><u>**[图片](https://github.com/Taohenger/ai-tool-lab)**</u></span> | Image | 嵌入的位图 |
 | **字体** | Font | 文字样式 |
 | **填充** | Fill | 单元格背景 |
 | **边框** | Border | 单元格边线 |
 | **删除线** | Strikethrough | 文字横线 |
 | **斜体** | Italic | 倾斜文字 |
-| **下划线** | Underline | 文字下划线 |
-| **EMU** | English Metric Unit | 绘图单位(914400/英寸) |
+| <span style="color:#0000FF">**下划线**</span> | Underline | 文字下划线 |
+| <span style="color:#0000FF">**EMU**</span> | English Metric Unit | 绘图单位(914400/英寸) |
 | **锚点** | Anchor | 图形定位标记 |
-| **Alt 文本** | Alt Text | 图片替代说明 |
-| <span style="background-color:#004472"><span style="color:#00FFFF">**格式类型**</span></span> | <span style="background-color:#004472"><span style="color:#00FFFF">**示例**</span></span> |  |
+| <span style="color:#0000FF">**Alt 文本**</span> | Alt Text | 图片替代说明 |
+| <span style="background-color:#4472C4"><span style="color:#FFFFFF">**格式类型**</span></span> | <span style="background-color:#4472C4"><span style="color:#FFFFFF">**示例**</span></span> |  |
 | **加粗文本** | **这是加粗文本** |  |
 | **斜体文本** | *这是斜体文本* |  |
 | **删除线文本** | ~~这是删除线文本~~ |  |
-| **红色字体** | <span style="color:#00FF00">红色字体</span> |  |
-| **蓝色字体** | 蓝色字体 |  |
-| **绿色字体** | <span style="color:#000080">绿色字体</span> |  |
-| **灰色字体** | <span style="color:#008080">灰色字体</span> |  |
-| **黄色背景高亮** | <span style="background-color:#00FFFF">黄色背景高亮</span> |  |
-| **蓝色背景** | <span style="background-color:#00BDD7">蓝色背景</span> |  |
+| **红色字体** | <span style="color:#FF0000">红色字体</span> |  |
+| **蓝色字体** | <span style="color:#0000FF">蓝色字体</span> |  |
+| **绿色字体** | <span style="color:#008000">绿色字体</span> |  |
+| **灰色字体** | <span style="color:#808080">灰色字体</span> |  |
+| **黄色背景高亮** | <mark>黄色背景高亮</mark> |  |
+| **蓝色背景** | <span style="background-color:#BDD7EE">蓝色背景</span> |  |
 | **下划线** | <u>下划线文本</u> |  |
-| **加粗+红色组合** | <span style="color:#00FF00">**加粗+红色组合**</span> |  |
-| **删除线+灰色组合** | <span style="color:#008080">~~废弃+灰色删除线~~</span> |  |
-| **超链接(GitHub)** | <span style="color:#000563"><u>[GitHub 仓库](https://github.com/Taohenger/ai-tool-lab)</u></span> |  |
+| **加粗+红色组合** | <span style="color:#FF0000">**加粗+红色组合**</span> |  |
+| **删除线+灰色组合** | <span style="color:#808080">~~废弃+灰色删除线~~</span> |  |
+| **超链接(GitHub)** | <span style="color:#0563C1"><u>[GitHub 仓库](https://github.com/Taohenger/ai-tool-lab)</u></span> |  |
 | **加粗+斜体+下划线** | <u>***三重组合***</u> |  |
 | **字号 24** | # 字号24示例 |  |
 | **字号 18** | # 字号18示例 |  |
@@ -171,23 +171,23 @@ Small
 | 列表页 | 1920 | 1080 | Flex | 1280 | #4472C4 | #FFC000 | 表格为主 |
 | 详情页 | 1280 | 1080 | Flex | 1024 | #4472C4 | #BDD7EE | 左右栏 |
 | 表单页 | 1280 | 1080 | Flex | 768 | #4472C4 | #FF0000 | 校验提示 |
-| <span style="background-color:#00FFFF">设置页</span> | <span style="background-color:#00FFFF">1280</span> | <span style="background-color:#00FFFF">800</span> | <span style="background-color:#00FFFF">Grid</span> | <span style="background-color:#00FFFF">1024</span> | <span style="background-color:#00FFFF">#5A5A5A</span> | <span style="background-color:#00FFFF">#BDD7EE</span> | <span style="background-color:#00FFFF">侧边导航</span> |
+| <mark>设置页</mark> | <mark>1280</mark> | <mark>800</mark> | <mark>Grid</mark> | <mark>1024</mark> | <mark>#5A5A5A</mark> | <mark>#BDD7EE</mark> | <mark>侧边导航</mark> |
 | 帮助页 | 1280 | 800 | Flex | 768 | #70AD47 | #BDD7EE | 文档展示 |
 | 错误页 | 1280 | 800 | Flex | 768 | #FF0000 | #FFC000 | 404/500 |
 | 搜索页 | 1920 | 1080 | Grid | 1280 | #4472C4 | #ED7D31 | 结果列表 |
 | 个人中心 | 1280 | 1080 | Grid | 1024 | #4472C4 | #BDD7EE | 信息卡 |
 | 消息中心 | 1280 | 1080 | Flex | 1024 | #4472C4 | #FFC000 | 通知流 |
-| <span style="color:#00FF00">~~**旧版首页**~~</span> | <span style="color:#00FF00">~~**1024**~~</span> | <span style="color:#00FF00">~~**768**~~</span> | <span style="color:#00FF00">~~**Table**~~</span> | <span style="color:#00FF00">~~**无**~~</span> | <span style="color:#00FF00">~~**#999999**~~</span> | <span style="color:#00FF00">~~**#CCCCCC**~~</span> | <span style="color:#00FF00">~~**废弃**~~</span> |
+| <span style="color:#FF0000">~~**旧版首页**~~</span> | <span style="color:#FF0000">~~**1024**~~</span> | <span style="color:#FF0000">~~**768**~~</span> | <span style="color:#FF0000">~~**Table**~~</span> | <span style="color:#FF0000">~~**无**~~</span> | <span style="color:#FF0000">~~**#999999**~~</span> | <span style="color:#FF0000">~~**#CCCCCC**~~</span> | <span style="color:#FF0000">~~**废弃**~~</span> |
 | 新版首页 | 1920 | 1080 | Grid | 1280/768 | #4472C4 | #BDD7EE | 响应式 |
 | 移动端首页 | 375 | 812 | Flex | 375 | #4472C4 | #ED7D31 | iOS 尺寸 |
 | 平板首页 | 768 | 1024 | Grid | 768 | #4472C4 | #BDD7EE | iPad 尺寸 |
-| <span style="background-color:#00FFFF">弹窗-确认</span> | <span style="background-color:#00FFFF">480</span> | <span style="background-color:#00FFFF">240</span> | <span style="background-color:#00FFFF">Flex</span> | <span style="background-color:#00FFFF">N/A</span> | <span style="background-color:#00FFFF">#4472C4</span> | <span style="background-color:#00FFFF">#70AD47</span> | <span style="background-color:#00FFFF">模态</span> |
+| <mark>弹窗-确认</mark> | <mark>480</mark> | <mark>240</mark> | <mark>Flex</mark> | <mark>N/A</mark> | <mark>#4472C4</mark> | <mark>#70AD47</mark> | <mark>模态</mark> |
 | 弹窗-警告 | 480 | 240 | Flex | N/A | #FFC000 | #FF0000 | 模态 |
 | 抽屉-筛选 | 400 | 800 | Flex | 768 | #4472C4 | #BDD7EE | 右侧滑出 |
 | 抽屉-详情 | 600 | 1080 | Flex | 1024 | #4472C4 | #BDD7EE | 右侧滑出 |
 | 导航栏 | 1920 | 64 | Flex | 1280 | #1F3864 | #FFFFFF | 顶部 |
 | 侧边栏 | 240 | 1080 | Flex | 1024 | #2E5496 | #BDD7EE | 左侧 |
-| <span style="background-color:#00FFFF">页脚</span> | <span style="background-color:#00FFFF">1920</span> | <span style="background-color:#00FFFF">120</span> | <span style="background-color:#00FFFF">Grid</span> | <span style="background-color:#00FFFF">1280</span> | <span style="background-color:#00FFFF">#5A5A5A</span> | <span style="background-color:#00FFFF">#FFFFFF</span> | <span style="background-color:#00FFFF">底部</span> |
+| <mark>页脚</mark> | <mark>1920</mark> | <mark>120</mark> | <mark>Grid</mark> | <mark>1280</mark> | <mark>#5A5A5A</mark> | <mark>#FFFFFF</mark> | <mark>底部</mark> |
 | 卡片 | 380 | 240 | Flex | N/A | #FFFFFF | #4472C4 | 通用卡片 |
 | 按钮组 | 320 | 48 | Flex | N/A | #4472C4 | #ED7D31 | 操作区 |
 | 标签页 | 1280 | 48 | Flex | 768 | #4472C4 | #BDD7EE | 切换 |
@@ -203,7 +203,7 @@ Small
 | 高对比 | 1920 | 1080 | Flex | 1280 | #000000 | #FFFF00 | 无障碍 |
 | 预览页 | 1280 | 720 | Flex | 1024 | #4472C4 | #BDD7EE | 只读 |
 
-<span style="background-color:#004472"><span style="color:#00FFFF">**组件规格表 (Component Specification)**</span></span>
+<span style="background-color:#4472C4"><span style="color:#FFFFFF">**组件规格表 (Component Specification)**</span></span>
 
 | 组件名 | 类型 | 尺寸 | 颜色 | 字体 | 边框 | 阴影 | 状态 | 备注 |
 |---|---|---|---|---|---|---|---|---|
@@ -278,115 +278,115 @@ Small
 
 | 项 | 数值1 | 数值2 | 公式 | 结果 | 说明 |
 |---|---|---|---|---|---|
-| 加法 | 10 | 20 |  | SUM 两数 |  |
-| 减法 | 30 | 12 |  | 差值 |  |
-| 乘法 | 6 | 7 |  | 积 |  |
-| 除法 | 100 | 4 |  | 商 |  |
-| 求和 |  |  |  | 区域求和 |  |
-| 平均值 |  |  |  | 区域平均 |  |
-| 最大值 |  |  |  | 区域最大 |  |
-| 最小值 |  |  |  | 区域最小 |  |
-| 计数 |  |  |  | 数值计数 |  |
-| 非空计数 |  |  |  | 非空计数 |  |
-| 幂运算 | 2 | 10 |  | 2 的 10 次方 |  |
-| 取整 | 3.7 |  |  | 向下取整 |  |
-| 四舍五入 | 3.456 | 2 |  | 保留 2 位 |  |
-| 绝对值 | -8 |  |  | 绝对值 |  |
-| 模运算 | 10 | 3 |  | 余数 |  |
-| 平方根 | 81 |  |  | 平方根 |  |
-| 条件求和 |  |  |  | 大于5求和 |  |
-| 条件平均 |  |  |  | 大于5平均 |  |
-| 排名 |  |  |  | B7 在区域内排名 |  |
-| 随机数 |  |  |  | 0~1 随机 |  |
-| 随机整数 | 1 | 100 |  | 1~100 随机 |  |
-| PI |  |  |  | 圆周率 |  |
-| 取余数2 | 17 | 5 |  | 余数 |  |
-| 乘方2 | 5 | 3 |  | 5 的 3 次方 |  |
-| 向上取整 | 4.2 |  |  | 向上取整 |  |
-| 向下取整2 | 4.8 |  |  | 向下取整 |  |
-| 百分位 |  |  |  | 中位数 |  |
+| 加法 | 10 | 20 | 30 | SUM 两数 |  |
+| 减法 | 30 | 12 | 18 | 差值 |  |
+| 乘法 | 6 | 7 | 42 | 积 |  |
+| 除法 | 100 | 4 | 25 | 商 |  |
+| 求和 |  |  | 189 | 区域求和 |  |
+| 平均值 |  |  | 23.625 | 区域平均 |  |
+| 最大值 |  |  | 100 | 区域最大 |  |
+| 最小值 |  |  | 4 | 区域最小 |  |
+| 计数 |  |  | 8 | 数值计数 |  |
+| 非空计数 |  |  | 4 | 非空计数 |  |
+| 幂运算 | 2 | 10 | 1024 | 2 的 10 次方 |  |
+| 取整 | 3.7 |  | 3 | 向下取整 |  |
+| 四舍五入 | 3.456 | 2 | 3.46 | 保留 2 位 |  |
+| 绝对值 | -8 |  | 8 | 绝对值 |  |
+| 模运算 | 10 | 3 | 1 | 余数 |  |
+| 平方根 | 81 |  | 9 | 平方根 |  |
+| 条件求和 |  |  | 146 | 大于5求和 |  |
+| 条件平均 |  |  | 36.5 | 大于5平均 |  |
+| 排名 |  |  | 4 | B7 在区域内排名 |  |
+| 随机数 |  |  | 0.168570047250955 | 0~1 随机 |  |
+| 随机整数 | 1 | 100 | 0 | 1~100 随机 |  |
+| PI |  |  | 3.14159265358979 | 圆周率 |  |
+| 取余数2 | 17 | 5 | #DIV/0! | 余数 |  |
+| 乘方2 | 5 | 3 | 1419857 | 5 的 3 次方 |  |
+| 向上取整 | 4.2 |  | 5 | 向上取整 |  |
+| 向下取整2 | 4.8 |  | 4 | 向下取整 |  |
+| 百分位 |  |  | 20 | 中位数 |  |
 
 ### 2. 逻辑函数
 
 | 函数 | 参数A | 参数B | 公式 | 结果 | 说明 |
 |---|---|---|---|---|---|
-| IF | 85 | 60 |  | 条件判断 |  |
-| IF 嵌套 | 75 |  |  | 多条件 |  |
-| IFS | 88 |  |  | 多条件(2016+) |  |
-| AND | True | True |  | 逻辑与 |  |
-| OR | True | False |  | 逻辑或 |  |
-| NOT | True |  |  | 逻辑非 |  |
-| IFERROR | 1 | 0 |  | 错误捕获 |  |
-| XOR | True | False |  | 异或 |  |
-| TRUE |  |  |  | 布尔真 |  |
-| FALSE |  |  |  | 布尔假 |  |
-| ISNUMBER | 123 |  |  | 是否数字 |  |
-| ISTEXT | abc |  |  | 是否文本 |  |
-| ISBLANK |  |  |  | 是否空 |  |
-| ISERROR |  |  |  | 是否错误 |  |
-| ISEVEN | 8 |  |  | 是否偶数 |  |
-| ISODD | 7 |  |  | 是否奇数 |  |
-| IF + AND | 80 | 90 |  | 组合判断 |  |
-| IF + OR | 55 | 95 |  | 组合判断 |  |
-| SWITCH | 2 |  |  | 分支选择 |  |
-| IFNA |  |  |  | NA 捕获 |  |
-| ISLOGICAL | True |  |  | 是否布尔 |  |
-| ISNONTEXT | 123 |  |  | 是否非文本 |  |
-| AND 多参 |  |  |  | 多参数与 |  |
+| IF | 85 | 60 | 及格 | 条件判断 |  |
+| IF 嵌套 | 75 |  | 良 | 多条件 |  |
+| IFS | 88 |  | B | 多条件(2016+) |  |
+| AND | TRUE | TRUE | 1 | 逻辑与 |  |
+| OR | TRUE | FALSE | 1 | 逻辑或 |  |
+| NOT | TRUE |  | 0 | 逻辑非 |  |
+| IFERROR | 1 | 0 | 除零错误 | 错误捕获 |  |
+| XOR | TRUE | FALSE | 1 | 异或 |  |
+| TRUE |  |  | 1 | 布尔真 |  |
+| FALSE |  |  | 0 | 布尔假 |  |
+| ISNUMBER | 123 |  | 1 | 是否数字 |  |
+| ISTEXT | abc |  | 1 | 是否文本 |  |
+| ISBLANK |  |  | 1 | 是否空 |  |
+| ISERROR |  |  | 1 | 是否错误 |  |
+| ISEVEN | 8 |  | 1 | 是否偶数 |  |
+| ISODD | 7 |  | 1 | 是否奇数 |  |
+| IF + AND | 80 | 90 | 通过 | 组合判断 |  |
+| IF + OR | 55 | 95 | 部分通过 | 组合判断 |  |
+| SWITCH | 2 |  | 二 | 分支选择 |  |
+| IFNA |  |  | 未找到 | NA 捕获 |  |
+| ISLOGICAL | TRUE |  | 1 | 是否布尔 |  |
+| ISNONTEXT | 123 |  | 1 | 是否非文本 |  |
+| AND 多参 |  |  | 1 | 多参数与 |  |
 
 ### 3. 查找引用
 
 | 函数 | 参数A | 参数B | 公式 | 结果 | 说明 |
 |---|---|---|---|---|---|
-| VLOOKUP | 苹果 |  |  | 垂直查找 |  |
-| HLOOKUP |  |  |  | 水平查找 |  |
-| INDEX |  |  |  | 按索引取值 |  |
-| MATCH | IF |  |  | 返回位置 |  |
-| INDEX+MATCH |  |  |  | 组合查找 |  |
-| CHOOSE | 2 |  |  | 按索引选择 |  |
-| OFFSET |  |  |  | 偏移引用 |  |
-| INDIRECT |  |  |  | 间接引用 |  |
-| ROW |  |  |  | 行号 |  |
-| COLUMN |  |  |  | 列号 |  |
-| ROWS |  |  |  | 行数 |  |
-| COLUMNS |  |  |  | 列数 |  |
-| ADDRESS | 5 | 2 |  | 构造地址 |  |
-| AREAS |  |  |  | 区域数 |  |
-| VLOOKUP 近似 | 85 |  |  | 近似匹配 |  |
-| XLOOKUP | 苹果 |  |  | 新版查找 |  |
-| XMATCH | IF |  |  | 新版匹配 |  |
-| INDEX 二维 |  |  |  | 二维取值 |  |
-| OFFSET 求和 |  |  |  | 偏移求和 |  |
-| HYPERLINK |  |  |  | 超链接公式 |  |
-| VLOOKUP 跨表 |  |  |  | 同表查找 |  |
-| MATCH 近似 | 85 |  |  | 近似位置 |  |
-| CHOOSE 多值 | 3 |  |  | 多值选择 |  |
+| VLOOKUP | 苹果 |  | #N/A | 垂直查找 |  |
+| HLOOKUP |  |  | #N/A | 水平查找 |  |
+| INDEX |  |  | 88 | 按索引取值 |  |
+| MATCH | IF |  | #N/A | 返回位置 |  |
+| INDEX+MATCH |  |  | #N/A | 组合查找 |  |
+| CHOOSE | 2 |  | #VALUE! | 按索引选择 |  |
+| OFFSET |  |  | 88 | 偏移引用 |  |
+| INDIRECT |  |  | 85 | 间接引用 |  |
+| ROW |  |  | 34 | 行号 |  |
+| COLUMN |  |  | 2 | 列号 |  |
+| ROWS |  |  | 7 | 行数 |  |
+| COLUMNS |  |  | 5 | 列数 |  |
+| ADDRESS | 5 | 2 | $B$5 | 构造地址 |  |
+| AREAS |  |  | 1 | 区域数 |  |
+| VLOOKUP 近似 | 85 |  | D | 近似匹配 |  |
+| XLOOKUP | 苹果 |  | #N/A | 新版查找 |  |
+| XMATCH | IF |  | #N/A | 新版匹配 |  |
+| INDEX 二维 |  |  | 良 | 二维取值 |  |
+| OFFSET 求和 |  |  | 248 | 偏移求和 |  |
+| HYPERLINK |  |  | 仓库 | 超链接公式 |  |
+| VLOOKUP 跨表 |  |  | 85 | 同表查找 |  |
+| MATCH 近似 | 85 |  | 3 | 近似位置 |  |
+| CHOOSE 多值 | 3 |  | #VALUE! | 多值选择 |  |
 
 ### 4. 文本函数
 
 | 函数 | 参数A | 参数B | 公式 | 结果 | 说明 |
 |---|---|---|---|---|---|
-| CONCATENATE | Hello | World |  | 拼接 |  |
-| CONCAT | A | B |  | 新版拼接 |  |
-| TEXTJOIN | a | b |  | 带分隔拼接 |  |
-| LEFT | Excel | 2 |  | 左截取 |  |
-| RIGHT | Excel | 2 |  | 右截取 |  |
-| MID | Excel | 2 |  | 中间截取 |  |
-| LEN | Excel |  |  | 长度 |  |
-| LENB | Excel |  |  | 字节长度 |  |
-| LOWER | EXCEL |  |  | 小写 |  |
-| UPPER | excel |  |  | 大写 |  |
-| PROPER | hello world |  |  | 首字母大写 |  |
-| TRIM |   a b   |  |  | 去首尾空格 |  |
+| CONCATENATE | Hello | World | Hello World | 拼接 |  |
+| CONCAT | A | B | AB | 新版拼接 |  |
+| TEXTJOIN | a | b | a-b | 带分隔拼接 |  |
+| LEFT | Excel | 2 | Ex | 左截取 |  |
+| RIGHT | Excel | 2 | el | 右截取 |  |
+| MID | Excel | 2 | xc | 中间截取 |  |
+| LEN | Excel |  | 5 | 长度 |  |
+| LENB | Excel |  | 5 | 字节长度 |  |
+| LOWER | EXCEL |  | excel | 小写 |  |
+| UPPER | excel |  | EXCEL | 大写 |  |
+| PROPER | hello world |  | Hello World | 首字母大写 |  |
+| TRIM |   a b   |  | a b | 去首尾空格 |  |
 | CLEAN | a
-b |  |  | 去不可见字符 |  |
-| SUBSTITUTE | a-b-c | - |  | 替换 |  |
-| REPLACE | abcdef | 2 |  | 按位置替换 |  |
-| REPT | Ab | 3 |  | 重复 |  |
-| FIND | a-b-c | - |  | 查找位置 |  |
-| SEARCH | a-b-c | - |  | 查找(不区分大小写) |  |
-| TEXT | 1234.5 |  |  | 格式化为文本 |  |
-| VALUE | 123 |  |  | 文本转数值 |  |
+b |  | ab | 去不可见字符 |  |
+| SUBSTITUTE | a-b-c | - | a/b/c | 替换 |  |
+| REPLACE | abcdef | 2 | aXYdef | 按位置替换 |  |
+| REPT | Ab | 3 | AbAbAb | 重复 |  |
+| FIND | a-b-c | - | 2 | 查找位置 |  |
+| SEARCH | a-b-c | - | 2 | 查找(不区分大小写) |  |
+| TEXT | 1234.5 |  | 1234.50 | 格式化为文本 |  |
+| VALUE | 123 |  | 123 | 文本转数值 |  |
 
 # 检查清单
 
@@ -494,6 +494,13 @@ b |  |  | 去不可见字符 |  |
 | 96 | 是否限制并发数 - 第96项 | 测试 | 低 | 待检查 | 赵六 | 备注 96 |
 | 97 | 测试覆盖率是否达标 - 第97项 | 文档 | 高 | 通过 | 张三 | 备注 97 |
 | 98 | README 是否更新 - 第98项 | 兼容性 | 中 | 未通过 | 李四 | 备注 98 |
+
+---
+
+## 图片（Picture）
+
+![质量检查清单标题横幅](images/image1.png) `[📍H1]`
+
 
 # 图片与附件
 
@@ -685,3 +692,16 @@ b |  |  | 去不可见字符 |  |
 | **步骤2** | 系统校验权限 |
 | **步骤3** | 执行业务逻辑 |
 | **步骤4** | 返回结果 |
+
+---
+
+## 图片（Picture）
+
+![UI 设计稿 - 登录页面线框图(640x400)](images/image2.png) `[📍7]`
+
+![UI 设计稿副本 - 用于图片多张插入验证](images/image3.png) `[📍29]`
+
+![架构图 - 系统分层结构(640x400)](images/image4.png) `[📍39]`
+
+![流程图 - 用户操作流程(640x400)](images/image5.png) `[📍71]`
+
