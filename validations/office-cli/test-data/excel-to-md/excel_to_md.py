@@ -14,6 +14,7 @@ import sys
 import re
 import zipfile
 import shutil
+import openpyxl
 
 # 支持命令行参数指定 Excel 文件，默认使用 设计文档测试.xlsx
 if len(sys.argv) > 1:
@@ -47,6 +48,99 @@ def officecli_json(args):
         return json.loads(result.stdout)
     except json.JSONDecodeError:
         return {"success": False, "raw": result.stdout}
+
+
+def openpyxl_to_cells(xlsx_path):
+    """用 openpyxl 读取 Excel，返回与 OfficeCLI 兼容的单元格数据格式
+    
+    当 officecli 不可用时的 fallback。
+    """
+    wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    cells = []
+    
+    for sn in wb.sheetnames:
+        ws = wb[sn]
+        for row in ws.iter_rows():
+            for cell in row:
+                if cell.value is None:
+                    continue
+                text = str(cell.value) if cell.value is not None else ""
+                if not text.strip():
+                    continue
+                
+                # 读取格式
+                font = cell.font
+                fill = cell.fill
+                fmt = {
+                    "font.bold": font.bold if font else False,
+                    "font.italic": font.italic if font else False,
+                    "strike": font.strike if font else False,
+                    "underline": "single" if (font and font.underline and font.underline != "none") else "",
+                    "font.size": str(int(font.size)) if (font and font.size) else "",
+                    "font.color": "",
+                    "fill": "",
+                    "link": cell.hyperlink.target if cell.hyperlink else "",
+                    "empty": False,
+                    "numberFormat": cell.number_format if cell.number_format else "",
+                }
+                
+                # 字体颜色
+                if font and font.color and font.color.rgb:
+                    rgb = str(font.color.rgb)
+                    if rgb and rgb != "00000000" and rgb != "000000":
+                        fmt["font.color"] = rgb
+                
+                # 背景色
+                if fill and fill.fgColor and fill.fgColor.rgb:
+                    rgb = str(fill.fgColor.rgb)
+                    if rgb and rgb != "00000000" and rgb != "000000":
+                        fmt["fill"] = rgb
+                
+                col_letter = openpyxl.utils.get_column_letter(cell.column)
+                cells.append({
+                    "path": f"/{sn}/{col_letter}{cell.row}",
+                    "text": text,
+                    "format": fmt
+                })
+    
+    wb.close()
+    return cells
+
+
+def openpyxl_to_shapes(xlsx_path):
+    """用 openpyxl 读取形状（基本支持）"""
+    # openpyxl 对形状的支持有限，返回空列表
+    return []
+
+
+def openpyxl_to_pictures(xlsx_path):
+    """用 openpyxl 读取图片信息"""
+    wb = openpyxl.load_workbook(xlsx_path)
+    pictures = []
+    
+    for sn in wb.sheetnames:
+        ws = wb[sn]
+        for img in ws._images:
+            anchor = img.anchor
+            x = getattr(anchor, '_from', None)
+            y = getattr(anchor, '_from', None)
+            
+            fmt = {
+                "name": getattr(img, 'name', f'Image'),
+                "alt": getattr(img, 'alt_text', '') or '',
+                "x": x.col if x else 0,
+                "y": x.row if x else 0,
+                "width": getattr(img, 'width', 100),
+                "height": getattr(img, 'height', 100),
+            }
+            pictures.append({
+                "path": f"/{sn}/picture",
+                "text": "",
+                "format": fmt
+            })
+    
+    wb.close()
+    return pictures
 
 def normalize_color(color_str):
     """统一为 #RRGGBB（OfficeCLI 返回 RRGGBBAA 8位，取前6位）"""
@@ -346,7 +440,7 @@ def shape_to_md_rich(text, fmt):
     return f"{prefix} {md}"
 
 def _detect_tables(row_cells):
-    """自动检测表格区域：连续行、有共同表头 → 识别为表格
+    """自动检测表格区域：基于 OfficeCLI 返回的单元格数据
     
     策略：
     1. 找到至少 2 列的连续行段
@@ -397,8 +491,131 @@ def _detect_tables(row_cells):
     return tables
 
 
-def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
-    """构建完整 Markdown 文档 — 自动表格检测 + 保留精度"""
+def detect_tables_from_xlsx(xlsx_path, sheet_name):
+    """用 openpyxl 读取 Excel 完整网格结构，检测表格区域
+    
+    比 _detect_tables 更准确，因为能看到空单元格。
+    
+    返回：[(header_row, [data_rows], col_count), ...]
+    """
+    try:
+        wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    except Exception:
+        return []
+    
+    if sheet_name not in wb.sheetnames:
+        wb.close()
+        return []
+    
+    ws = wb[sheet_name]
+    
+    # 收集每行的列信息
+    row_info = {}  # row_num → (col_count, has_text)
+    for row in ws.iter_rows(values_only=False):
+        if not row or row[0] is None:
+            continue
+        row_num = row[0].row
+        cols_with_values = []
+        for cell in row:
+            if cell is None:
+                continue
+            try:
+                if cell.value is not None and str(cell.value).strip():
+                    cols_with_values.append(cell.column)
+            except AttributeError:
+                continue
+        if cols_with_values:
+            min_col = min(cols_with_values)
+            max_col = max(cols_with_values)
+            col_count = max_col - min_col + 1
+            row_info[row_num] = {
+                "col_count": col_count,
+                "min_col": min_col,
+                "max_col": max_col,
+                "has_text": True
+            }
+    
+    wb.close()
+    
+    if not row_info:
+        return []
+    
+    sorted_rows = sorted(row_info.keys())
+    tables = []
+    i = 0
+    
+    while i < len(sorted_rows):
+        r = sorted_rows[i]
+        info = row_info[r]
+        
+        # 至少 2 列才算表格候选
+        if info["col_count"] < 2:
+            i += 1
+            continue
+        
+        # 找连续行段：同一列范围内、允许中间有 1 行空行或单列标题行
+        j = i + 1
+        gap_count = 0
+        base_min_col = info["min_col"]
+        base_max_col = info["max_col"]
+        
+        while j < len(sorted_rows):
+            nr = sorted_rows[j]
+            # 检查是否连续（行号差 ≤ 3，允许中间有1-2行空行或标题行）
+            if nr - sorted_rows[j-1] > 3:
+                break
+            
+            ninfo = row_info.get(nr)
+            if ninfo and ninfo["col_count"] >= 2:
+                # 列范围要和基准有重叠（不是完全不同的列范围）
+                overlap = not (ninfo["max_col"] < base_min_col or ninfo["min_col"] > base_max_col)
+                # 列数差异不能太大（≤ 2）
+                prev_info = row_info.get(sorted_rows[j-1])
+                prev_cols = prev_info["col_count"] if prev_info else info["col_count"]
+                col_diff = abs(ninfo["col_count"] - prev_cols)
+                if (overlap or col_diff <= 2) and col_diff <= 2:
+                    gap_count = 0  # 重置空行计数
+                    j += 1
+                else:
+                    # 列范围完全不同，可能是另一个表格，停止
+                    break
+            elif ninfo and ninfo["col_count"] >= 1:
+                # 单列行（可能是小标题），允许但不算表格行
+                gap_count += 1
+                if gap_count > 1:
+                    break
+                j += 1
+            else:
+                # 空行
+                gap_count += 1
+                if gap_count > 1:
+                    break
+                j += 1
+        
+        if j - i >= 2:  # 至少 header + 1 数据行
+            # 收集这段中所有 >= 2 列的行作为表格行
+            table_rows = []
+            for rr in sorted_rows[i:j]:
+                info_rr = row_info.get(rr)
+                if info_rr and info_rr["col_count"] >= 2:
+                    table_rows.append(rr)
+            
+            if len(table_rows) >= 2:
+                # 列数取所有表格行的最大值
+                max_cols = max(row_info[rr]["col_count"] for rr in table_rows)
+                tables.append((table_rows[0], table_rows, max_cols))
+            i = j
+        else:
+            i += 1
+    
+    return tables
+
+
+def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping, xlsx_path=None):
+    """构建完整 Markdown 文档 — 自动表格检测 + 保留精度
+    
+    xlsx_path: 如果提供，用 openpyxl 预检测表格（更准确，能看到空单元格）
+    """
     lines = list(header_lines)
 
     for sheet_name, data in sheet_data.items():
@@ -414,8 +631,12 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
                 row_num = int(m.group(2))
                 row_cells.setdefault(row_num, []).append(c)
 
-        # 自动检测表格
-        tables = _detect_tables(row_cells)
+        # 优先用 openpyxl 预检测表格（更准确）
+        if xlsx_path:
+            tables = detect_tables_from_xlsx(xlsx_path, sheet_name)
+        else:
+            tables = _detect_tables(row_cells)
+        
         table_row_nums = set()
         for _, rows, _ in tables:
             table_row_nums.update(rows)
@@ -423,6 +644,16 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
         # 输出非表格行
         for row_num in sorted(row_cells.keys()):
             if row_num in table_row_nums:
+                continue
+            # 跳过表格标题行（前面 1-2 行的单列标题会被表格输出时处理）
+            is_table_title = False
+            for _, rows, _ in tables:
+                if row_num in [r - 1 for r in rows[:1]]:
+                    cells_in_row = row_cells[row_num]
+                    if len(cells_in_row) <= 1:
+                        is_table_title = True
+                        break
+            if is_table_title:
                 continue
             row_texts = []
             for c in sorted(row_cells[row_num], key=lambda c: c["path"]):
@@ -528,22 +759,30 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
 def main():
     print(f"读取 Excel: {XLSX_FILE}")
 
-    # 查询所有单元格
-    cells_resp = officecli_json(["query", XLSX_FILE, "cell"])
-    if not cells_resp.get("success"):
-        print(f"❌ 查询 cell 失败")
-        sys.exit(1)
-    cells = cells_resp["data"]["results"]
+    # 检测 officecli 是否可用
+    use_officecli = shutil.which("officecli") is not None
+    
+    if use_officecli:
+        print("使用 OfficeCLI 读取数据")
+        cells_resp = officecli_json(["query", XLSX_FILE, "cell"])
+        if not cells_resp.get("success"):
+            print(f"⚠️ OfficeCLI 查询失败，切换到 openpyxl 模式")
+            use_officecli = False
+    
+    if use_officecli:
+        cells = cells_resp["data"]["results"]
+        shapes_resp = officecli_json(["query", XLSX_FILE, "shape"])
+        shapes = shapes_resp["data"]["results"] if shapes_resp.get("success") else []
+        pictures_resp = officecli_json(["query", XLSX_FILE, "picture"])
+        pictures = pictures_resp["data"]["results"] if pictures_resp.get("success") else []
+    else:
+        print("使用 openpyxl 读取数据（fallback 模式）")
+        cells = openpyxl_to_cells(XLSX_FILE)
+        shapes = openpyxl_to_shapes(XLSX_FILE)
+        pictures = openpyxl_to_pictures(XLSX_FILE)
+    
     print(f"找到 {len(cells)} 个单元格")
-
-    # 查询所有 shape
-    shapes_resp = officecli_json(["query", XLSX_FILE, "shape"])
-    shapes = shapes_resp["data"]["results"] if shapes_resp.get("success") else []
     print(f"找到 {len(shapes)} 个吹出形状")
-
-    # 查询所有 picture
-    pictures_resp = officecli_json(["query", XLSX_FILE, "picture"])
-    pictures = pictures_resp["data"]["results"] if pictures_resp.get("success") else []
     print(f"找到 {len(pictures)} 张图片")
 
     # 提取图片到 images/ 目录
@@ -572,7 +811,7 @@ def main():
         "<!-- 由 OfficeCLI 从 Excel 自动转换生成 — 纯净版（兼容 GitHub/所有 Markdown 渲染器） -->",
         "<!-- 格式标记说明：`[🔴红色]` 表示文字颜色；`[🟡黄高亮]` 表示背景色；`[⎽⎽下划线]` 表示下划线 -->\n",
     ]
-    pure_lines = build_document(sheet_data, cell_to_md_pure, shape_to_md_pure, pure_header, img_mapping)
+    pure_lines = build_document(sheet_data, cell_to_md_pure, shape_to_md_pure, pure_header, img_mapping, xlsx_path=XLSX_FILE)
     with open(OUTPUT_MD_PURE, "w", encoding="utf-8") as f:
         f.write("\n".join(pure_lines))
     print(f"✅ 纯净 Markdown: {OUTPUT_MD_PURE}  ({len(pure_lines)} 行)")
@@ -581,7 +820,7 @@ def main():
     rich_header = [
         "<!-- 由 OfficeCLI 从 Excel 自动转换生成 — 富文本版（VS Code / Typora / Obsidian 打开查看颜色） -->\n",
     ]
-    rich_lines = build_document(sheet_data, cell_to_md_rich, shape_to_md_rich, rich_header, img_mapping)
+    rich_lines = build_document(sheet_data, cell_to_md_rich, shape_to_md_rich, rich_header, img_mapping, xlsx_path=XLSX_FILE)
     with open(OUTPUT_MD_RICH, "w", encoding="utf-8") as f:
         f.write("\n".join(rich_lines))
     print(f"✅ 富文本 Markdown: {OUTPUT_MD_RICH}  ({len(rich_lines)} 行)")
