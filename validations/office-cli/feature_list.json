@@ -149,9 +149,56 @@
         "test-data/csv-import-test.xlsx",
         "test-data/import.csv"
       ],
-      "notes": "Table 和命名范围功能完善。排序可用但不自动识别表头。CSV import 存在问题（返回成功但数据未写入）。图表、条件格式、数据验证未测试。",
+      "notes": "Table 和命名范围功能完善。排序可用但不自动识别表头。CSV import 存在问题（返回成功但数据未写入）。",
       "passRate": "3/5 完全通过，2/5 部分支持",
       "report": "tasks/005-excel-advanced/results/result.md"
+    },
+    {
+      "id": "006-word",
+      "priority": 5,
+      "area": "Word CLI",
+      "title": "Word CLI 機能検証",
+      "user_visible_behavior": "Word 文書の作成、段落テキスト、テキスト書式（太字/斜体）、テーブル、構造查看",
+      "status": "passing",
+      "verification": [
+        "空文書作成 ✅",
+        "段落テキスト追加 ✅",
+        "テキスト書式（太字/斜体）✅",
+        "テーブル（3×3 データ付き）✅",
+        "構造 view ✅",
+        "見出し (heading) は styleId で代替 ⚠️",
+        "箇条書き (bullet) は listStyle で代替 ⚠️",
+        "ハイパーリンクは hyperlink で代替 ⚠️",
+        "画像挿入未検証"
+      ],
+      "evidence": [
+        "results/evidence/006-word/"
+      ],
+      "notes": "段落・テーブル・書式は完全サポート。一部プロパティ名が Excel と異なる（heading→styleId, bullet→listStyle, link→hyperlink）。",
+      "passRate": "5/9 完全通过",
+      "report": "tasks/006-word/results/result.md"
+    },
+    {
+      "id": "007-ppt",
+      "priority": 5,
+      "area": "PPT CLI",
+      "title": "PPT CLI 機能検証",
+      "user_visible_behavior": "スライド管理、図形とテキスト（精密位置指定）、テキスト書式、テーブル、チャート、構造查看",
+      "status": "passing",
+      "verification": [
+        "スライド追加 ✅",
+        "図形とテキスト追加 ✅",
+        "テキスト書式（太字/色）✅",
+        "テーブル ✅（rows/cols 警告あるが data 正常）",
+        "チャート ✅",
+        "構造 view ✅"
+      ],
+      "evidence": [
+        "results/evidence/007-ppt/"
+      ],
+      "notes": "スライド・図形・チャート完全サポート。table の rows/cols に警告が出るが機能に影響なし。",
+      "passRate": "5/6 完全通过",
+      "report": "tasks/007-ppt/results/result.md"
     },
     {
       "id": "008-template-report",

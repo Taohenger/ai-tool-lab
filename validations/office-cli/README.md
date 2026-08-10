@@ -141,7 +141,7 @@ validations/office-cli/
 │   ├── scripts/                  # 自动化脚本
 │   ├── templates/                # 测试模板
 │   └── .ai/                      # 子 Agent 定义 + 记忆
-├── tasks/                        # 验证层（7 个任务）
+├── tasks/                        # 验证层（9 个任务）
 │   ├── 001-installation/         → task.md + results/result.md
 │   ├── 002-excel-basic-rw/       → task.md + results/result.md
 │   ├── 003-excel-formulas/       → task.md + results/result.md
@@ -149,10 +149,12 @@ validations/office-cli/
 │   ├── 005-excel-advanced/       → task.md + results/result.md
 │   ├── 006-word/                 → task.md + results/result.md
 │   ├── 007-ppt/                  → task.md + results/result.md
-│   └── 008-template-report/      → task.md + results/result.md
-├── test-data/                    # 测试数据（10 个文件 + template-demo/ フォルダ）
-│   └── template-demo/            # → 横展开报告模板・サンプルコード・注入スクリプト一式
-└── results/evidence/             # 测试证据（分任务存放）
+│   ├── 008-template-report/      → task.md + results/result.md
+│   └── 009-excel-to-md/          → task.md + results/result.md
+├── test-data/                    # 测试数据（10 个文件 + template-demo/ + excel-to-md/）
+│   ├── template-demo/            # → 横展开报告模板・サンプルコード・注入スクリプト一式
+│   └── excel-to-md/             # → 设计文档测试 + 转换脚本 + 出力 md
+└── results/evidence/             # 测试证据（分 9 个任务存放）
 ```
 
 ### 关键文件速查

@@ -29,7 +29,9 @@ results/evidence/
 ├── 004-excel-hidden/      # 隐藏行列（7 个证据文件）
 ├── 005-excel-advanced/    # 进阶功能（25+ 个证据文件）
 ├── 006-word/               # Word 验证（10 个证据文件）
-└── 007-ppt/                # PPT 验证（8 个证据文件）
+├── 007-ppt/                # PPT 验证（8 个证据文件）
+├── 008-template-report/   # 横展开报告模板（10 个证据文件）
+└── 009-excel-to-md/       # Excel转Markdown（14 个证据文件）
 ```
 
 ## 目录说明

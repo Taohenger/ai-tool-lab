@@ -1,30 +1,32 @@
 # 会话交接 — OfficeCLI 验证工程
 
-## 验证工程总结（当前状态：✅ 全部 7 个任务已完成）
+## 验证工程总结（当前状态：✅ 全部 9 个任务已完成）
 
 ### 📊 总体数据
 
 | 指标 | 数值 |
 |------|------|
-| 验证任务数 | 7 |
-| 测试用例总数 | 59 |
-| 完全通过 | 51 (86.4%) |
-| 部分支持 | 8 (13.6%) |
+| 验证任务数 | 9 |
+| 测试用例总数 | 79 |
+| 完全通过 | 71 (89.9%) |
+| 部分支持 | 8 (10.1%) |
 | 失败 | 0 (0%) |
-| 测试执行日期 | 2026-08-04 |
+| 测试执行日期 | 2026-08-04 ~ 2026-08-08 |
 | OfficeCLI 版本 | v1.0.143 |
 
-### ✅ 7 个任务全部完成
+### ✅ 9 个任务全部完成
 
 | 任务 | 状态 | 通过率 | 结果报告 |
 |------|------|--------|---------|
-| 001 安装与配置 | ✅ passing | 5/5 = 100% | [result.md](file:///workspace/validations/office-cli/tasks/001-installation/results/result.md) |
-| 002 Excel 基础读写 | ✅ passing | 8/8 = 100% | [result.md](file:///workspace/validations/office-cli/tasks/002-excel-basic-rw/results/result.md) |
-| 003 公式与自动运算 | ✅ passing | 9/9 = 100% | [result.md](file:///workspace/validations/office-cli/tasks/003-excel-formulas/results/result.md) |
-| 004 隐藏行列适配 | ✅ passing | 7/7 = 100% | [result.md](file:///workspace/validations/office-cli/tasks/004-excel-hidden/results/result.md) |
-| 005 Excel 进阶功能 | ✅ passing | 12/15 完全通过 | [result.md](file:///workspace/validations/office-cli/tasks/005-excel-advanced/results/result.md) |
-| 006 Word CLI 功能 | ✅ passing | 5/9 完全通过 | [result.md](file:///workspace/validations/office-cli/tasks/006-word/results/result.md) |
-| 007 PPT CLI 功能 | ✅ passing | 5/6 完全通过 | [result.md](file:///workspace/validations/office-cli/tasks/007-ppt/results/result.md) |
+| 001 安装与配置 | ✅ passing | 5/5 = 100% | [result.md](tasks/001-installation/results/result.md) |
+| 002 Excel 基础读写 | ✅ passing | 8/8 = 100% | [result.md](tasks/002-excel-basic-rw/results/result.md) |
+| 003 公式与自动运算 | ✅ passing | 9/9 = 100% | [result.md](tasks/003-excel-formulas/results/result.md) |
+| 004 隐藏行列适配 | ✅ passing | 7/7 = 100% | [result.md](tasks/004-excel-hidden/results/result.md) |
+| 005 Excel 进阶功能 | ✅ passing | 12/15 完全通过 | [result.md](tasks/005-excel-advanced/results/result.md) |
+| 006 Word CLI 功能 | ✅ passing | 5/9 完全通过 | [result.md](tasks/006-word/results/result.md) |
+| 007 PPT CLI 功能 | ✅ passing | 5/6 完全通过 | [result.md](tasks/007-ppt/results/result.md) |
+| **008 横展开报告模板生成** | ✅ passing | **10/10 = 100%** | [result.md](tasks/008-template-report/results/result.md) |
+| **009 Excel 设计文档转 Markdown** | ✅ passing | **10/10 = 100%** | [result.md](tasks/009-excel-to-md/results/result.md) |
 
 ---
 
@@ -32,7 +34,7 @@
 
 ### ✅ OfficeCLI 完美支持的能力
 
-**Excel（15+ 大类，12 项完全通过）**：
+**Excel（20+ 大类，16 项完全通过）**：
 1. **安装体验优秀**：一键安装，零依赖，自动适配 5 种 AI Agent
 2. **基础操作 100%**：创建、读写、修改、批量操作、view、batch、validate
 3. **公式处理强大**：computedValue 实时重算，6 种常用函数（SUM/AVERAGE/IF/VLOOKUP/+/&）全部正确
@@ -41,6 +43,8 @@
 6. **条件格式**：cellIs 规则、色阶（colorScale）、数据条（dataBar）
 7. **数据验证**：下拉列表（list）含 prompt 提示
 8. **自动筛选、超链接、单元格注释、Table、命名范围**
+9. **横展开报告模板生成**：3 Sheet 定型レポート × 130 回连续 set 注入 → 0 エラー
+10. **Excel→Markdown 格式转换**：加粗/颜色/删除线/吹出形状全格式读取→MD 转换
 
 **Word（5 项完全通过）**：
 - 创建文档、段落文本、文本格式（加粗/斜体）、表格（3×3 带数据）、结构查看
@@ -67,6 +71,8 @@
 | Excel 公式计算（CLI 内） | ✅ 100% | computedValue 实时重算 |
 | Excel 图表生成 | ✅ 95% | 柱状/饼图/折线图全部支持 |
 | Excel 条件格式/数据验证 | ✅ 90% | 常用规则完全支持 |
+| 横展开报告自動生成 | ✅ 100% | 130 回 set 注入 0 エラー |
+| Excel→Markdown 格式转换 | ✅ 100% | 加粗/颜色/删除线/吹出形状全格式 |
 | Word 文档撰写 | ✅ 85% | 段落/表格/格式完全支持 |
 | PPT 幻灯片制作 | ✅ 85% | 形状/文本/图表完全支持 |
 | Excel 与 Excel 互操作 | ⚠️ 80% | cachedValue 问题可能影响显示 |
@@ -89,27 +95,32 @@ validations/office-cli/
 │   ├── scripts/                  # 自动化脚本
 │   ├── templates/                # 测试模板
 │   └── .ai/                      # 子 Agent 定义 + 记忆
-├── tasks/                        # 验证层（7 个任务全部完成）
-│   ├── 001-installation/    → task.md + results/result.md ✅
-│   ├── 002-excel-basic-rw/ → task.md + results/result.md ✅
-│   ├── 003-excel-formulas/ → task.md + results/result.md ✅
-│   ├── 004-excel-hidden/   → task.md + results/result.md ✅
-│   ├── 005-excel-advanced/ → task.md + results/result.md ✅
-│   ├── 006-word/            → task.md + results/result.md ✅
-│   └── 007-ppt/             → task.md + results/result.md ✅
-├── test-data/                    # 测试数据（10 个文件）
+├── tasks/                        # 验证层（9 个任务全部完成）
+│   ├── 001-installation/      → task.md + results/result.md ✅
+│   ├── 002-excel-basic-rw/   → task.md + results/result.md ✅
+│   ├── 003-excel-formulas/   → task.md + results/result.md ✅
+│   ├── 004-excel-hidden/     → task.md + results/result.md ✅
+│   ├── 005-excel-advanced/   → task.md + results/result.md ✅
+│   ├── 006-word/             → task.md + results/result.md ✅
+│   ├── 007-ppt/              → task.md + results/result.md ✅
+│   ├── 008-template-report/  → task.md + results/result.md ✅
+│   └── 009-excel-to-md/      → task.md + results/result.md ✅
+├── test-data/                    # 测试数据
 │   ├── blank-test.xlsx, basic-rw-test.xlsx, formulas-test.xlsx
-│   ├── hidden-test.xlsx, advanced-test.xlsx, deep-test.xlsx
-│   ├── csv-import-test.xlsx, import.csv
+│   ├── hidden-test.xlsx, advanced-test.xlsx, csv-import-test.xlsx, import.csv
 │   ├── word-test.docx, ppt-test.pptx
-└── results/evidence/             # 测试证据（分 7 个任务存放）
+│   ├── template-demo/         → 横展开报告模板 + 完成版 + 脚本 + サンプルコード
+│   └── excel-to-md/           → 设计文档测试 + 转换脚本 + 输出 md
+└── results/evidence/             # 测试证据（分 9 个任务存放）
     ├── 001-installation/
     ├── 002-excel-basic-rw/
     ├── 003-excel-formulas/
     ├── 004-excel-hidden/
     ├── 005-excel-advanced/
     ├── 006-word/
-    └── 007-ppt/
+    ├── 007-ppt/
+    ├── 008-template-report/
+    └── 009-excel-to-md/
 ```
 
 ---
@@ -122,7 +133,7 @@ validations/office-cli/
 3. 选择要继续的任务（见下方"后续可做事项"）
 
 ### 如果要查看具体结果：
-- 总览：[PROGRESS.md](file:///workspace/validations/office-cli/PROGRESS.md)
+- 总览：[PROGRESS.md](PROGRESS.md)
 - 各任务详细报告：见 `tasks/<task-id>/results/result.md`
 - 测试证据：见 `results/evidence/<task-id>/`
 - 测试数据文件：见 `test-data/`
@@ -136,7 +147,7 @@ validations/office-cli/
 2. **向 OfficeCLI 项目反馈问题**：6 个已知问题（见上方列表）
 
 ### P1 — 补充验证（未覆盖的功能）
-3. **Excel 补充**：数据透视表（pivottable）、迷你图（sparkline）、切片器（slicer）、形状（shape）、图片（picture）
+3. **Excel 补充**：数据透视表（pivottable）、迷你图（sparkline）、切片器（slicer）、图片（picture）
 4. **Word 补充**：页眉页脚（header/footer）、目录（toc）、图片（picture）、批注（comment）、样式管理
 5. **PPT 补充**：模板/母版、切换动画、图片/视频
 
@@ -150,18 +161,20 @@ validations/office-cli/
 
 | 类型 | 文件 |
 |------|------|
-| 📋 进度总览 | [PROGRESS.md](file:///workspace/validations/office-cli/PROGRESS.md) |
-| 📋 功能清单 | [feature_list.json](file:///workspace/validations/office-cli/feature_list.json) |
-| 📋 Agent 规则 | [AGENTS.md](file:///workspace/validations/office-cli/AGENTS.md) |
-| 📊 001 安装报告 | [result.md](file:///workspace/validations/office-cli/tasks/001-installation/results/result.md) |
-| 📊 002 基础读写报告 | [result.md](file:///workspace/validations/office-cli/tasks/002-excel-basic-rw/results/result.md) |
-| 📊 003 公式报告 | [result.md](file:///workspace/validations/office-cli/tasks/003-excel-formulas/results/result.md) |
-| 📊 004 隐藏行列报告 | [result.md](file:///workspace/validations/office-cli/tasks/004-excel-hidden/results/result.md) |
-| 📊 005 进阶功能报告 | [result.md](file:///workspace/validations/office-cli/tasks/005-excel-advanced/results/result.md) |
-| 📊 006 Word 报告 | [result.md](file:///workspace/validations/office-cli/tasks/006-word/results/result.md) |
-| 📊 007 PPT 报告 | [result.md](file:///workspace/validations/office-cli/tasks/007-ppt/results/result.md) |
-| 📁 测试证据目录 | [results/evidence/](file:///workspace/validations/office-cli/results/evidence/) |
-| 📁 测试数据目录 | [test-data/](file:///workspace/validations/office-cli/test-data/) |
+| 📋 进度总览 | [PROGRESS.md](PROGRESS.md) |
+| 📋 功能清单 | [feature_list.json](feature_list.json) |
+| 📋 Agent 规则 | [AGENTS.md](AGENTS.md) |
+| 📊 001 安装报告 | [result.md](tasks/001-installation/results/result.md) |
+| 📊 002 基础读写报告 | [result.md](tasks/002-excel-basic-rw/results/result.md) |
+| 📊 003 公式报告 | [result.md](tasks/003-excel-formulas/results/result.md) |
+| 📊 004 隐藏行列报告 | [result.md](tasks/004-excel-hidden/results/result.md) |
+| 📊 005 进阶功能报告 | [result.md](tasks/005-excel-advanced/results/result.md) |
+| 📊 006 Word 报告 | [result.md](tasks/006-word/results/result.md) |
+| 📊 007 PPT 报告 | [result.md](tasks/007-ppt/results/result.md) |
+| 📊 008 横展开报告模板 | [result.md](tasks/008-template-report/results/result.md) |
+| 📊 009 Excel转Markdown | [result.md](tasks/009-excel-to-md/results/result.md) |
+| 📁 测试证据目录 | [results/evidence/](results/evidence/) |
+| 📁 测试数据目录 | [test-data/](test-data/) |
 
 ---
 
