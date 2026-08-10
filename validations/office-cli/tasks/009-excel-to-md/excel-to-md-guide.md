@@ -34,24 +34,63 @@
 
 ### 2.1 安装 OfficeCLI
 
-```bash
-# 一键安装（Linux / Mac）
-curl -fsSL https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.sh | bash
+#### Windows 64 位（推荐）
 
-# 验证
+**方式 1：PowerScript 一键安装**
+```powershell
+# 在 PowerShell 中执行
+irm https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.ps1 | iex
+```
+
+**方式 2：手动下载**
+1. 访问 https://github.com/iOfficeAI/OfficeCLI/releases
+2. 下载 `officecli-windows-amd64.zip`
+3. 解压到 `C:\Tools\officecli\`
+4. 将 `C:\Tools\officecli\` 添加到系统环境变量 PATH
+
+**验证安装：**
+```cmd
+officecli version
+```
+
+#### Linux / Mac
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.sh | bash
 officecli version
 ```
 
 ### 2.2 确认 Python 环境
 
+#### Windows
+```cmd
+:: 检查 Python（Win10 自带或从 python.org 下载）
+python --version
+:: 如果显示 3.8+ 即可
+
+:: 安装 openpyxl（仅在需要创建测试 Excel 时用到）
+pip install openpyxl
+```
+
+#### Linux / Mac
 ```bash
 python3 --version    # 需要 3.8+
-pip install openpyxl  # 仅在需要创建测试 Excel 时用到
+pip install openpyxl
 ```
 
 ### 2.3 准备你的 Excel 设计文档
 
-将你要转换的 Excel 文件放在工作目录，例如：
+将你要转换的 Excel 文件放在工作目录：
+
+#### Windows
+```
+C:\Users\你的用户名\Documents\excel-to-md\
+├── 设计文档.xlsx      ← 你的设计文档
+├── excel_to_md.py    ← 即将生成的脚本
+└── 设计文档.md        ← 即将生成的输出
+```
+
+#### Linux / Mac
 ```
 ~/my-project/
 ├── 设计文档.xlsx      ← 你的设计文档
@@ -314,6 +353,13 @@ cat 设计文档.md
 
 ### Step 1: 安装 OfficeCLI
 
+**Windows（PowerShell）：**
+```powershell
+irm https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.ps1 | iex
+officecli version
+```
+
+**Linux / Mac：**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.sh | bash
 export PATH="$HOME/.local/bin:$PATH"
@@ -322,9 +368,17 @@ officecli version
 
 ### Step 2: 准备工作目录
 
+**Windows（CMD）：**
+```cmd
+mkdir C:\Users\%USERNAME%\Documents\excel-to-md
+cd C:\Users\%USERNAME%\Documents\excel-to-md
+:: 把你的 Excel 文件复制进来
+copy C:\Users\%USERNAME%\Downloads\设计文档.xlsx .
+```
+
+**Linux / Mac：**
 ```bash
 mkdir -p ~/excel-to-md && cd ~/excel-to-md
-# 把你的 Excel 文件放进来
 cp ~/Downloads/设计文档.xlsx .
 ```
 
@@ -363,12 +417,24 @@ officecli query 设计文档.xlsx shape --json
 
 ### Step 8: 运行脚本生成 Markdown
 
+**Windows（CMD / PowerShell）：**
+```cmd
+python excel_to_md.py
+```
+
+**Linux / Mac：**
 ```bash
 python3 excel_to_md.py
 ```
 
 ### Step 9: 检查输出
 
+**Windows：**
+```cmd
+type 设计文档.md
+```
+
+**Linux / Mac：**
 ```bash
 cat 设计文档.md
 ```
