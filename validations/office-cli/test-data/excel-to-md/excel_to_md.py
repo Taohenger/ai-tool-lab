@@ -186,19 +186,59 @@ def cell_to_md_rich(text, fmt):
 
     return md
 
+def col_num_to_letter(n):
+    """列数字 → Excel 列字母（1→A, 26→Z, 27→AA）"""
+    result = ""
+    while n > 0:
+        n -= 1
+        result = chr(65 + n % 26) + result
+        n //= 26
+    return result
+
+def shape_position(fmt):
+    """解析 shape 的 x/y/width/height，返回位置描述"""
+    x = fmt.get("x")
+    y = fmt.get("y")
+    w = fmt.get("width")
+    h = fmt.get("height")
+    if x is None or y is None:
+        return "", ""
+    try:
+        xi = int(float(x))
+        yi = int(float(y))
+        wi = int(float(w)) if w else 1
+        hi = int(float(h)) if h else 1
+        start_cell = f"{col_num_to_letter(xi)}{yi}"
+        end_cell = f"{col_num_to_letter(xi + wi - 1)}{yi + hi - 1}"
+        range_str = start_cell if wi == 1 and hi == 1 else f"{start_cell}~{end_cell}"
+        anchor_ref = f"对应单元格：{col_num_to_letter(xi)}{yi}"
+        return range_str, anchor_ref
+    except (ValueError, TypeError):
+        return "", ""
+
+def shape_type_icon(fmt):
+    """根据 shape 类型返回图标"""
+    geo = (fmt.get("geometry") or "").lower()
+    if "callout" in geo:
+        return "📌"  # 吹出泡
+    if "rect" in geo or "box" in geo:
+        return "🔲"  # 矩形/红框
+    if "line" in geo:
+        return "➖"  # 线条
+    return "💠"  # 其他形状
+
 def shape_to_md_pure(text, fmt):
-    """吹出形状 — 纯 Markdown 版"""
-    if not text:
-        return ""
-    md_inner = text
+    """吹出形状 — 纯 Markdown 版（含位置信息）"""
+    pos_range, anchor = shape_position(fmt)
+    icon = shape_type_icon(fmt)
     color = normalize_color(fmt.get("color"))
     fill = normalize_color(fmt.get("fill"))
     bold = fmt.get("bold", False)
 
-    if bold:
-        md_inner = f"**{md_inner}**"
-
+    # 位置注释
     notes = []
+    if pos_range:
+        notes.append(f"📍{pos_range}")
     if color and color.upper() != "#000000":
         emoji, name = color_annotation(color)
         if emoji: notes.append(f"{emoji}{name}")
@@ -206,38 +246,46 @@ def shape_to_md_pure(text, fmt):
         emoji, name = fill_annotation(fill)
         if emoji: notes.append(f"{emoji}{name}")
 
+    # 文本内容
+    md_inner = text if text else "(无文字形状)"
+    if bold:
+        md_inner = f"**{md_inner}**"
     if notes:
         md_inner = f"{md_inner} `[{', '.join(notes)}]`"
 
-    # 引用块前缀（按吹出颜色分）
-    prefix = "> 📌"
+    # 引用块前缀（按背景颜色区分严重程度）
+    prefix = f"> {icon}"
     if fill and fill.upper() == "#FFFF00":
-        prefix = "> 📌 ⚠️"
+        prefix = f"> {icon} ⚠️"
     elif fill and fill.upper() == "#FF0000":
-        prefix = "> 📌 ❌"
+        prefix = f"> {icon} ❌"
 
     return f"{prefix} {md_inner}"
 
 def shape_to_md_rich(text, fmt):
-    """吹出形状 — 富文本版"""
-    if not text:
-        return ""
-    md = text
+    """吹出形状 — 富文本版（含位置信息）"""
+    pos_range, anchor = shape_position(fmt)
+    icon = shape_type_icon(fmt)
     color = normalize_color(fmt.get("color"))
     fill = normalize_color(fmt.get("fill"))
     bold = fmt.get("bold", False)
 
+    # 文本内容
+    md = text if text else "(无文字形状)"
     if bold:
         md = f"**{md}**"
-
     if color and color.upper() != "#000000":
         md = f'<span style="color:{color}">{md}</span>'
 
-    prefix = "> 📌"
+    # 位置标签
+    if pos_range:
+        md = f'{md} <code style="color:#888">[📍{pos_range}]</code>'
+
+    prefix = f"> {icon}"
     if fill and fill.upper() == "#FFFF00":
-        prefix = "> 📌 ⚠️"
+        prefix = f"> {icon} ⚠️"
     elif fill and fill.upper() == "#FF0000":
-        prefix = "> 📌 ❌"
+        prefix = f"> {icon} ❌"
 
     return f"{prefix} {md}"
 
