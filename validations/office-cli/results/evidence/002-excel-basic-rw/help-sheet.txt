@@ -1,0 +1,140 @@
+xlsx sheet
+--------------
+Paths: /<sheetName>  /Sheet1  /Sheet2
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> / --type sheet [--prop key=val ...]
+  officecli set <file> /Sheet1 --prop key=val ...
+  officecli get <file> /Sheet1
+  officecli query <file> sheet
+  officecli remove <file> /Sheet1
+
+Properties:
+  name   string   [add/set/get]
+    description: sheet tab name. Returned path is /<name>; readback goes through DocumentNode.Path / .Preview rather than Format[].
+    example: --prop name=Summary
+  autoFilter   string   [add/set/get]   aliases: autofilter
+    description: range to apply AutoFilter on (e.g. A1:D10). `true` enables on used range.
+    example: --prop autoFilter=A1:D10
+    readback: range string as stored, or boolean true
+  tabColor   color   [add/set/get]
+    description: sheet tab color.
+    example: --prop tabColor=4472C4
+    readback: #RRGGBB uppercase
+  hidden   bool   [add/set/get]
+    description: hide the sheet at creation or after the fact.
+    example: --prop hidden=true
+  freeze   string   [set/get]
+    description: freeze panes anchor (cell ref). A2 freezes row 1; B1 freezes column A; B2 freezes row 1 + column A. `none` / `false` / empty removes the freeze. Set-only on existing sheets.
+    example: --prop freeze=A2
+    example: --prop freeze=B2
+    example: --prop freeze=none
+    readback: top-left cell ref of frozen pane (e.g. A2); absent when no freeze
+  direction   enum   [set/get]   aliases: rtl, rightToLeft, righttoleft, sheet.direction
+    description: RTL sheet layout (Arabic / Hebrew) — column A renders on the right, column scroll direction inverts. Maps to <sheetView rightToLeft=...>. Canonical key matches Word/PPT.
+    values: rtl, ltr
+    example: --prop direction=rtl
+    example: --prop rightToLeft=true
+    readback: rtl when set; absent when default (ltr)
+  zoom   number   [set/get]
+    description: sheetView zoom percentage (10-400; out-of-range throws). Alias: zoomscale. Emitted only when non-default (≠100).
+    example: --prop zoom=150
+    readback: zoom percentage 10-400
+  gridlines   bool   [get]
+    description: sheetView gridline visibility. Emitted only when hidden (false); default-on is omitted (CONSISTENCY(default-omission)).
+    readback: true | false
+  headings   bool   [get]
+    description: row/column header visibility. Emitted only when hidden (false); default-on is omitted (CONSISTENCY(default-omission)).
+    readback: row/column headings visible
+  visibility   enum   [get]
+    description: workbook-level sheet state when not visible. Emitted alongside hidden=true; absent for default-visible sheets.
+    values: hidden, veryHidden
+    readback: if hidden
+  protect   bool   [set/get]
+    description: sheet protection state. On Set: pass `true` to enable protection, `false` to disable. Use the separate `password` property to set/clear an Excel legacy password hash.
+    readback: true if sheet protection enabled
+  password   string   [set]
+    description: Excel legacy password hash for sheet protection (ECMA-376 14.7.1). On Set: pass plaintext password to hash and apply, or `none` to clear. Implicitly enables protection if not already set. Readback is exposed under 'passwordHash'.
+    example: --prop password=secret123
+    example: --prop password=none
+    readback: n/a (use passwordHash on Get)
+  passwordHash   string   [get]
+    description: legacy 16-bit password hash on sheetProtection (@password), as stored in the file. Get-only readback of the 'password' Set property.
+    readback: 4-hex-digit legacy hash when present
+  protection.algorithm   string   [get]
+    description: modern (SHA-based) sheet-protection hash algorithm (sheetProtection/@algorithmName), e.g. SHA-512. Get-only; set via 'password' (legacy) or preserve as-is.
+    readback: algorithm name when modern protection present
+  protection.hash   string   [get]
+    description: modern sheet-protection password hash (sheetProtection/@hashValue, base64). Get-only.
+    readback: base64 hash when modern protection present
+  protection.salt   string   [get]
+    description: modern sheet-protection hash salt (sheetProtection/@saltValue, base64). Get-only.
+    readback: base64 salt when modern protection present
+  protection.spinCount   number   [get]
+    description: modern sheet-protection hash iteration count (sheetProtection/@spinCount). Get-only.
+    readback: integer spin count when modern protection present
+  printTitleRows   string   [set]
+    description: rows to repeat at top of every printed page (e.g. 1:1).
+    example: --prop printTitleRows=1:1
+    readback: n/a (set-only)
+  printTitleCols   string   [set]
+    description: columns to repeat at left of every printed page (e.g. A:A).
+    example: --prop printTitleCols=A:A
+    readback: n/a (set-only)
+  orientation   string   [get]
+    description: PageSetup orientation (portrait | landscape). Emitted only when set on the sheet.
+    readback: page orientation (portrait|landscape)
+  paperSize   number   [get]
+    description: PageSetup paper-size code (OOXML enumeration; e.g. 1=Letter, 9=A4).
+    readback: OOXML paper size code
+  fitToPage   string   [get]
+    description: PageSetup fit-to-page width x height (e.g. '1x1' = fit to one page).
+    readback: WxH fit-to-page settings
+  printArea   string   [set/get]
+    description: defined-name _xlnm.Print_Area for this sheet. Get returns the A1 range with the leading 'SheetName!' prefix stripped. On Set: pass an A1 range (e.g. A1:C20) or `none` to clear.
+    example: --prop printArea=A1:C20
+    example: --prop printArea=none
+    readback: A1 range string
+  margin.top   string   [get]
+    description: PageMargins top margin in inches (e.g. '0.75in').
+    readback: margin in inches
+  margin.bottom   string   [get]
+    description: PageMargins bottom margin in inches.
+    readback: margin in inches
+  margin.left   string   [get]
+    description: PageMargins left margin in inches.
+    readback: margin in inches
+  margin.right   string   [get]
+    description: PageMargins right margin in inches.
+    readback: margin in inches
+  margin.header   string   [get]
+    description: PageMargins header margin in inches (distance from top edge to header).
+    readback: margin in inches
+  margin.footer   string   [get]
+    description: PageMargins footer margin in inches (distance from bottom edge to footer).
+    readback: margin in inches
+  header   string   [set/get]
+    description: odd-page header text (HeaderFooter/OddHeader). Excel format codes (&L, &C, &R, &P, &D, etc.) pass through verbatim.
+    readback: raw odd-header text as stored
+  footer   string   [set/get]
+    description: odd-page footer text (HeaderFooter/OddFooter). Excel format codes pass through verbatim.
+    readback: raw odd-footer text as stored
+  sort   string   [set/get]
+    description: sort the sheet by one or more columns. Set input: comma-separated `Col [dir]` tokens, direction optional, defaults to asc (e.g. `A`, `A asc`, `A asc,B desc`). Use `none` to clear. Get readback: comma-separated `Col:dir` entries (colon-separated, e.g. `A:asc`).
+    example: --prop sort=A
+    example: --prop sort="A asc,B desc"
+    example: --prop sort=none
+    readback: comma-separated `Col:asc|desc` list (e.g. `A:asc`)
+  rowBreaks   string   [get]
+    description: manual horizontal page breaks. Comma-separated row indices (1-based) where each break sits above that row.
+    readback: comma-separated row break indices
+  colBreaks   string   [get]
+    description: manual vertical page breaks. Comma-separated column indices (1-based) where each break sits to the left of that column.
+    readback: comma-separated column break indices
+
+Children:
+  cell  (0..n)  /<A1Ref>
+  chart  (0..n)  /chart
+
+Note: Add accepts name, position, autoFilter, tabColor, and hidden. autoFilter/tabColor/hidden forward to the same code paths Set uses; `position` is Add-only (reorder an existing sheet with the move command); `freeze` remains Set-only.

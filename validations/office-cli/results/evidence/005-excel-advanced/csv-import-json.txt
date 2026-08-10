@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1",
+        "type": "sheet",
+        "preview": "Sheet1",
+        "childCount": 0,
+        "format": {},
+        "children": []
+      }
+    ]
+  }
+}

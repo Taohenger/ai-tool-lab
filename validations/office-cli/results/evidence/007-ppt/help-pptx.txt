@@ -1,0 +1,37 @@
+Elements for pptx:
+  chart
+    chart-axis
+    chart-series
+  comment
+  connector
+  diagram
+  group
+  media
+  model3d
+  moderncomment
+  notes
+  ole
+  picture
+  placeholder
+  presentation
+  raw
+  shape
+    animation
+    equation
+    hyperlink
+    paragraph
+      linebreak
+      run
+  slide
+  slidemaster
+    slidelayout
+  table
+    table-column
+    table-row
+      table-cell
+  textbox
+  theme
+  transition
+  zoom
+
+Run 'officecli help pptx <element>' for detail.

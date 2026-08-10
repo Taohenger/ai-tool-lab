@@ -1,0 +1,20 @@
+Added cell at /Sheet1/A1
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A1",
+        "type": "cell",
+        "text": "Hello OfficeCLI",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "String"
+        },
+        "children": []
+      }
+    ]
+  }
+}

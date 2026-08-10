@@ -1,0 +1,27 @@
+============================================
+  OfficeCLI 安装脚本
+============================================
+
+检测到平台: linux-x64
+
+方式1: 尝试使用官方安装脚本...
+Latest version: v1.0.143
+Downloading OfficeCLI (officecli-linux-x64)...
+  (via mirror)
+  (via mirror)
+Checksum verified.
+Claude Code detected.
+Codex CLI detected.
+OpenClaw detected.
+Hermes Agent detected.
+Downloading officecli skill...
+  (via mirror)
+  Installed: /root/.claude/skills/officecli/SKILL.md
+  Installed: /root/.agents/skills/officecli/SKILL.md
+  Installed: /root/.openclaw/skills/officecli/SKILL.md
+  Installed: /root/.hermes/skills/officecli/SKILL.md
+OfficeCLI installed successfully!
+Run 'officecli --help' to get started.
+
+✅ OfficeCLI 安装成功！
+1.0.143

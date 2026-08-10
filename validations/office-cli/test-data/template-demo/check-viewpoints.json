@@ -1,0 +1,40 @@
+[
+  {
+    "id": "VP-001",
+    "name": "横展開（日本語化）",
+    "description": "エラーメッセージ・UI 文言・コードコメントなどが正しく日本語化されているか。英語のまま残っている箇所を検出する。",
+    "priority": "高 (P1)",
+    "regex": [
+      "throw new (Error|Exception)\\(['\"][A-Za-z ]+['\"]\\)",
+      "fmt\\.Errorf\\(['\"][A-Za-z ]+['\"]\\)",
+      "Invalid [a-zA-Z]+",
+      "(Error|failed):\\s*\"?[A-Za-z ]"
+    ],
+    "severity": "中"
+  },
+  {
+    "id": "VP-002",
+    "name": "ハードコード確認",
+    "description": "API エンドポイント、DB 接続情報、パスワード、シークレットキー、トークン有効期限などがソースコードにハードコードされていないか。",
+    "priority": "高 (P1)",
+    "regex": [
+      "(password|passwd|pwd|secret|token|api[_-]?key)\\s*[:=]\\s*['\"][^'\"]{4,}['\"]",
+      "http(s)?://(?!(localhost|127\\.0\\.0\\.1))[A-Za-z0-9_\\-.:/]+",
+      "sk_(live|test)_[A-Za-z0-9]+",
+      "expiresIn\\s*[:=]\\s*['\"][0-9]+[smhd]['\"]"
+    ],
+    "severity": "高"
+  },
+  {
+    "id": "VP-003",
+    "name": "情報漏洩チェック (ログ/出力)",
+    "description": "パスワード、トークン、個人情報、決済情報などの機密情報がログ・標準出力・デバッガに平文で出力されていないか。",
+    "priority": "高 (P1)",
+    "regex": [
+      "(log|logger|console|fmt\\.Print).*(password|passwd|pwd|secret|token|apiKey)",
+      "(password|パスワード|passwd)\\s*[=,]\\s*[A-Za-z0-9_.${}]+",
+      "logger\\.(debug|info|log)\\(.*\\$\\{"
+    ],
+    "severity": "重大"
+  }
+]

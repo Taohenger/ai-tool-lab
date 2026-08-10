@@ -1,0 +1,27 @@
+Added validation at /Sheet1/dataValidation[1]
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/dataValidation[1]",
+        "type": "dataValidation",
+        "text": "D1:D10",
+        "preview": "dataValidation[1] (D1:D10)",
+        "childCount": 0,
+        "format": {
+          "ref": "D1:D10",
+          "type": "list",
+          "formula1": "\"苹果,香蕉,橙子,葡萄\"",
+          "allowBlank": true,
+          "showError": true,
+          "showInput": true,
+          "prompt": "请选择水果",
+          "inCellDropdown": true
+        },
+        "children": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+Found 4 validation error(s):
+  [Schema] The element has unexpected child element 'http://schemas.openxmlformats.org/spreadsheetml/2006/main:sz'.
+    Path: /x:styleSheet[1]/x:fonts[1]/x:font[15]
+    Part: /xl/styles.xml
+  [Schema] The element has unexpected child element 'http://schemas.openxmlformats.org/spreadsheetml/2006/main:u'.
+    Path: /x:styleSheet[1]/x:fonts[1]/x:font[9]
+    Part: /xl/styles.xml
+  [Schema] The element has unexpected child element 'http://schemas.openxmlformats.org/spreadsheetml/2006/main:sz'.
+    Path: /x:styleSheet[1]/x:fonts[1]/x:font[2]
+    Part: /xl/styles.xml
+  [Schema] The element has unexpected child element 'http://schemas.openxmlformats.org/spreadsheetml/2006/main:color'.
+    Path: /x:styleSheet[1]/x:fonts[1]/x:font[1]
+    Part: /xl/styles.xml

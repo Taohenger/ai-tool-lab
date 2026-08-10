@@ -1,0 +1,140 @@
+xlsx conditionalformatting
+--------------------------
+Parent: sheet
+Paths: /SheetName/cf[N]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type conditionalformatting [--prop key=val ...]
+  officecli set <file> /SheetName/cf[N] --prop key=val ...
+  officecli get <file> /SheetName/cf[N]
+  officecli query <file> conditionalformatting
+  officecli remove <file> /SheetName/cf[N]
+
+Properties:
+  type   enum   [add/set/get]   aliases: rule
+    description: CF rule type.
+    values: cellIs, colorScale, dataBar, iconSet, containsText, notContainsText, beginsWith, endsWith, top, topN, top10, topPercent, bottom, bottomN, bottomPercent, aboveAverage, belowAverage, duplicateValues, uniqueValues, containsBlanks, containsErrors, notContainsBlanks, notContainsErrors, formula, dateOccurring, today, yesterday, tomorrow, thisWeek, lastWeek, nextWeek, thisMonth, lastMonth, nextMonth
+    example: --prop type=cellIs
+    example: --prop rule=top10
+    readback: rule type
+  ref   string   [add/set/get]   aliases: range, sqref
+    description: target cell range.
+    example: --prop ref=A1:A10
+    example: --prop sqref=A1:A10
+    readback: cell range
+  fill   color   [add/set/get]
+    description: background fill color for matched cells. Use this for cellIs, text, top/bottom, and formula rules.
+    example: --prop fill=FFFF00
+    readback: #-prefixed hex
+  operator   string   [add/set/get]
+    description: operator for cellIs/text rules.
+    example: --prop operator=greaterThan
+    readback: operator
+  value   string   [add/set/get]   aliases: formula1, formula
+    description: threshold / comparison value.
+    example: --prop value=100
+    example: --prop formula=$A1>5
+    readback: value/formula
+  color   color   [add/set/get]
+    description: bar color for dataBar rules only. For cellIs/text/formula rules, use 'fill' instead.
+    example: --prop color=#FFFF00
+    readback: #-prefixed hex
+  value2   string   [add/set/get]   aliases: maxvalue
+    description: second threshold for between/notBetween cellIs rules. Alias: maxvalue.
+    example: --prop value=10 --prop value2=20
+    readback: value/formula
+  text   string   [add/set/get]
+    description: needle for containsText/notContainsText/beginsWith/endsWith rules.
+    example: --prop type=containsText --prop text=ERROR
+    readback: needle string
+  rank   number   [add/set/get]   aliases: top, bottomN
+    description: rank for top/bottom N rules. Aliases: top, bottomN.
+    example: --prop type=topN --prop rank=10
+    readback: integer rank
+  percent   bool   [add/set/get]
+    description: treat 'rank' as a percentile rather than count (top/bottom rules).
+    example: --prop type=top --prop rank=10 --prop percent=true
+    readback: true/false
+  bottom   bool   [add/set/get]
+    description: select bottom-N instead of top-N (top/bottom rules).
+    example: --prop type=bottom --prop rank=5
+    readback: true/false
+  aboveAverage   bool   [add/get]   aliases: above
+    description: aboveAverage rule: true=above, false=below. Alias: above.
+    example: --prop type=aboveAverage --prop aboveAverage=true
+    readback: true/false
+  stdDev   number   [add]
+    description: stdDev offset for aboveAverage rules (1 = 1σ above mean). Add-time only — Get does not surface this back today.
+    example: --prop stdDev=1
+    readback: n/a
+  equalAverage   bool   [add]
+    description: include the mean in aboveAverage matching. Add-time only — Get does not surface this back today.
+    example: --prop equalAverage=true
+    readback: n/a
+  period   string   [add/get]   aliases: timePeriod, timeperiod
+    description: time-period token for dateOccurring rules (today, yesterday, tomorrow, thisWeek, lastWeek, nextWeek, thisMonth, lastMonth, nextMonth). Aliases: timePeriod.
+    example: --prop type=dateOccurring --prop period=lastWeek
+    readback: period token
+  min   string   [add/get]
+    description: data-bar minimum value (numeric or 'auto'). Used by dataBar rules.
+    example: --prop type=dataBar --prop min=0 --prop max=100
+    readback: number or token
+  max   string   [add/get]
+    description: data-bar maximum value (numeric or 'auto'). Used by dataBar rules.
+    example: --prop type=dataBar --prop max=100
+    readback: number or token
+  showValue   bool   [add/set/get]   aliases: showvalue
+    description: show numeric label alongside data bar / icon set. Alias: showvalue.
+    example: --prop showValue=false
+    readback: true/false
+  negativeColor   color   [add/get]
+    description: data-bar fill color for negative values.
+    example: --prop negativeColor=#FF0000
+    readback: #-prefixed hex
+  axisColor   color   [add/get]
+    description: data-bar axis color (separator between positive and negative bars).
+    example: --prop axisColor=#000000
+    readback: #-prefixed hex
+  axisPosition   enum   [add]
+    description: data-bar axis position. Default: automatic. Add-time only — Get does not surface this back today.
+    values: automatic, middle, none
+    example: --prop axisPosition=middle
+    readback: n/a
+  minColor   color   [add/set/get]   aliases: mincolor
+    description: color-scale color at the minimum stop. Alias: mincolor.
+    example: --prop type=colorScale --prop minColor=#F8696B
+    readback: #-prefixed hex
+  maxColor   color   [add/set/get]   aliases: maxcolor
+    description: color-scale color at the maximum stop. Alias: maxcolor.
+    example: --prop maxColor=#63BE7B
+    readback: #-prefixed hex
+  midColor   color   [add/get]   aliases: midcolor
+    description: color-scale color at the midpoint stop. Alias: midcolor.
+    example: --prop midColor=#FFEB84
+    readback: #-prefixed hex
+  midPoint   string   [add]   aliases: midpoint
+    description: color-scale midpoint value (numeric or percentile). Alias: midpoint. Add-time only — Get does not surface this back today.
+    example: --prop midPoint=50
+    readback: n/a
+  iconset   string   [add/set/get]   aliases: icons
+    description: icon-set name (e.g. 3TrafficLights1, 3Arrows, 5Rating). Alias: icons.
+    example: --prop type=iconSet --prop iconset=3TrafficLights1
+    readback: icon-set name
+  reverse   bool   [add/set/get]
+    description: reverse the icon-set ordering.
+    example: --prop reverse=true
+    readback: true/false
+  formula   string   [add/set/get]
+    description: formulaCf expression (without leading '=').
+    example: --prop type=formula --prop formula=ISERROR(A1)
+    readback: formula expression
+  type   enum   [get]
+    description: Canonical Get-only CF rule type token (camelCase). One key per semantic value — previously split as ruleType + cfType.
+    values: dataBar, colorScale, iconSet, formula, topN, aboveAverage, duplicateValues, uniqueValues, containsText, cellIs, timePeriod
+    readback: canonical CF type token
+  dxfId   int   [get]
+    description: Get-only readback of the differential format index referenced by this rule (links to the workbook-level dxfs table).
+    readback: 0-based dxf index
+
+Note: Aliases: cf, cfextended. Type names map to xlsx CF rules (cellIs, colorScale, dataBar, iconSet, containsText, top/bottom N, etc.).

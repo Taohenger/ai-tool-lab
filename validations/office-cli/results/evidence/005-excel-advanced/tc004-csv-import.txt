@@ -1,0 +1,5 @@
+Imported 4 rows x 3 cols into /Sheet1 starting at A1
+File: csv-import-test.xlsx
+├── "Sheet1" (0 rows × 0 cols)
+        "text": "(empty)",
+        "text": "(empty)",

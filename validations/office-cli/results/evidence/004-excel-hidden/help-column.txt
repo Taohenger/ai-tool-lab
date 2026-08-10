@@ -1,0 +1,40 @@
+xlsx column
+--------------
+Parent: sheet
+Paths: /SheetName/col[X]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type column [--prop key=val ...]
+  officecli set <file> /SheetName/col[X] --prop key=val ...
+  officecli get <file> /SheetName/col[X]
+  officecli query <file> column
+  officecli remove <file> /SheetName/col[X]
+
+Properties:
+  name   string   [add]
+    description: column letter to insert at (e.g. 'C'). If omitted, uses index position or appends.
+    example: --prop name=C
+    readback: n/a (used only for addressing)
+  width   length   [add/set/get]
+    description: column width in Excel character units (parsed by ParseColWidthChars). Accepts bare number or unit-qualified.
+    example: --prop width=20
+    readback: raw double (character units)
+  hidden   bool   [add/set/get]
+    description: hide column.
+    example: --prop hidden=true
+    readback: true when hidden, key absent otherwise
+  outline   int   [set]   aliases: outlinelevel, group
+    description: outline/group level 0-7. Currently Set-only. Aliases: outlineLevel, group.
+    example: --prop outline=1
+    readback: not surfaced by Get
+  collapsed   bool   [set/get]
+    description: collapsed column-group flag; omitted from Get when not collapsed.
+    example: --prop collapsed=true
+    readback: true when the column group is collapsed
+  numberformat   string   [set/get]   aliases: numfmt, format
+    description: Excel format code applied to the whole column via a style ref on col@s (number, date, percentage, currency, text @). Mirrors the cell-level numberformat; resolved back through the column's style index on Get.
+    example: --prop numberformat="#,##0.00"
+    example: --prop numberformat=0.00%
+    example: --prop numberformat=yyyy-mm-dd
+    readback: format string as stored (via col style index)

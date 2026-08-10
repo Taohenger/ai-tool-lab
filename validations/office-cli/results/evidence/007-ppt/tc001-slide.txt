@@ -1,0 +1,2 @@
+Added slide at /slide[1]
+Added slide at /slide[2]

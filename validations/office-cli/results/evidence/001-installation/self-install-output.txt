@@ -1,0 +1,5 @@
+  Claude Code: officecli already up to date
+  Codex CLI: officecli already up to date
+  Pi: officecli installed (/root/.pi/agent/skills/officecli/SKILL.md)
+  Hermes Agent: officecli already up to date
+  OpenClaw: officecli already up to date

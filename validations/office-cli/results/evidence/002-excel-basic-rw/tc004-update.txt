@@ -1,0 +1,20 @@
+Updated /Sheet1/A1: value=Updated Text
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A1",
+        "type": "cell",
+        "text": "Updated Text",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "String"
+        },
+        "children": []
+      }
+    ]
+  }
+}

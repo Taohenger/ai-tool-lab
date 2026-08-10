@@ -1,0 +1,24 @@
+Added cell at /Sheet1/A3
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A3",
+        "type": "cell",
+        "text": "30",
+        "preview": "A3",
+        "childCount": 0,
+        "format": {
+          "type": "Number",
+          "formula": "A1+A2",
+          "cachedValue": "30",
+          "computedValue": "30",
+          "evaluated": true
+        },
+        "children": []
+      }
+    ]
+  }
+}

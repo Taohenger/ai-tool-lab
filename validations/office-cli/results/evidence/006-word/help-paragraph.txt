@@ -1,0 +1,80 @@
+docx paragraph
+--------------
+Paths: /body/p[@paraId=ID]  /body/p[N]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /body --type paragraph [--prop key=val ...]
+  officecli set <file> /body/p[N] --prop key=val ...
+  officecli get <file> /body/p[N]
+  officecli query <file> paragraph
+  officecli remove <file> /body/p[N]
+
+Properties:
+  lineRule   enum   [add/set/get]   aliases: linerule
+    description: line spacing rule paired with lineSpacing (Word-only: w:spacing@w:lineRule). 'auto' = multiplier (default for 1.5x/150%), 'exact' = exact fixed height (default for Npt), 'atLeast' = minimum height (Npt floor; lines may grow to fit tall content).
+    values: auto, exact, atLeast
+    example: --prop lineSpacing=14pt --prop lineRule=atLeast
+    readback: auto | exact | atLeast
+  align   enum   [add/set/get]   aliases: alignment, halign
+    values: left, center, right, justify, both, distribute
+    example: --prop align=center
+    readback: one of values
+  style   string   [add/set/get]   aliases: styleId, styleid, styleName, stylename
+    description: paragraph styleId (e.g. Heading1, Normal, Quote). Must reference an existing style or one of the built-in style aliases. Aliases mirror the canonical readback keys exposed by Get: styleId targets the OOXML styleId; styleName resolves the display name through the styles part (lenient, falls back to verbatim if no match).
+    example: --prop style=Heading1
+    example: --prop styleId=Heading1
+    example: --prop styleName="Heading 1"
+    readback: styleId as stored on the paragraph
+  spaceBefore   length   [add/set/get]   aliases: spacebefore
+    example: --prop spaceBefore=12pt
+    readback: unit-qualified, e.g. "12pt"
+  spaceAfter   length   [add/set/get]   aliases: spaceafter
+    example: --prop spaceAfter=6pt
+    readback: unit-qualified, e.g. "6pt"
+  spaceBeforeAuto   boolean   [add/set/get]   aliases: beforeAutospacing
+    description: w:spacing @beforeAutospacing — Word's 'automatic spacing between paragraphs of the same style' toggle for the space BEFORE the paragraph. Surfaced on get only when present.
+    example: --prop spaceBeforeAuto=true
+    readback: true|false
+  spaceAfterAuto   boolean   [add/set/get]   aliases: afterAutospacing
+    description: w:spacing @afterAutospacing — automatic spacing toggle for the space AFTER the paragraph. See spaceBeforeAuto.
+    example: --prop spaceAfterAuto=true
+    readback: true|false
+  listStyle   enum   [add/set/get]   aliases: liststyle
+    description: high-level list type. 'bullet' (aliases: unordered, ul) creates a bulleted list; 'ordered' (or any other non-bullet value, e.g. 'decimal') creates a numbered list; 'none'/'remove'/'clear' strips list formatting. Preferred over raw numId. Continues the IMMEDIATELY preceding list of the same type automatically; an intervening non-list paragraph (or a list of the other type) starts a fresh list at 1. To continue numbering across such an interruption, pass an explicit 'numId' referencing the earlier list's instance; pass 'start' to force a restart.
+    values: bullet, ordered, none
+    example: --prop listStyle=bullet --prop text="item"
+    example: --prop listStyle=ordered --prop text="step 1"
+    readback: 'bullet' or 'ordered' (normalized from the numbering format)
+  numId   int   [add/set/get]   aliases: numid
+    description: numbering definition id (w:numId). Low-level entry point — prefer 'listStyle' unless you specifically need to reference an existing numbering instance. Requires the numId to already exist in /numbering (create via `add /numbering --type num` first).
+    example: --prop numId=1
+    readback: numbering id as stored on the paragraph
+  numLevel   int   [add/set/get]   aliases: numlevel, ilvl, listLevel, listlevel, level
+    description: list indent level (w:ilvl), 0..8. Requires numId or listStyle to be effective; Get only surfaces numLevel when numId is present on the paragraph.
+    example: --prop numLevel=1 --prop numId=1
+    example: --prop ilvl=1 --prop numId=1
+    readback: integer level as stored on the paragraph (only when numId is set)
+  start   int   [add/set]
+    description: starting number for an ordered list (w:start / w:startOverride on level 0 of the numbering definition). Only meaningful together with liststyle=ordered or an existing numid. NOTE: this applies to the whole numbering instance shared by the paragraph, so setting it on one item of a multi-item list renumbers the entire list (every paragraph that shares the numId), not just that item onward. To restart numbering for a sub-range mid-list, give those paragraphs a fresh numId instead. Readback not implemented — w:start lives in the separate numbering part and cross-part traversal is fragile; query the numbering directly if you need it.
+    example: --prop liststyle=ordered --prop start=5 --prop text="item"
+    readback: n/a (write-only via paragraph; query numbering part)
+  bold   bool   [add/set/get]
+    description: run-level bold. On Add, applied to the implicit run created by 'text'. On Set, applied to all runs in the paragraph and to the paragraph-mark run properties so subsequent runs inherit.
+    example: --prop bold=true --prop text="Hi"
+  italic   bool   [add/set/get]
+    description: run-level italic. Same scope as 'bold'.
+    example: --prop italic=true --prop text="Hi"
+  font   string   [add/set]
+    description: run-level font family (applied to Ascii/HighAnsi/EastAsia). On Add, applied to the implicit run created by 'text'. On Set, applied to all runs in the paragraph.
+    example: --prop font="Times New Roman" --prop text="Hi"
+  size   font-size   [add/set/get]   aliases: fontsize
+    description: run-level font size. Accepts bare number (pt), '14pt', '10.5pt'.
+    example: --prop size=14 --prop text="Hi"
+    example: --prop size=10.5pt --prop text="Hi"
+  color   color   [add/set/get]
+    description: run-level text color. Accepts #RRGGBB, RRGGBB, named colors (e.g. red), rgb(r,g,b).
+    example: --prop color=red --prop text="Hi"
+    example: --prop color=#FF0000 --prop text="Hi"
+  underline   string   [add/set/get]
+    description: run-level underline. Accepts 'true'/'false' or an underline style (single, double, thick, dotted, dash, wavy, etc.).

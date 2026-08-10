@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/B2",
+        "type": "cell",
+        "text": "150",
+        "preview": "B2",
+        "childCount": 0,
+        "format": {
+          "type": "Number"
+        },
+        "children": []
+      }
+    ]
+  }
+}

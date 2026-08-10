@@ -1,0 +1,21 @@
+Added column at /Sheet1/col[C]
+Updated /Sheet1/col[3]: hidden=true
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/col[3]",
+        "type": "column",
+        "preview": "C",
+        "childCount": 0,
+        "format": {
+          "width": 8.43,
+          "hidden": true
+        },
+        "children": []
+      }
+    ]
+  }
+}

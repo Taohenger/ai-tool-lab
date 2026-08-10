@@ -1,0 +1,27 @@
+Updated /Sheet1/A1: link=https://github.com/zhangxinzhis-cha/OfficeCLI, display=OfficeCLI官网, tooltip=点击访问
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A1",
+        "type": "cell",
+        "text": "产品1",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "String",
+          "link": "https://github.com/zhangxinzhis-cha/OfficeCLI",
+          "tooltip": "点击访问",
+          "display": "OfficeCLI官网",
+          "underline": "single",
+          "font.color": "#0563C1",
+          "font.size": "11pt",
+          "font.name": "Calibri"
+        },
+        "children": []
+      }
+    ]
+  }
+}

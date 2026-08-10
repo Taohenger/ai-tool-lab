@@ -1,0 +1,528 @@
+{
+  "success": true,
+  "data": {
+    "matches": 39,
+    "results": [
+      {
+        "path": "/设计说明/A1",
+        "type": "cell",
+        "text": "设计文档格式转换测试",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#00000000",
+          "font.size": "18pt",
+          "merge": "A1:E1",
+          "mergeAnchor": true,
+          "value": "设计文档格式转换测试"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A3",
+        "type": "cell",
+        "text": "这是普通文本，无特殊格式",
+        "preview": "A3",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "这是普通文本，无特殊格式"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A4",
+        "type": "cell",
+        "text": "这是加粗文本",
+        "preview": "A4",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "value": "这是加粗文本"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A5",
+        "type": "cell",
+        "text": "这是红色文本",
+        "preview": "A5",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.color": "#FF000000",
+          "value": "这是红色文本"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A6",
+        "type": "cell",
+        "text": "这是蓝色文本",
+        "preview": "A6",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.color": "#0000FF00",
+          "value": "这是蓝色文本"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A7",
+        "type": "cell",
+        "text": "这是废弃内容（删除线）",
+        "preview": "A7",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "strike": true,
+          "value": "这是废弃内容（删除线）"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A8",
+        "type": "cell",
+        "text": "这是黄色背景的单元格",
+        "preview": "A8",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "fill": "#FFFF0000",
+          "value": "这是黄色背景的单元格"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A9",
+        "type": "cell",
+        "text": "加粗+红色组合",
+        "preview": "A9",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#FF000000",
+          "value": "加粗+红色组合"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A10",
+        "type": "cell",
+        "text": "废弃+灰色删除线",
+        "preview": "A10",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "strike": true,
+          "font.color": "#80808000",
+          "value": "废弃+灰色删除线"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A11",
+        "type": "cell",
+        "text": "GitHub 仓库",
+        "preview": "A11",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "link": "https://github.com/Taohenger/ai-tool-lab",
+          "underline": "single",
+          "font.color": "#0563C100",
+          "value": "GitHub 仓库"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A12",
+        "type": "cell",
+        "text": "这是斜体文本",
+        "preview": "A12",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.italic": true,
+          "value": "这是斜体文本"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A13",
+        "type": "cell",
+        "text": "这是下划线文本",
+        "preview": "A13",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "underline": "single",
+          "value": "这是下划线文本"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A15",
+        "type": "cell",
+        "text": "设计规格表",
+        "preview": "A15",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.size": "14pt",
+          "value": "设计规格表"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A16",
+        "type": "cell",
+        "text": "项目",
+        "preview": "A16",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "fill": "#D9E1F200",
+          "value": "项目"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/B16",
+        "type": "cell",
+        "text": "规格",
+        "preview": "B16",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "fill": "#D9E1F200",
+          "value": "规格"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/C16",
+        "type": "cell",
+        "text": "状态",
+        "preview": "C16",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "fill": "#D9E1F200",
+          "value": "状态"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/D16",
+        "type": "cell",
+        "text": "备注",
+        "preview": "D16",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "fill": "#D9E1F200",
+          "value": "备注"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A17",
+        "type": "cell",
+        "text": "配色方案",
+        "preview": "A17",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "配色方案"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/B17",
+        "type": "cell",
+        "text": "#FF0000 主色",
+        "preview": "B17",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "#FF0000 主色"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/C17",
+        "type": "cell",
+        "text": "确定",
+        "preview": "C17",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#00800000",
+          "value": "确定"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/D17",
+        "type": "cell",
+        "text": "需与品牌色一致",
+        "preview": "D17",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "需与品牌色一致"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A18",
+        "type": "cell",
+        "text": "字体大小",
+        "preview": "A18",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "字体大小"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/B18",
+        "type": "cell",
+        "text": "正文 12pt / 标题 18pt",
+        "preview": "B18",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "正文 12pt / 标题 18pt"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/C18",
+        "type": "cell",
+        "text": "确定",
+        "preview": "C18",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#00800000",
+          "value": "确定"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/D18",
+        "type": "cell",
+        "text": "",
+        "preview": "D18",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "empty": true,
+          "value": ""
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A19",
+        "type": "cell",
+        "text": "布局方案",
+        "preview": "A19",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "布局方案"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/B19",
+        "type": "cell",
+        "text": "响应式栅格",
+        "preview": "B19",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "响应式栅格"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/C19",
+        "type": "cell",
+        "text": "废弃",
+        "preview": "C19",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "strike": true,
+          "font.color": "#FF000000",
+          "value": "废弃"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/D19",
+        "type": "cell",
+        "text": "改用 Flex 布局",
+        "preview": "D19",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "改用 Flex 布局"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/A20",
+        "type": "cell",
+        "text": "交互方式",
+        "preview": "A20",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "交互方式"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/B20",
+        "type": "cell",
+        "text": "点击展开",
+        "preview": "B20",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "点击展开"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/C20",
+        "type": "cell",
+        "text": "确定",
+        "preview": "C20",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#00800000",
+          "value": "确定"
+        },
+        "children": []
+      },
+      {
+        "path": "/设计说明/D20",
+        "type": "cell",
+        "text": "参考 Material Design",
+        "preview": "D20",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "参考 Material Design"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A1",
+        "type": "cell",
+        "text": "UI 设计规格",
+        "preview": "A1",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#4472C400",
+          "font.size": "16pt",
+          "merge": "A1:D1",
+          "mergeAnchor": true,
+          "value": "UI 设计规格"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A3",
+        "type": "cell",
+        "text": "按钮样式",
+        "preview": "A3",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.size": "14pt",
+          "value": "按钮样式"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A4",
+        "type": "cell",
+        "text": "圆角矩形，主色填充",
+        "preview": "A4",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "value": "圆角矩形，主色填充"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A5",
+        "type": "cell",
+        "text": "悬停时加深 10%",
+        "preview": "A5",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.italic": true,
+          "font.color": "#80808000",
+          "value": "悬停时加深 10%"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A7",
+        "type": "cell",
+        "text": "已废弃的旧方案",
+        "preview": "A7",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "strike": true,
+          "font.color": "#FF000000",
+          "value": "已废弃的旧方案"
+        },
+        "children": []
+      },
+      {
+        "path": "/UI设计说明/A9",
+        "type": "cell",
+        "text": "重要提醒",
+        "preview": "A9",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "font.bold": true,
+          "font.color": "#FF000000",
+          "fill": "#FFF2CC00",
+          "value": "重要提醒"
+        },
+        "children": []
+      }
+    ]
+  }
+}

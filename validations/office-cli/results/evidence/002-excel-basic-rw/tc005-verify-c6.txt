@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/C6",
+        "type": "cell",
+        "text": "95.5",
+        "preview": "C6",
+        "childCount": 0,
+        "format": {
+          "type": "Number"
+        },
+        "children": []
+      }
+    ]
+  }
+}

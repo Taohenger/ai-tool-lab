@@ -1,0 +1,6 @@
+Added paragraph at /body/p[@paraId=0010001C]
+WARNING: UNSUPPORTED props on /body/p[@paraId=0010001C]: bullet (not supported)
+Added paragraph at /body/p[@paraId=0010001E]
+WARNING: UNSUPPORTED props on /body/p[@paraId=0010001E]: bullet (not supported)
+Added paragraph at /body/p[@paraId=00100020]
+WARNING: UNSUPPORTED props on /body/p[@paraId=00100020]: bullet (not supported)

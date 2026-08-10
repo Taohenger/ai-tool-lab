@@ -1,0 +1,76 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/row[5]",
+        "type": "row",
+        "childCount": 1,
+        "format": {},
+        "children": [
+          {
+            "path": "/Sheet1/A5",
+            "type": "cell",
+            "text": "5",
+            "preview": "A5",
+            "childCount": 0,
+            "format": {
+              "type": "Number"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}
+Updated /Sheet1/row[5]: hidden=true
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/row[5]",
+        "type": "row",
+        "childCount": 1,
+        "format": {
+          "hidden": true
+        },
+        "children": [
+          {
+            "path": "/Sheet1/A5",
+            "type": "cell",
+            "text": "5",
+            "preview": "A5",
+            "childCount": 0,
+            "format": {
+              "type": "Number"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/Sheet1/A5",
+        "type": "cell",
+        "text": "5",
+        "preview": "A5",
+        "childCount": 0,
+        "format": {
+          "type": "Number"
+        },
+        "children": []
+      }
+    ]
+  }
+}

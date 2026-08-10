@@ -1,0 +1,40 @@
+# Harness 配置文件 — OfficeCLI 验证工程
+
+agent:
+  name: "OfficeCLI 验证 Agent"
+  role: "工具验证工程师"
+  
+  # 环境限制
+  environment:
+    os: "linux"
+    allowed_paths:
+      - "./validations/office-cli"
+      - "./test-data"
+      - "./results"
+      - "/tmp"
+  
+  # 验证工具配置
+  tools:
+    officecli:
+      binary_name: "officecli"
+      install_url: "https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.sh"
+      version_cmd: "officecli --version"
+    
+    # 输出格式
+    output:
+      evidence_format: "md"
+      report_format: "md"
+
+  # 验证规则
+  validation:
+    require_evidence: true
+    require_step_by_step: true
+    max_tests_per_session: 10
+    auto_update_progress: true
+
+  # 目录映射
+  directories:
+    tasks_root: "./tasks"
+    evidence_root: "./results/evidence"
+    reports_root: "./results/reports"
+    test_data_root: "./test-data"

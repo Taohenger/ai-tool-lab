@@ -1,0 +1,253 @@
+xlsx cell
+--------------
+Parent: sheet
+Paths: /<sheetName>/<A1Ref>  /Sheet1/A1  /Sheet1/B2:C3
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /Sheet1 --type cell [--prop key=val ...]
+  officecli set <file> /Sheet1/A1 --prop key=val ...
+  officecli get <file> /Sheet1/A1
+  officecli query <file> cell
+  officecli remove <file> /Sheet1/A1
+
+Properties:
+  value   string   [add/set/get]
+    description: literal cell value — string, number, or date. Numeric strings stored as numbers unless cell has text format (@) or explicit type=string. Readback in DocumentNode.Text.
+    example: --prop value="Hello"
+    example: --prop value=42
+    example: --prop value=42 --prop type=string
+    example: --prop value=42 --prop type=number
+    readback: plain string in DocumentNode.Text
+  formula   string   [add/set/get]
+    description: cell formula, without leading =
+    example: --prop formula="SUM(A1:A10)"
+    readback: formula text without leading =
+  numberformat   string   [add/set/get]   aliases: format, numfmt
+    description: Excel format code — covers number, date, percentage, currency, and text (@). "@" forces String storage on subsequent values.
+    example: --prop numberformat="#,##0.00"
+    example: --prop numberformat=yyyy-mm-dd
+    example: --prop numberformat=@
+    readback: format string as stored
+  font.bold   bool   [add/set/get]   aliases: bold
+    description: bold font weight on the cell.
+    example: --prop bold=true
+    readback: true | false
+  font.italic   bool   [add/set/get]   aliases: italic
+    description: italic style on the cell.
+    example: --prop italic=true
+    readback: true | false
+  font.name   string   [add/set/get]   aliases: font, fontname
+    description: font family name. Aliases: font, fontname.
+    example: --prop font="Calibri"
+    readback: font family name string
+  font.size   font-size   [add/set/get]   aliases: size, fontsize
+    example: --prop size=11pt
+    readback: unit-qualified, e.g. "11pt"
+  font.color   color   [add/set/get]
+    description: font color on the cell. Note: the bare 'color' alias is intentionally rejected on cells due to ambiguity with 'fill' (background) — use 'font.color' explicitly.
+    example: --prop font.color=FF0000
+    readback: #RRGGBB uppercase
+  fill   color   [add/set/get]   aliases: bgcolor
+    description: cell background fill. Solid color (hex / named / rgb(...)), a scheme color name (accent1-accent6, lt1/dk1, lt2/dk2, hlink...) stored as a theme reference, or a linear gradient as 'COLOR1-COLOR2[-ANGLE]' / 'gradient;COLOR1;COLOR2[;ANGLE]'. On a cell that already carries a non-solid pattern fill, a lone fill= updates the pattern's foreground color (pattern and background are kept).
+    example: --prop fill=FFFF00
+    example: --prop fill=#FF0000
+    example: --prop fill=red
+    example: --prop fill="FF0000-0000FF-90"
+    example: --prop fill="gradient;FF0000;0000FF;90"
+    readback: #RRGGBB uppercase, 'gradient;#START;#END;ANGLE' for gradients, scheme color name (e.g. accent1) when set externally
+  fillPattern   enum   [add/set/get]
+    description: non-solid pattern fill type. When set, `fill` supplies the pattern foreground color and `fillBg` supplies the background color. Omit to keep a plain solid `fill`.
+    values: none, solid, gray125, gray0625, mediumGray, darkGray, lightGray, darkHorizontal, darkVertical, darkDown, darkUp, darkGrid, darkTrellis, lightHorizontal, lightVertical, lightDown, lightUp, lightGrid, lightTrellis
+    example: --prop fillPattern=lightGray --prop fill=FF0000 --prop fillBg=FFFF00
+    readback: camelCase pattern name (e.g. lightGray); present only for non-solid patterns
+  fillBg   color   [add/set/get]
+    description: background color of a non-solid pattern fill (see fillPattern). Ignored for solid fills.
+    example: --prop fillPattern=darkGrid --prop fill=000000 --prop fillBg=FFFFFF
+    readback: #RRGGBB uppercase; present only for non-solid patterns with a background color
+  strike   bool   [add/set/get]   aliases: strikethrough, font.strike
+    description: single strikethrough on the cell text.
+    example: --prop strike=true
+    readback: true | false
+  underline   enum   [add/set/get]   aliases: font.underline
+    description: underline style on the cell text.
+    values: single, double, singleAccounting, doubleAccounting, none
+    example: --prop underline=single
+    readback: underline style name
+  locked   bool   [add/set]
+    description: cell protection: lock the cell against edits when the sheet is protected. Default Excel behavior is locked=true. Add/Set only — readback is exposed under 'protection.locked'.
+    example: --prop locked=false
+    readback: n/a (use protection.locked on Get)
+  protection.locked   bool   [get]
+    description: cell protection lock state. Get-only readback (dotted form). For Add/Set use the flat `locked` key.
+    readback: true | false
+  protection.hidden   bool   [get]
+    description: hide formula in protected sheet. Get-only readback.
+    readback: true | false
+  numFmtId   number   [get]
+    description: raw OOXML number format id (supplementary; prefer `numberformat`). Emitted only when numFmtId > 0.
+    readback: integer
+  phonetic   string   [get]
+    description: phonetic guide text from SST PhoneticRun. Emitted only when present.
+    readback: phonetic string
+  quotePrefix   bool   [get]
+    description: leading apostrophe quote-prefix flag. Emitted only when set. Set it via a leading apostrophe on `value` (Excel's force-text idiom).
+    readback: true | false
+  alignment.horizontal   enum   [add/set/get]   aliases: halign
+    description: horizontal text alignment. Alias: halign.
+    values: left, center, right, justify, fill, distributed
+    example: --prop alignment.horizontal=center
+    readback: one of values
+  alignment.vertical   enum   [add/set/get]   aliases: valign
+    description: vertical text alignment. Alias: valign.
+    values: top, center, bottom
+    example: --prop alignment.vertical=center
+    readback: one of values
+  alignment.wrapText   bool   [add/set/get]   aliases: wrap, wrapText
+    description: wrap text within the cell. Aliases: wrap, wrapText.
+    example: --prop alignment.wrapText=true
+    readback: true | false
+  alignment.readingOrder   enum   [add/set/get]   aliases: readingorder, readingOrder, direction, dir
+    description: cell text reading direction (OOXML 0=context, 1=ltr, 2=rtl). Use 'rtl' for Arabic / Hebrew, 'ltr' to force left-to-right, 'context' (default) to derive from content.
+    values: context, ltr, rtl
+    example: --prop alignment.readingOrder=rtl
+    example: --prop direction=rtl
+  merge   string   [add/set]
+    description: merge range applied post-cell-creation (parity with `set`). Accepts a single A1 range (A1:C3) or comma-separated ranges (A1:B1,A2:B2). Use merge=false to clear an existing merge anchored at this cell (aliases: unmerge, none, empty).
+    example: --prop merge=A1:C3
+    example: --prop merge=false
+  ref   string   [add]   aliases: address
+    description: target A1 cell reference (alternative to encoding the address in the path tail).
+    example: --prop ref=B2
+  link   string   [add/set/get]   aliases: url
+    description: hyperlink target attached to the cell. Accepts external URL (https://, http://, mailto:, file://, onenote:, tel:) or internal anchor (#Sheet!Cell, #NamedRange). Use link=none on Set to remove. Parity with Set. Alias: url.
+    example: --prop link=https://example.com
+    example: --prop link=mailto:user@example.com
+    example: --prop link=#Sheet2!A1
+    readback: URL string or internal anchor as stored
+  tooltip   string   [add/set]   aliases: screenTip, screentip
+    description: ScreenTip text shown on hover for an existing hyperlink. Pair with link= during Add, or apply to a cell that already has a hyperlink during Set.
+    example: --prop link=https://example.com --prop tooltip="Open in browser"
+  display   string   [add/set/get]
+    description: friendly display text (@display attribute) for an existing hyperlink. Pair with link= during Add, or apply to a cell that already has a hyperlink during Set.
+    example: --prop link=https://example.com --prop display="Company site"
+    readback: display string
+  type   enum   [add/set/get]
+    description: force a cell type. Normally inferred from value/formula. Add/Set accept the listed values only; SST-backed shared strings and inline strings are not creatable via Add (use plain string instead). Get may still surface 'SharedString' or 'InlineString' when reading cells written by Excel or other tools.
+    values: string, number, boolean, date, error, richtext
+    example: --prop value=01234 --prop type=string
+    readback: PascalCase type name (e.g. "String", "Number", "Boolean", "Error", "SharedString", "InlineString", "Date")
+  runs   string   [add]
+    description: rich-text runs as JSON array (e.g. '[{"text":"Hello","bold":true}]'). Used when type=richtext.
+    example: --prop type=richtext --prop runs='[{"text":"Bold","bold":true}]'
+    readback: n/a (decomposed into /run[N] subnodes)
+  clear   bool   [add/set]
+    description: clear the cell value/formula before applying new content.
+    example: --prop clear=true
+    readback: n/a
+  shift   string   [add]
+    description: Cell-level Insert/Delete shift (Excel UI parity). On `add --type cell`: 'right' pushes existing cells in the same row right by one to make room; 'down' pushes existing cells in the same column down by one. On `remove` (passed via the top-level `--shift` flag, not `--prop`): 'left' shifts cells in the same row left into the gap; 'up' shifts cells in the same column up. Scope cap: only cellRefs within the affected row (left/right) or column (up/down) are rewritten — formulas, mergeCells, and CF/DV/hyperlink/table refs that span the affected band are NOT adjusted. For full-band shift with all metadata adjusted, use add/remove --type row or --type col.
+    example: add file.xlsx /Sheet1/B5 --type cell --prop shift=right --prop value=NEW
+    example: add file.xlsx /Sheet1/B5 --type cell --prop shift=down --prop value=NEW
+    example: remove file.xlsx /Sheet1/B5 --shift left
+    example: remove file.xlsx /Sheet1/B5 --shift up
+    readback: n/a (structural)
+  arrayformula   string   [add/set]
+    description: dynamic-array formula spilled into ref range (without leading '=').
+    example: --prop arrayformula="A1:A10*2" --prop ref=B1:B10
+    readback: n/a
+  cachedValue   string   [get]
+    description: raw <x:v> cached display value as stored in the file. Surfaces only on Get/Query for formula cells; absent on plain-value cells. Mirrors what the last writer (Excel/LibreOffice) computed — may be stale.
+    readback: raw cached display value for formula cells; absent on plain-value cells
+  computedValue   string   [get]
+    description: OfficeCli evaluator's prediction of the formula result. Surfaces only on Get/Query for formula cells when the evaluator could compute a value. Compare against cachedValue to detect stale caches (see view issues subtype formula_cache_stale).
+    readback: evaluator-predicted value for formula cells; absent when the evaluator could not compute
+  evaluated   bool   [get]
+    description: cross-handler protocol flag — true when cachedValue is present OR the evaluator produced computedValue; false when the formula has neither (view text substitutes #OCLI_NOTEVAL!). Read this via get --json instead of pattern-matching the sentinel, since literal user content may collide. Subtype: formula_not_evaluated.
+    readback: true|false (true ⇒ either cachedValue or computedValue is available)
+  alignment.indent   number   [add/set/get]
+    description: cell alignment indent units (CT_CellAlignment @indent). Alias: indent.
+    readback: integer indent units
+  alignment.shrinkToFit   bool   [add/set/get]
+    description: shrink text to fit the cell width (CT_CellAlignment @shrinkToFit). Alias: shrink.
+    readback: true|false
+  alignment.textRotation   number   [add/set/get]
+    description: text rotation in degrees, 0-90 up / 91-180 down, or 255 for vertical stacking (CT_CellAlignment @textRotation). The `rotation` shorthand also works on Set.
+    readback: integer degrees
+  border.diagonal   string   [add/set/get]
+    description: diagonal border line style (CT_Border/diagonal @style — thin, medium, thick, dashed, etc.). Pair with border.diagonalUp/Down to choose direction.
+    readback: line-style token
+  border.diagonal.color   color   [add/set/get]
+    description: diagonal border color. Requires a border.diagonal line to attach to.
+    readback: #RRGGBB uppercase
+  border.diagonalDown   bool   [add/set/get]
+    description: draw a top-left → bottom-right diagonal border.
+    readback: true|false
+  border.diagonalUp   bool   [add/set/get]
+    description: draw a bottom-left → top-right diagonal border.
+    readback: true|false
+  border   string   [add/set]
+    description: shorthand applying one line style to all four sides (top/bottom/left/right). Equivalent to border.all. Get reads back per-side under border.top/bottom/left/right.
+    example: --prop border=thin
+    example: --prop border=medium
+    readback: n/a (read per-side border.top/bottom/left/right)
+  border.all   string   [add/set]
+    description: line style applied to all four sides (top/bottom/left/right). Values: thin, medium, thick, double, dashed, dotted, none.
+    example: --prop border.all=thin
+    example: --prop border.all=medium
+    readback: n/a (read per-side border.top/bottom/left/right)
+  border.top   string   [add/set/get]
+    description: top border line style (thin, medium, thick, double, dashed, dotted, none).
+    example: --prop border.top=thin
+    readback: line-style token
+  border.bottom   string   [add/set/get]
+    description: bottom border line style (thin, medium, thick, double, dashed, dotted, none).
+    example: --prop border.bottom=thin
+    readback: line-style token
+  border.left   string   [add/set/get]
+    description: left border line style (thin, medium, thick, double, dashed, dotted, none).
+    example: --prop border.left=thin
+    readback: line-style token
+  border.right   string   [add/set/get]
+    description: right border line style (thin, medium, thick, double, dashed, dotted, none).
+    example: --prop border.right=thin
+    readback: line-style token
+  border.color   color   [add/set]
+    description: border color applied to all sides (per-side color also accepted as border.top.color etc.). Get reads back per-side under border.{side}.color.
+    example: --prop border.all=thin --prop border.color=FF0000
+    readback: n/a (read per-side border.{side}.color)
+  arrayref   string   [get]
+    description: array-formula spill range (CellFormula @ref). Surfaces on the master cell of an array formula.
+    readback: A1 range string
+  mergeAnchor   bool   [get]
+    description: true when this cell is the top-left anchor of a merged range. Empty merged-region cells receive mergeAnchor=false; the anchor receives true.
+    readback: true|false
+  empty   bool   [get]
+    description: true when the cell has neither display text nor a formula. Useful for distinguishing styled-but-empty cells from data cells.
+    readback: true|false
+  richtext   bool   [get]
+    description: true when the cell stores rich-text runs (multi-format text). Surfaces alongside `runs` in Get output.
+    readback: true|false
+  subscript   bool   [add/set/get]   aliases: font.subscript
+    description: subscript text (font vertical alignment). Legacy alias: font.subscript.
+    readback: true|false
+  superscript   bool   [add/set/get]   aliases: font.superscript
+    description: superscript text (font vertical alignment). Legacy alias: font.superscript.
+    readback: true|false
+  image   string   [add/set]
+    description: In-cell image ("Place in Cell" / Excel 365 richValue): the image becomes the CELL'S VALUE — formulas reading the cell see a non-blank value, unlike a floating picture (add --type picture) which leaves the cell empty. Accepts an image file path (raster only — no SVG). Stored as xl/richData _localImage; down-level Excel shows a #VALUE! fallback, Excel 365 renders the image. Use image=none on Set to remove. Get reports type=Image plus alt / image.contentType / image.fileSize.
+    example: --prop image=photo.png
+    example: --prop image=photo.jpg "alt=Site photo"
+    example: --prop image=none
+  alt   string   [add/set/get]   aliases: altText, alttext, description, image.alt
+    description: Alt text for the in-cell image (rv Text key). Only valid alongside image=. Same aliases as the picture element's alt. Aliases: altText, alttext, description, image.alt.
+    example: --prop image=photo.png "alt=Site photo"
+    readback: alt text as stored
+  image.contentType   string   [get]
+    description: Read-only: MIME type of the in-cell image media part (e.g. image/png).
+    readback: MIME type string
+  image.fileSize   int   [get]
+    description: Read-only: byte size of the in-cell image media part.
+    readback: size in bytes
+
+Note: Get returns canonical keys: numberformat (not `format`), alignment.{horizontal,vertical,wrapText}, font.{bold,italic,name,size,color}. Add/Set accept both font.* and short forms (bold, italic, font, size). The bare `color` key is rejected on cells (ambiguous with `fill`) — use `font.color` for text color or `fill` for background. Cross-format note: pptx shape `color=` unambiguously means text color; xlsx must be explicit because a cell has both font color and fill color. Parent path controls placement: `/Sheet1` appends to the next empty cell; `/Sheet1/A2` targets a specific cell. Set auto-vivifies any in-bounds cell (A1:XFD1048576) — writing to a never-written cell creates it rather than throwing not_found, since OOXML xlsx stores only cells with content. Sheet-level and out-of-bounds writes still error.

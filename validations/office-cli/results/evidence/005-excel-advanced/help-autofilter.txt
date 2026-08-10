@@ -1,0 +1,25 @@
+xlsx autofilter
+---------------
+Parent: sheet
+Paths: /SheetName/autofilter
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> /SheetName --type autofilter [--prop key=val ...]
+  officecli set <file> /SheetName/autofilter --prop key=val ...
+  officecli get <file> /SheetName/autofilter
+  officecli query <file> autofilter
+  officecli remove <file> /SheetName/autofilter
+
+Properties:
+  range   string   [add/set/get]   aliases: ref
+    description: cell range the filter applies to. Required.
+    example: --prop range=A1:F100
+    readback: range reference
+  criteria0   string   [add]
+    description: column 0 filter criterion. Use dotted key: --prop criteria0.OP=VAL. OP ∈ equals/notEquals/contains/doesNotContain/beginsWith/endsWith/gt/gte/lt/lte/between/notBetween/top/topPercent/bottom/bottomPercent/blanks/nonBlanks/values/dynamic. Use criteria1, criteria2, … for additional columns. Add-time only — Set on /sheet/autofilter currently accepts only `range`, and Get does not surface stored criteria back today.
+    example: --prop criteria0.equals=Red
+    example: --prop criteria2.gt=100
+    readback: criterion spec
+
+Note: A sheet has at most one AutoFilter. Per-column criteria via 'criteriaN.OP=VAL' props where N is the 0-based column offset from the filter range and OP ∈ {equals, notEquals, contains, doesNotContain, beginsWith, endsWith, gt, gte, lt, lte, between, notBetween, top, topPercent, bottom, bottomPercent, blanks, nonBlanks, values, dynamic}. Canonical key matches sheet.autoFilter alias.

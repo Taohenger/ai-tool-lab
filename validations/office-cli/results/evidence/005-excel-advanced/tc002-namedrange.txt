@@ -1,0 +1,31 @@
+xlsx namedrange
+---------------
+Parent: workbook|sheet
+Paths: /namedrange[@name=NAME]  /namedrange[NAME]  /namedrange[N]
+Operations: add set get query remove
+
+Usage:
+  officecli add <file> / --type namedrange [--prop key=val ...]
+  officecli set <file> /namedrange[N] --prop key=val ...
+  officecli get <file> /namedrange[N]
+  officecli query <file> namedrange
+  officecli remove <file> /namedrange[N]
+
+Properties:
+  name   string   [add/set/get]
+    description: defined-name identifier. Required (or inferred from path).
+    example: --prop name=Revenue
+    readback: name
+  ref   string   [add/set/get]   aliases: refersTo, formula
+    description: refersTo expression. Aliases: refersTo, formula. Do not include leading '='.
+    example: --prop ref=Sheet1!$A$1:$C$10
+    readback: refersTo content
+  scope   string   [add/set/get]
+    description: sheet name for local scope, or 'workbook' (default).
+    example: --prop scope=workbook
+    readback: scope descriptor
+  comment   string   [add/set/get]
+    description: free-text description shown in Excel's Name Manager.
+    example: --prop comment="Q4 totals"
+    readback: comment text
+Added namedrange at /namedrange[1]

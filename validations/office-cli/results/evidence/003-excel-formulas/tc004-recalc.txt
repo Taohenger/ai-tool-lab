@@ -1,0 +1,10 @@
+        "text": "30",
+          "computedValue": "30",
+Updated /Sheet1/A1: value=100
+        "text": "30",
+          "cachedValue": "30",
+          "computedValue": "120",
+Updated /Sheet1/A2: value=200
+        "text": "30",
+          "cachedValue": "30",
+          "computedValue": "300",

@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "data": {
+    "matches": 1,
+    "results": [
+      {
+        "path": "/设计说明/A11",
+        "type": "cell",
+        "text": "GitHub 仓库",
+        "preview": "A11",
+        "childCount": 0,
+        "format": {
+          "type": "InlineString",
+          "link": "https://github.com/Taohenger/ai-tool-lab",
+          "underline": "single",
+          "font.color": "#0563C100"
+        },
+        "children": []
+      }
+    ]
+  }
+}
