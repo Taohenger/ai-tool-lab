@@ -36,20 +36,26 @@
 
 #### Windows 64 位（推荐）
 
-**方式 1：PowerScript 一键安装**
+**方式 1：PowerShell 一键安装（推荐，自动配置 PATH）**
 ```powershell
 # 在 PowerShell 中执行
 irm https://raw.githubusercontent.com/iOfficeAI/OfficeCLI/main/install.ps1 | iex
 ```
+脚本会自动：下载 exe → 放到 `%LOCALAPPDATA%\OfficeCLI\` → 添加到 PATH → 安装 AI Agent Skill
 
 **方式 2：手动下载**
-1. 访问 https://github.com/iOfficeAI/OfficeCLI/releases
-2. 下载 `officecli-windows-amd64.zip`
-3. 解压到 `C:\Tools\officecli\`
-4. 将 `C:\Tools\officecli\` 添加到系统环境变量 PATH
+1. 访问 https://github.com/iOfficeAI/OfficeCLI/releases/latest
+2. 下载 **`officecli-win-x64.exe`**（31.8 MB，单个 exe 文件，不是 zip）
+3. 重命名为 `officecli.exe`
+4. 放到固定目录，例如 `C:\Tools\officecli\officecli.exe`
+5. 将 `C:\Tools\officecli\` 添加到系统环境变量 PATH：
+   - 右键「此电脑」→ 属性 → 高级系统设置 → 环境变量
+   - 在「用户变量」的 `Path` 中添加 `C:\Tools\officecli\`
+   - 确定保存
 
 **验证安装：**
 ```cmd
+:: 重新打开 CMD 窗口后执行
 officecli version
 ```
 
