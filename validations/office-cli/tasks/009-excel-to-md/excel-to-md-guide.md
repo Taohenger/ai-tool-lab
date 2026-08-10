@@ -227,7 +227,62 @@ officecli query 设计文档.xlsx shape --json
 → E3 ~ H5（第5列第3行 到 第8列第5行）
 ```
 
-### 3.5 验证文件完整性
+### 3.5 读取图片（Picture）
+
+```bash
+# 列出所有图片
+officecli query 设计文档.xlsx picture --json
+```
+
+输出 JSON 示例：
+```json
+{
+  "success": true,
+  "data": {
+    "results": [
+      {
+        "path": "/设计说明/picture[1]",
+        "type": "picture",
+        "format": {
+          "alt": "UI 设计 Mockup",
+          "name": "Image 1",
+          "anchorMode": "oneCell",
+          "x": "4",          "y": "9",       // ← 位置：第4列第9行（E9 附近）
+          "width": "2857500emu",
+          "height": "1714500emu"
+        }
+      }
+    ]
+  }
+}
+```
+
+**提取图片文件到本地：**
+
+xlsx 文件本质是 zip 压缩包，图片存储在 `xl/media/` 目录下。用 Python 标准库 `zipfile` 即可提取：
+
+```python
+import zipfile, os, shutil
+
+with zipfile.ZipFile("设计文档.xlsx", 'r') as z:
+    media_files = [f for f in z.namelist() if f.startswith('xl/media/')]
+    for f in media_files:
+        basename = os.path.basename(f)
+        target = os.path.join("images", basename)
+        os.makedirs("images", exist_ok=True)
+        with z.open(f) as src, open(target, 'wb') as dst:
+            shutil.copyfileobj(src, dst)
+```
+
+提取后，在 Markdown 中用标准图片语法引用：
+
+```markdown
+![UI 设计 Mockup](images/image1.png) `[📍D9]`
+```
+
+渲染效果：图片正常显示，旁边标注其在 Excel 中的位置（D9 单元格附近）。
+
+### 3.6 验证文件完整性
 
 ```bash
 officecli validate 设计文档.xlsx
@@ -261,6 +316,13 @@ officecli validate 设计文档.xlsx
 | 其他形状 | — | `> 💠 文字 [📍位置]` | 💠兜底图标 |
 
 > **设计说明**：Markdown 是线性文本，无法在视觉上真的「画一个框包围住几行内容」。所以红框的处理策略是：**用引用块+图标+位置范围注释**来表达「这里 Excel 有个红框，框住了 B3~D5 这个区域」，读者可根据位置注释回到 Excel 定位。
+
+#### 图片（Picture）
+| Excel 元素 | OfficeCLI 查询命令 | Markdown 渲染效果 | 说明 |
+|---|---|---|---|
+| 插入的图片 | `query picture` | `![alt 文本](images/image1.png) [📍D9]` | 提取图片到本地 images/ 目录，用标准 Markdown 图片语法引用 |
+| 图片 alt 文本 | format.alt | `![alt 文本](...)` 的 alt 部分 | 如果没有 alt，用图片名称代替 |
+| 图片位置 | format.x, format.y | `[📍D9]` 位置标注 | 标注图片在 Excel 中的位置 |
 
 ### 4.2 颜色格式注意事项
 
@@ -552,7 +614,26 @@ OfficeCLI 返回的 shape 数据里有 `x/y/width/height` 四个位置字段（�
 > 🔲 **重点关注** [📍B3~D5, 🟡黄高亮]
 ```
 
-### Q7: 是否支持 Word/PPT 转 Markdown？
+### Q7: Excel 里的图片能转换到 Markdown 吗？
+
+**可以！** 具体方案如下：
+
+1. **识别图片**：用 `officecli query 文件.xlsx picture --json` 获取所有图片的位置、名称、alt 文本
+2. **提取图片文件**：xlsx 本质是 zip，图片存在 `xl/media/` 下，用 Python `zipfile` 直接解压到本地 `images/` 目录
+3. **Markdown 引用**：用标准图片语法 `![alt 文本](images/image1.png)` 引用，并标注位置
+
+最终 Markdown 效果：
+```markdown
+## 图片（Picture）
+
+![UI 设计 Mockup](images/image1.png) `[📍D9]`
+```
+
+渲染后在 Markdown 预览中可直接看到原图，旁边标注它在 Excel 中的位置。
+
+> **注意**：`openpyxl` 重新保存 Excel 时会丢失吹出泡等形状（已知限制）。如果需要同时保留图片和形状，建议不要用 openpyxl 编辑已有 Excel。
+
+### Q8: 是否支持 Word/PPT 转 Markdown？
 
 OfficeCLI 也支持 Word 和 PPT 读取，但格式映射规则不同。本手顺仅覆盖 Excel。
 

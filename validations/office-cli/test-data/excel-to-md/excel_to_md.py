@@ -12,12 +12,15 @@ import subprocess
 import os
 import sys
 import re
+import zipfile
+import shutil
 
 XLSX_FILE = os.path.join(os.path.dirname(__file__), "设计文档测试.xlsx")
 BASE_NAME = os.path.splitext(os.path.basename(XLSX_FILE))[0]
 OUT_DIR = os.path.dirname(XLSX_FILE)
 OUTPUT_MD_PURE = os.path.join(OUT_DIR, f"{BASE_NAME}.md")
 OUTPUT_MD_RICH = os.path.join(OUT_DIR, f"{BASE_NAME}_richtext.md")
+IMAGES_DIR = os.path.join(OUT_DIR, "images")
 
 # 颜色 → Emoji + 中文注释 映射（GitHub 等不支持 HTML 颜色时可见）
 COLOR_ANNOTATION = {
@@ -227,6 +230,48 @@ def shape_type_icon(fmt):
         return "➖"  # 线条
     return "💠"  # 其他形状
 
+def extract_images(xlsx_path, out_dir):
+    """从 xlsx（本质是 zip）提取所有内嵌图片到 out_dir，返回 {media路径: 相对路径} 映射"""
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+    mapping = {}  # {xl/media/image1.png: images/image1.png}
+    try:
+        with zipfile.ZipFile(xlsx_path, 'r') as z:
+            media_files = [f for f in z.namelist() if f.startswith('xl/media/')]
+            for f in media_files:
+                basename = os.path.basename(f)
+                target = os.path.join(out_dir, basename)
+                with z.open(f) as src_f, open(target, 'wb') as dst_f:
+                    shutil.copyfileobj(src_f, dst_f)
+                mapping[f] = f"images/{basename}"
+        return mapping
+    except Exception as e:
+        print(f"⚠️ 图片提取失败: {e}")
+        return {}
+
+def picture_to_md(picture, img_index, img_mapping):
+    """将 picture 元素转为 Markdown 图片引用"""
+    fmt = picture.get("format", {})
+    alt = fmt.get("alt", fmt.get("name", f"图片{img_index}"))
+    x = fmt.get("x", "?")
+    y = fmt.get("y", "?")
+    # 图片文件名：按顺序对应 xl/media/imageN.xxx
+    # img_mapping 的 key 是 xl/media/image1.png 等
+    media_key = f"xl/media/image{img_index}.png"
+    # 尝试匹配（可能还有 jpg/jpeg 等格式）
+    if media_key not in img_mapping:
+        for ext in ["png", "jpg", "jpeg", "gif", "bmp", "emf", "wmf"]:
+            key = f"xl/media/image{img_index}.{ext}"
+            if key in img_mapping:
+                media_key = key
+                break
+    img_path = img_mapping.get(media_key, "")
+    if img_path:
+        pos_note = f"`[📍{col_num_to_letter(int(float(x)))}{y}]`" if x != "?" and y != "?" else ""
+        return f"![{alt}]({img_path}) {pos_note}"
+    else:
+        return f"> 🖼️ {alt} `[📍位置 x={x}, y={y} — 图片未提取]`"
+
 def shape_to_md_pure(text, fmt):
     """吹出形状 — 纯 Markdown 版（含位置信息）"""
     pos_range, anchor = shape_position(fmt)
@@ -289,7 +334,7 @@ def shape_to_md_rich(text, fmt):
 
     return f"{prefix} {md}"
 
-def build_document(sheet_data, cell_fn, shape_fn, header_lines):
+def build_document(sheet_data, cell_fn, shape_fn, header_lines, img_mapping):
     """构建完整 Markdown 文档"""
     lines = list(header_lines)
 
@@ -354,6 +399,16 @@ def build_document(sheet_data, cell_fn, shape_fn, header_lines):
                     lines.append("")
             lines.append("")
 
+        if data["pictures"]:
+            lines.append("---\n")
+            lines.append("## 图片（Picture）\n")
+            for idx, pic in enumerate(data["pictures"], 1):
+                line = picture_to_md(pic, idx, img_mapping)
+                if line:
+                    lines.append(line)
+                    lines.append("")
+            lines.append("")
+
     return lines
 
 def main():
@@ -372,23 +427,38 @@ def main():
     shapes = shapes_resp["data"]["results"] if shapes_resp.get("success") else []
     print(f"找到 {len(shapes)} 个吹出形状")
 
+    # 查询所有 picture
+    pictures_resp = officecli_json(["query", XLSX_FILE, "picture"])
+    pictures = pictures_resp["data"]["results"] if pictures_resp.get("success") else []
+    print(f"找到 {len(pictures)} 张图片")
+
+    # 提取图片到 images/ 目录
+    img_mapping = {}
+    if pictures:
+        img_mapping = extract_images(XLSX_FILE, IMAGES_DIR)
+        print(f"提取 {len(img_mapping)} 张图片到 {IMAGES_DIR}")
+
     # 分组
     sheet_data = {}
     for cell in cells:
         parts = cell["path"].split("/")
         sn = parts[1]
-        sheet_data.setdefault(sn, {"cells": [], "shapes": []})["cells"].append(cell)
+        sheet_data.setdefault(sn, {"cells": [], "shapes": [], "pictures": []})["cells"].append(cell)
     for shape in shapes:
         parts = shape["path"].split("/")
         sn = parts[1]
-        sheet_data.setdefault(sn, {"cells": [], "shapes": []})["shapes"].append(shape)
+        sheet_data.setdefault(sn, {"cells": [], "shapes": [], "pictures": []})["shapes"].append(shape)
+    for pic in pictures:
+        parts = pic["path"].split("/")
+        sn = parts[1]
+        sheet_data.setdefault(sn, {"cells": [], "shapes": [], "pictures": []})["pictures"].append(pic)
 
     # ========== 版 1：纯净 Markdown（所有渲染器兼容）==========
     pure_header = [
         "<!-- 由 OfficeCLI 从 Excel 自动转换生成 — 纯净版（兼容 GitHub/所有 Markdown 渲染器） -->",
         "<!-- 格式标记说明：`[🔴红色]` 表示文字颜色；`[🟡黄高亮]` 表示背景色；`[⎽⎽下划线]` 表示下划线 -->\n",
     ]
-    pure_lines = build_document(sheet_data, cell_to_md_pure, shape_to_md_pure, pure_header)
+    pure_lines = build_document(sheet_data, cell_to_md_pure, shape_to_md_pure, pure_header, img_mapping)
     with open(OUTPUT_MD_PURE, "w", encoding="utf-8") as f:
         f.write("\n".join(pure_lines))
     print(f"✅ 纯净 Markdown: {OUTPUT_MD_PURE}  ({len(pure_lines)} 行)")
@@ -397,7 +467,7 @@ def main():
     rich_header = [
         "<!-- 由 OfficeCLI 从 Excel 自动转换生成 — 富文本版（VS Code / Typora / Obsidian 打开查看颜色） -->\n",
     ]
-    rich_lines = build_document(sheet_data, cell_to_md_rich, shape_to_md_rich, rich_header)
+    rich_lines = build_document(sheet_data, cell_to_md_rich, shape_to_md_rich, rich_header, img_mapping)
     with open(OUTPUT_MD_RICH, "w", encoding="utf-8") as f:
         f.write("\n".join(rich_lines))
     print(f"✅ 富文本 Markdown: {OUTPUT_MD_RICH}  ({len(rich_lines)} 行)")
