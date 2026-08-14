@@ -1,0 +1,43 @@
+# Harness 配置文件 — DeepSeek Harness (DSH) 验证工程
+
+agent:
+  name: "DeepSeek Harness 验证 Agent"
+  role: "Agent 运行框架验证工程师"
+
+  # 环境限制
+  environment:
+    os: "linux"
+    node_required: ">=22.19.0"
+    allowed_paths:
+      - "./validations/deepseek-harness"
+      - "./test-data"
+      - "./results"
+      - "/tmp"
+
+  # 验证工具配置
+  tools:
+    dsh:
+      binary_name: "dsh"
+      npm_package: "@deepseek-ai/dsh"
+      version_cmd: "dsh --version"
+      quick_try_cmd: "npx @deepseek-ai/dsh --help"
+
+    output:
+      evidence_format: "md"
+      report_format: "md"
+
+  # 验证规则
+  validation:
+    require_evidence: true
+    require_step_by_step: true
+    max_tests_per_session: 10
+    auto_update_progress: true
+    # 模型相关的测试用例（需要 API Key）在没有密钥时自动跳过，但要记录为 blocked
+    respect_credentials: true
+
+  # 目录映射
+  directories:
+    tasks_root: "./tasks"
+    evidence_root: "./results/evidence"
+    reports_root: "./tasks"
+    test_data_root: "./test-data"

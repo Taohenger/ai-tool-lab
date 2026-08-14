@@ -1,0 +1,22 @@
+=== TC-003: 自定义 patch 文件 + --patch 生效 ===
+--- patch 文件内容 ---
+- id: agent-default-model
+  config:
+    provider: deepseek-official
+    model: deepseek-v3
+--- 应用 patch 后的 dump-config (agent-default-model 段) ---
+- id: agent-default-model
+  name: '@deepseek-ai/dsh-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v3
+# == @deepseek-ai/dsh-base
+- id: jobs
+--- 未 patch 的 baseline ---
+- id: agent-default-model
+  name: '@deepseek-ai/dsh-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-flash
+- id: jobs
+  name: '@deepseek-ai/dsh-jobs-local'

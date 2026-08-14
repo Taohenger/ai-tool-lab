@@ -1,0 +1,62 @@
+=== TC-003: --dump-config (headless, 用户层空) 前 60 行 ===
+# == @deepseek-ai/dsh-base
+- id: timer
+  name: '@deepseek-ai/cordis-plugin-timer'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-headless
+- id: hmr
+  name: '@deepseek-ai/cordis-plugin-hmr'
+  config:
+    root:
+      - .
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: llm
+  name: '@deepseek-ai/dsh-llm'
+- id: session
+  name: '@deepseek-ai/dsh-session'
+- id: typert
+  name: '@deepseek-ai/dsh-typert-registry'
+- id: typert-loader
+  name: '@deepseek-ai/dsh-typert-loader'
+- id: typert-gateway
+  name: '@deepseek-ai/dsh-api-gateway'
+- id: session-title
+  name: '@deepseek-ai/dsh-session-title'
+  config:
+    fallbackMaxWords: 5
+    fallbackMaxBytes: 40
+    maxTitleBytes: 80
+- id: session-title-llm
+  name: '@deepseek-ai/dsh-session-title-first-prompt-llm'
+  config:
+    targetWords: 5
+    targetCjkCharacters: 10
+    maxInputBytes: 4096
+    maxOutputTokens: 64
+    timeoutMs: 60000
+- id: user-questions
+  name: '@deepseek-ai/dsh-user-questions'
+- id: agent
+  name: '@deepseek-ai/dsh-agent'
+- id: agent-default-model
+  name: '@deepseek-ai/dsh-agent-default-model'
+  config:
+    provider: deepseek-official
+    model: deepseek-v4-flash
+- id: jobs
+  name: '@deepseek-ai/dsh-jobs-local'
+- id: llm-retry
+  name: '@deepseek-ai/dsh-llm-retry'
+- id: settings
+  name: '@deepseek-ai/dsh-settings-file'
+- id: credentials
+  name: '@deepseek-ai/dsh-credentials-local'
+- id: llm-pi-ai
+  name: '@deepseek-ai/dsh-llm-pi-ai'
+- id: session-persistence-jsonl
+  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+- id: attachment-local
+  name: '@deepseek-ai/dsh-attachment-local'
+(Total lines: 333)

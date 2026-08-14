@@ -1,0 +1,10 @@
+{
+  "name": "dsh-sample-project",
+  "version": "1.0.0",
+  "description": "DeepSeek Harness 验证工程的样例工作区",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node -e \"const {add,fibonacci}=require('./index.js');console.assert(add(1,2)===3);console.assert(fibonacci(10)===55);console.log('OK')\""
+  }
+}

@@ -1,0 +1,77 @@
+=== TC-001: 检查 dsh 有哪些预置 profile（通过 help + 源码常见命名探测）===
+--- web ---
+  Profile web: 存在 (dump-config 无 unknown profile 错误)
+--- headless ---
+  Profile headless: 存在 (dump-config 无 unknown profile 错误)
+--- tui ---
+  Profile tui: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "tui" does not exist; create it with 'dsh plugin --profile tui add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0
+--- minimal ---
+  Profile minimal: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "minimal" does not exist; create it with 'dsh plugin --profile minimal add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0
+--- ptc ---
+  Profile ptc: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "ptc" does not exist; create it with 'dsh plugin --profile ptc add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0
+--- creative ---
+  Profile creative: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "creative" does not exist; create it with 'dsh plugin --profile creative add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0
+--- standard ---
+  Profile standard: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "standard" does not exist; create it with 'dsh plugin --profile standard add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0
+--- default ---
+  Profile default: 未知 or 错误 (1) - file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543
+		if (template === void 0) throw new Error(`${binName}: profile ${JSON.stringify(name)} does not exist; create it with 'dsh plugin --profile ${name} add <package>'`);
+		                               ^
+
+Error: dsh: profile "default" does not exist; create it with 'dsh plugin --profile default add <package>'
+    at loadProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/node_modules/@deepseek-ai/dsh-app-boot/lib/index.js:543:34)
+    at prepareProfile (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/profile-boot-DG5t9aNs.js:142:18)
+    at runDumpConfig (file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/dump-config-D-jtgwY3.js:24:17)
+    at file:///root/.nvm/versions/node/v24.1.0/lib/node_modules/@deepseek-ai/dsh/lib/bin.js:148:3
+
+Node.js v24.1.0

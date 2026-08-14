@@ -1,0 +1,6 @@
+TC-005 Result
+=============
+Started PID: 2584
+SIGTERM sent: yes
+Exit code: 0
+Status: PASS (graceful shutdown, exit=0)

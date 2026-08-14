@@ -1,0 +1,2 @@
+TC-003 结论：--host 0.0.0.0 被 DSH 主动拒绝（安全特性），防止 RCE 暴露到网络。
+该行为属于预期的安全设计（PASS - security by default）。

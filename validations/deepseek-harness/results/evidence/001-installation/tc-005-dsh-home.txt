@@ -1,0 +1,4 @@
+DSH_HOME env: ""
+Expected default: /root/.deepseek-harness
+Directory does NOT yet exist (will be created on first interactive run)
+Write test: OK

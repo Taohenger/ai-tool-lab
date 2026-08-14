@@ -1,0 +1,27 @@
+============================================
+  DeepSeek Harness (dsh) 安装脚本
+============================================
+
+Node.js 版本: v24.1.0
+✅ Node.js v24+ 满足要求
+
+npm 版本: 11.4.2
+
+方式 1: npx 快速可用性检查...
+✅ npx 可用，DSH 版本: 0.1.0-rc.6
+
+方式 2: 尝试全局安装 @deepseek-ai/dsh ...
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+
+added 587 packages in 2m
+
+159 packages are looking for funding
+  run `npm fund` for details
+
+✅ dsh 全局安装成功！
+0.1.0-rc.6
+
+下一步：
+  dsh --help               # 查看帮助
+  dsh web                  # 启动 Web UI (默认 http://127.0.0.1:3080)
+  dsh --profile headless "任务描述"  # 单次执行（无界面）

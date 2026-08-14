@@ -1,0 +1,75 @@
+{
+  "project": "DeepSeek Harness 验证工程",
+  "version": "0.1.0-rc.6",
+  "totalFeatures": 22,
+  "verifiedFeatures": 21,
+  "partiallyVerifiedFeatures": 1,
+  "failedFeatures": 0,
+  "tasks": [
+    {
+      "id": "001",
+      "name": "安装与环境要求",
+      "status": "completed",
+      "features": ["TC-001:Node.js版本✅","TC-002:安装脚本✅","TC-003:version/help✅","TC-004:子命令help⚠️(部分)","TC-005:配置目录✅"]
+    },
+    {
+      "id": "002",
+      "name": "Web UI 启动与界面",
+      "status": "completed",
+      "features": ["TC-001:默认3080✅","TC-002:自定义端口✅","TC-003:0.0.0.0安全拒绝✅","TC-004:port0自动分配✅","TC-005:SIGTERM优雅退出✅"]
+    },
+    {
+      "id": "003",
+      "name": "Headless 模式（单次任务）",
+      "status": "completed",
+      "features": ["TC-001:help✅","TC-002:dump-default✅","TC-003:dump-config✅","TC-004:MISSING_CREDENTIAL✅","TC-005:零副作用✅","TC-006:AUTH脱敏✅"]
+    },
+    {
+      "id": "004",
+      "name": "Profile / Patch 配置系统",
+      "status": "completed",
+      "features": ["TC-001:内置profile探测(仅web+headless)✅","TC-002:web vs headless差异✅","TC-003:--patch覆盖✅"]
+    },
+    {
+      "id": "005",
+      "name": "插件系统（plugin 命令）",
+      "status": "completed",
+      "features": ["TC-001:plugin-help=pnpm✅","TC-002:list-headless(空=无额外插件)✅","TC-003:list-web(空)✅"]
+    },
+    {
+      "id": "006",
+      "name": "工作区管理与文件操作",
+      "status": "pending",
+      "blockedBy": "需要 DEEPSEEK_API_KEY",
+      "features": []
+    },
+    {
+      "id": "007",
+      "name": "Shell 命令执行与安全性",
+      "status": "pending",
+      "blockedBy": "需要 DEEPSEEK_API_KEY",
+      "features": []
+    },
+    {
+      "id": "008",
+      "name": "代码搜索与编辑能力",
+      "status": "pending",
+      "blockedBy": "需要 DEEPSEEK_API_KEY",
+      "features": []
+    },
+    {
+      "id": "009",
+      "name": "Agent 端到端任务执行",
+      "status": "pending",
+      "blockedBy": "需要 DEEPSEEK_API_KEY",
+      "features": []
+    },
+    {
+      "id": "010",
+      "name": "会话记录与可追溯性",
+      "status": "pending",
+      "blockedBy": "需要 DEEPSEEK_API_KEY",
+      "features": []
+    }
+  ]
+}

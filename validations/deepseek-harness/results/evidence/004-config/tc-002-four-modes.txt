@@ -1,0 +1,5 @@
+=== TC-002: 检查四种官方模式名称对应 profile ===
+Profile web: 配置行数=490, shell插件=0, disabled项=25
+Profile headless: 配置行数=333, shell插件=0, disabled项=2
+Profile minimal: 配置行数=0, shell插件=0, disabled项=0
+Profile ptc: 配置行数=0, shell插件=0, disabled项=0

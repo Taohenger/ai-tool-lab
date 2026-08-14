@@ -1,0 +1,4 @@
+DSH_HOME = /root/.deepseek-harness
+
+--- DSH_HOME ls ---
+(DSH_HOME 目录未创建)
