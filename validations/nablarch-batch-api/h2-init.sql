@@ -1,0 +1,49 @@
+-- Nablarch batch 起動に必要な最小限の表と初期データを作成するスクリプト
+-- (本来は gsp-dba-maven-plugin が生成する entity と DDL が閉鎖環境では使えないため手動で用意)
+-- このスクリプトは冪等: 複数回実行してもよい
+
+DROP TABLE IF EXISTS BUSINESS_DATE;
+CREATE TABLE BUSINESS_DATE (
+    SEGMENT_ID VARCHAR(2) PRIMARY KEY,
+    BIZ_DATE   VARCHAR(10)
+);
+INSERT INTO BUSINESS_DATE VALUES ('01', '2015-04-15');
+
+DROP TABLE IF EXISTS SYSTEM_ACCOUNT;
+CREATE TABLE SYSTEM_ACCOUNT (
+    USER_ID                   VARCHAR(10) PRIMARY KEY,
+    LOGIN_ID                  VARCHAR(20),
+    USER_PASSWORD             VARCHAR(256),
+    USER_ID_LOCKED            VARCHAR(1),
+    PASSWORD_EXPIRATION_DATE  VARCHAR(10),
+    FAILED_COUNT              VARCHAR(1),
+    EFFECTIVE_DATE_FROM       VARCHAR(10),
+    EFFECTIVE_DATE_TO         VARCHAR(10),
+    LAST_LOGIN_DATE_TIME      VARCHAR(20),
+    VERSION                   VARCHAR(10)
+);
+INSERT INTO SYSTEM_ACCOUNT VALUES
+('105','10000001','nLf7+E3ObKARUBw+6bvSRyfJ9Cy0HCcsa0DqZIE93K0=','0','2016-04-10','0','2013-08-02','2016-04-04','','2'),
+('106','10000002','JbnWUUuw2dylsFr0W8JTBVeiytI4bb72jUOWZi4J5h8=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
+('107','10000003','TJO11fAempKhCEhqYtRo5BmsXck4qe6PmliC1p5yxn8=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
+('108','10000004','rL/Dt0itqeAabiXEh1XOYnupNlhijylt60kNARRiplc=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
+('109','10000005','qL9f3FC0pBtbs/11u4DU8Ua9+dboxXHIhdbpdvTtRpc=','0','2016-04-10','0','2013-08-02','2016-04-04','','1');
+
+DROP TABLE IF EXISTS USERS;
+CREATE TABLE USERS (
+    USER_ID     VARCHAR(10) PRIMARY KEY,
+    KANJI_NAME  VARCHAR(50),
+    KANA_NAME   VARCHAR(50)
+);
+INSERT INTO USERS VALUES
+('105','一般ユーザ１','イッパンイチ'),
+('106','一般ユーザ２','イッパンニ'),
+('107','一般ユーザ３','イッパンサン'),
+('108','一般ユーザ４','イッパンヨン'),
+('109','一般ユーザ５','イッパンゴ');
+
+DROP TABLE IF EXISTS BATCH_REQUEST;
+CREATE TABLE BATCH_REQUEST (
+    BATCH_REQUEST_ID VARCHAR(64) PRIMARY KEY,
+    RESUME_POINT      BIGINT
+);
