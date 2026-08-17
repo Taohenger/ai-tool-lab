@@ -36,3 +36,8 @@ build/
 tmp/
 temp/
 *.tmp
+# Nablarch batch validation artifacts
+validations/nablarch-batch-api/target/
+validations/nablarch-batch-api/h2/
+validations/nablarch-batch-api/work/registration/tmp/
+validations/nablarch-batch-api/work/registration/output/
