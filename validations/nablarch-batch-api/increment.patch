@@ -1,0 +1,300 @@
+diff --git a/validations/nablarch-batch-api/h2-init.sql b/validations/nablarch-batch-api/h2-init.sql
+new file mode 100644
+index 0000000..8965c0a
+--- /dev/null
++++ b/validations/nablarch-batch-api/h2-init.sql
+@@ -0,0 +1,49 @@
++-- Nablarch batch 起動に必要な最小限の表と初期データを作成するスクリプト
++-- (本来は gsp-dba-maven-plugin が生成する entity と DDL が閉鎖環境では使えないため手動で用意)
++-- このスクリプトは冪等: 複数回実行してもよい
++
++DROP TABLE IF EXISTS BUSINESS_DATE;
++CREATE TABLE BUSINESS_DATE (
++    SEGMENT_ID VARCHAR(2) PRIMARY KEY,
++    BIZ_DATE   VARCHAR(10)
++);
++INSERT INTO BUSINESS_DATE VALUES ('01', '2015-04-15');
++
++DROP TABLE IF EXISTS SYSTEM_ACCOUNT;
++CREATE TABLE SYSTEM_ACCOUNT (
++    USER_ID                   VARCHAR(10) PRIMARY KEY,
++    LOGIN_ID                  VARCHAR(20),
++    USER_PASSWORD             VARCHAR(256),
++    USER_ID_LOCKED            VARCHAR(1),
++    PASSWORD_EXPIRATION_DATE  VARCHAR(10),
++    FAILED_COUNT              VARCHAR(1),
++    EFFECTIVE_DATE_FROM       VARCHAR(10),
++    EFFECTIVE_DATE_TO         VARCHAR(10),
++    LAST_LOGIN_DATE_TIME      VARCHAR(20),
++    VERSION                   VARCHAR(10)
++);
++INSERT INTO SYSTEM_ACCOUNT VALUES
++('105','10000001','nLf7+E3ObKARUBw+6bvSRyfJ9Cy0HCcsa0DqZIE93K0=','0','2016-04-10','0','2013-08-02','2016-04-04','','2'),
++('106','10000002','JbnWUUuw2dylsFr0W8JTBVeiytI4bb72jUOWZi4J5h8=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
++('107','10000003','TJO11fAempKhCEhqYtRo5BmsXck4qe6PmliC1p5yxn8=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
++('108','10000004','rL/Dt0itqeAabiXEh1XOYnupNlhijylt60kNARRiplc=','0','2016-04-10','0','2013-08-02','2016-04-04','','1'),
++('109','10000005','qL9f3FC0pBtbs/11u4DU8Ua9+dboxXHIhdbpdvTtRpc=','0','2016-04-10','0','2013-08-02','2016-04-04','','1');
++
++DROP TABLE IF EXISTS USERS;
++CREATE TABLE USERS (
++    USER_ID     VARCHAR(10) PRIMARY KEY,
++    KANJI_NAME  VARCHAR(50),
++    KANA_NAME   VARCHAR(50)
++);
++INSERT INTO USERS VALUES
++('105','一般ユーザ１','イッパンイチ'),
++('106','一般ユーザ２','イッパンニ'),
++('107','一般ユーザ３','イッパンサン'),
++('108','一般ユーザ４','イッパンヨン'),
++('109','一般ユーザ５','イッパンゴ');
++
++DROP TABLE IF EXISTS BATCH_REQUEST;
++CREATE TABLE BATCH_REQUEST (
++    BATCH_REQUEST_ID VARCHAR(64) PRIMARY KEY,
++    RESUME_POINT      BIGINT
++);
+diff --git a/validations/nablarch-batch-api/mock-api-server.py b/validations/nablarch-batch-api/mock-api-server.py
+new file mode 100644
+index 0000000..bd06550
+--- /dev/null
++++ b/validations/nablarch-batch-api/mock-api-server.py
+@@ -0,0 +1,66 @@
++#!/usr/bin/env python3
++"""Nablarch batch から呼び出されるモック API サーバ。
++
++GET /hello        -> {"message":"hello from mock api","server":"mock","time":<ts>}
++GET /healthz      -> {"status":"ok"}
++POST /echo        -> エコーバック: 受け取った body を {"echo":<body>} で返す
++
++起動: python3 mock-api-server.py [port]
++既定ポート: 18090
++"""
++import json
++import sys
++from datetime import datetime, timezone
++from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
++
++
++class Handler(BaseHTTPRequestHandler):
++    server_version = "nablarch-mock-api/1.0"
++
++    def _send(self, code: int, body: dict):
++        payload = (json.dumps(body, ensure_ascii=False) + "\n").encode("utf-8")
++        self.send_response(code)
++        self.send_header("Content-Type", "application/json; charset=utf-8")
++        self.send_header("Content-Length", str(len(payload)))
++        self.end_headers()
++        self.wfile.write(payload)
++
++    def do_GET(self):
++        now = datetime.now(timezone.utc).isoformat()
++        if self.path in ("/", "/hello"):
++            self._send(200, {"message": "hello from mock api",
++                             "server": "mock",
++                             "time": now,
++                             "path": self.path})
++        elif self.path == "/healthz":
++            self._send(200, {"status": "ok", "time": now})
++        else:
++            self._send(404, {"status": "not found", "path": self.path})
++
++    def do_POST(self):
++        now = datetime.now(timezone.utc).isoformat()
++        length = int(self.headers.get("Content-Length", "0") or "0")
++        body = self.rfile.read(length).decode("utf-8", errors="replace") if length else ""
++        if self.path == "/echo":
++            self._send(200, {"echo": body, "received_at": now,
++                             "content_type": self.headers.get("Content-Type", "")})
++        else:
++            self._send(404, {"status": "not found", "path": self.path})
++
++    def log_message(self, fmt, *args):
++        sys.stderr.write(f"[mock-api] {self.address_string()} - {fmt % args}\n")
++
++
++def main():
++    port = int(sys.argv[1]) if len(sys.argv) > 1 else 18090
++    httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
++    print(f"[mock-api] listening on http://127.0.0.1:{port}", file=sys.stderr, flush=True)
++    try:
++        httpd.serve_forever()
++    except KeyboardInterrupt:
++        pass
++    httpd.server_close()
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/validations/nablarch-batch-api/pom.xml b/validations/nablarch-batch-api/pom.xml
+index 15612c9..bcc1d8d 100644
+--- a/validations/nablarch-batch-api/pom.xml
++++ b/validations/nablarch-batch-api/pom.xml
+@@ -165,6 +165,21 @@
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-compiler-plugin</artifactId>
+         <version>3.13.0</version>
++        <configuration>
++          <!-- entity クラスは gsp-dba で自動生成される前提だが、
++               閉鎖環境では gsp-dba が依存する seasar s2-* を取得できない。
++               そのため本検証では FileDeleteAction のバッチのみを有効化し、
++               entity に依存する他 action / reader はコンパイル対象から除外する。 -->
++          <excludes>
++            <exclude>**/batch/action/ImportZipCodeFileAction.java</exclude>
++            <exclude>**/batch/action/ImportZipCodeFileDataFormatAction.java</exclude>
++            <exclude>**/batch/action/RegistrationPdfFileAction.java</exclude>
++            <exclude>**/batch/reader/FileCreateRequestReader.java</exclude>
++          </excludes>
++          <testExcludes>
++            <testExclude>**</testExclude>
++          </testExcludes>
++        </configuration>
+       </plugin>
+       <plugin>
+         <groupId>jp.co.tis.gsp</groupId>
+@@ -190,9 +205,11 @@
+           <dataDirectory>src/test/resources/data</dataDirectory>
+         </configuration>
+         <executions>
++          <!-- gsp-dba は外部依存(jp.co.tis.gsp / seasar s2-*) が閉鎖環境で取得できないため
++               自動実行を無効化。必要なら手動で `mvn gsp-dba:generate-entity` 等を実行すること。 -->
+           <execution>
+             <id>default-cli</id>
+-            <phase>generate-resources</phase>
++            <phase>none</phase>
+             <goals>
+               <goal>generate-ddl</goal>
+               <goal>execute-ddl</goal>
+diff --git a/validations/nablarch-batch-api/src/main/java/com/nablarch/example/app/batch/action/FileDeleteAction.java b/validations/nablarch-batch-api/src/main/java/com/nablarch/example/app/batch/action/FileDeleteAction.java
+index 7c9cf5b..df376cc 100644
+--- a/validations/nablarch-batch-api/src/main/java/com/nablarch/example/app/batch/action/FileDeleteAction.java
++++ b/validations/nablarch-batch-api/src/main/java/com/nablarch/example/app/batch/action/FileDeleteAction.java
+@@ -1,10 +1,17 @@
+ package com.nablarch.example.app.batch.action;
+ 
+ import java.io.File;
++import java.net.URI;
++import java.net.http.HttpClient;
++import java.net.http.HttpRequest;
++import java.net.http.HttpResponse;
+ import java.nio.file.Paths;
++import java.time.Duration;
+ import java.util.Date;
+ 
+ import nablarch.core.date.SystemTimeUtil;
++import nablarch.core.log.Logger;
++import nablarch.core.log.LoggerManager;
+ import nablarch.core.repository.SystemRepository;
+ import nablarch.core.util.DateUtil;
+ import nablarch.core.util.FileUtil;
+@@ -19,17 +26,36 @@ import com.nablarch.example.app.batch.reader.DeleteTargetFileReader;
+ 
+ /**
+  * ファイル削除クラス。
++ * <p>
++ * 本検証版では、バッチ起動時に 1 度だけ外部 API（HTTP GET）を呼び出す処理を追加している。
++ * 呼び出し先 URL とタイムアウトは {@code batch-config/file-delete.properties} の
++ * {@code externalApi.helloUrl} / {@code externalApi.timeoutMs} で設定する。
++ *
+  * @author Nabu Rakutaro
+  *
+  */
+ @Published
+ public class FileDeleteAction extends BatchAction<File> {
+ 
++    /** ロガー */
++    private static final Logger LOGGER = LoggerManager.get(FileDeleteAction.class);
++
+     /** 設定キー：ファイルパス */
+     private static final String FILE_PATH_KEY = "RegistrationPdfFile.batch.work";
+ 
++    /** 設定キー：外部 API 呼び出し先 URL */
++    private static final String EXTERNAL_API_URL_KEY = "externalApi.helloUrl";
++
++    /** 設定キー：外部 API 呼び出しタイムアウト(ms) */
++    private static final String EXTERNAL_API_TIMEOUT_KEY = "externalApi.timeoutMs";
++
++    /** 外部 API 呼び出しの既定タイムアウト(ms) */
++    private static final int DEFAULT_TIMEOUT_MS = 3000;
++
+     @Override
+     public DataReader<File> createReader(ExecutionContext ctx) {
++        // バッチ起動時に 1 度だけ外部 API を呼び出す（検証用）
++        callExternalApi();
+         return new DeleteTargetFileReader(Paths.get(SystemRepository.getString(FILE_PATH_KEY)));
+     }
+ 
+@@ -46,4 +72,57 @@ public class FileDeleteAction extends BatchAction<File> {
+         return new Success();
+     }
+ 
++    /**
++     * 外部 API（HTTP GET）を呼び出し、ステータスコードとレスポンスボディを
++     * 標準出力およびロガーに出力する。
++     * <p>
++     * 実装は JDK 11+ 標準の {@link HttpClient} を使用する。
++     * Nablarch 標準の HTTP Messaging（{@code MessagingProvider} +
++     * {@code HttpMessagingClient}）を用いる方法もあるが、本検証では
++     * バッチ本体への差分を最小化するため JDK 標準 API を使用する。
++     * 設定キー {@code externalApi.helloUrl} が未設定の場合は呼び出しをスキップする。
++     */
++    private void callExternalApi() {
++        String url = SystemRepository.getString(EXTERNAL_API_URL_KEY);
++        if (url == null || url.isEmpty()) {
++            LOGGER.logInfo("externalApi.helloUrl is not configured, skip external API call.");
++            return;
++        }
++        int timeoutMs = DEFAULT_TIMEOUT_MS;
++        String timeoutRaw = SystemRepository.getString(EXTERNAL_API_TIMEOUT_KEY);
++        if (timeoutRaw != null && !timeoutRaw.isEmpty()) {
++            try {
++                timeoutMs = Integer.parseInt(timeoutRaw);
++            } catch (NumberFormatException e) {
++                LOGGER.logWarn("invalid externalApi.timeoutMs='" + timeoutRaw
++                        + "', use default " + DEFAULT_TIMEOUT_MS + " ms.");
++            }
++        }
++
++        HttpClient client = HttpClient.newBuilder()
++                .connectTimeout(Duration.ofMillis(timeoutMs))
++                .build();
++        HttpRequest request = HttpRequest.newBuilder()
++                .uri(URI.create(url))
++                .timeout(Duration.ofMillis(timeoutMs))
++                .header("Accept", "application/json")
++                .GET()
++                .build();
++
++        try {
++            long start = System.currentTimeMillis();
++            HttpResponse<String> response = client.send(request,
++                    HttpResponse.BodyHandlers.ofString());
++            long elapsed = System.currentTimeMillis() - start;
++            String line = "external API called: url=" + url
++                    + " status=" + response.statusCode()
++                    + " elapsedMs=" + elapsed
++                    + " body=" + response.body();
++            System.out.println("[FileDeleteAction] " + line);
++            LOGGER.logInfo(line);
++        } catch (Exception e) {
++            throw new IllegalStateException("failed to call external API: " + url, e);
++        }
++    }
++
+ }
+diff --git a/validations/nablarch-batch-api/src/main/resources/batch-config/file-delete.properties b/validations/nablarch-batch-api/src/main/resources/batch-config/file-delete.properties
+index ddcec1f..e2e6a8b 100644
+--- a/validations/nablarch-batch-api/src/main/resources/batch-config/file-delete.properties
++++ b/validations/nablarch-batch-api/src/main/resources/batch-config/file-delete.properties
+@@ -3,4 +3,9 @@
+ #
+ 
+ # バッチ作業用ファイルの格納ディレクトリ
+-RegistrationPdfFile.batch.work=./work/registration/tmp
+\ No newline at end of file
++RegistrationPdfFile.batch.work=./work/registration/tmp
++
++# 検証追加: バッチ起動時に呼び出す外部 API の設定
++# - URL 未設定の場合は呼び出しをスキップする
++externalApi.helloUrl=http://127.0.0.1:18090/hello
++externalApi.timeoutMs=3000
+\ No newline at end of file
