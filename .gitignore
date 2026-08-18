@@ -41,3 +41,8 @@ validations/nablarch-batch-api/target/
 validations/nablarch-batch-api/h2/
 validations/nablarch-batch-api/work/registration/tmp/
 validations/nablarch-batch-api/work/registration/output/
+
+# Claude Code 本地安装产物(nabledge 离线副本装到 .claude/,用 vendor/install-offline.sh 生成)
+# vendor/nabledge-6/ 是唯一上传的副本, .claude/ 是本地安装结果, 不重复 commit
+.claude/
+.nabledge/

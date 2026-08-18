@@ -13,6 +13,7 @@ AI 工具验证实验室 —— 用于系统性验证各种 AI CLI 工具、AI �
 | 优先级 | 工具 | 对应分支 | 状态 |
 |--------|------|----------|------|
 | 🔴 P0 | **Office CLI** | `verify/office-cli` | ✅ 验证完成（**79 用例，89.9% 完全通过**） |
+| 🔴 P0 | **Nablarch batch 调 API** | `feat/nablarch-batch-api-验证` | ✅ 验证完成（FileDeleteAction 启动时调 HTTP API,status=200） |
 | 🟡 P1 | 其他 AI 工具（后续添加） | `verify/<tool-name>` | — |
 
 ### Office CLI 验证结果速览
@@ -58,6 +59,39 @@ bash fill-report.sh  →  横展开报告-OOO-XXXX-XXXX.xlsx
 
 → **いますぐデモを再現するには**：`cd validations/office-cli/test-data/template-demo && bash fill-report.sh`（1 分程度で完成版 Excel が新規作成されます）
 
+### ⭐ 新增：Nablarch batch 调用外部 API 验证
+
+**位置**：`validations/nablarch-batch-api/`　**分支**：`feat/nablarch-batch-api-验证`
+
+验证 Nablarch 6u3 的 batch 程序（`FileDeleteAction`）启动时调用外部 HTTP API 的能力。
+
+| 维度 | 结果 |
+|------|------|
+| **baseline** | 官方 `nablarch-example-batch` 6u3 完整副本 |
+| **核心改动** | `FileDeleteAction.createReader()` 中加 `callExternalApi()`，用 JDK 11+ `HttpClient` 调 GET API |
+| **运行结果** | ✅ batch exit code=0，API status=200，耗时 67ms，stdout + Nablarch Logger 双重输出 |
+| **mock API** | 本地 Python `mock-api-server.py`（端口 18090），提供 `GET /hello` `GET /healthz` `POST /echo` |
+| **闭锁环境适配** | pom.xml 禁用 `gsp-dba`（seasar s2-* 无法解析）+ compiler excludes 跳过依赖 entity 的源码 + 手动 `h2-init.sql` 建表 |
+| **增量 patch** | [increment.patch](validations/nablarch-batch-api/increment.patch)（5 文件 218 行）|
+| **运行日志** | [run-output.log](validations/nablarch-batch-api/run-output.log) |
+| **详细报告** | 见上一轮对话总结 |
+
+### ⭐ 新增：Nabledge 离线副本（给 Claude Code 用的 Nablarch 6 知识库）
+
+**位置**：`vendor/nabledge-6/`　**手顺**：[vendor/README.md](vendor/README.md)
+
+把 [nablarch/nabledge](https://github.com/nablarch/nabledge) 的 `nabledge-6` plugin（28MB，对应 Nablarch 6u3）做成离线副本，配套一键安装脚本：
+
+```bash
+# 装到 nablarch-batch-api 验证工程
+bash vendor/install-offline.sh /workspace/validations/nablarch-batch-api
+
+# 装完后在 Claude Code 里用 /n6 命令问 Nablarch 6 问题（纯本地知识检索，无网络）
+/n6 BatchAction の createReader で外部 API を呼び出す方法を教えて
+```
+
+**特性**：运行时全部本地操作（scripts 无任何 `curl`/`wget`/`git fetch`），知识检索完全离线；Claude 推理若用本地模型则端到端离线。
+
 ### ⭐ 新增：Excel 设计文档转 Markdown（任务 009）
 
 **位置**：`validations/office-cli/test-data/excel-to-md/`
@@ -87,7 +121,12 @@ ai-tool-lab/
 │   └── templates/           # 验证结果模板
 ├── validations/             # 各工具的验证结果（每个工具一个子目录）
 │   ├── office-cli/          # Office CLI 验证结果
+│   ├── nablarch-batch-api/  # Nablarch batch 调 API 验证（feat/nablarch-batch-api-验证 分支）
 │   └── ...
+├── vendor/                  # 第三方工具离线副本
+│   ├── nabledge-6/          # nablarch/nabledge 的 nabledge-6 plugin 离线副本（28MB）
+│   ├── install-offline.sh   # 一键安装脚本：vendor → 项目 .claude/
+│   └── README.md            # 离线安装手顺 + 使用说明
 └── docs/                    # 项目文档
     ├── BRANCHING.md         # 分支管理规范
     └── VALIDATION_GUIDE.md  # 验证指南（每个工具需要验证什么）
@@ -101,6 +140,7 @@ ai-tool-lab/
 |--------|------|
 | `main` | 主分支，稳定的项目结构和模板 |
 | `verify/office-cli` | Office CLI 验证分支 |
+| `feat/nablarch-batch-api-验证` | Nablarch batch 调 API 验证 + nabledge 离线副本 |
 | `verify/<tool-name>` | 其他工具验证分支 |
 
 完整分支管理规范见 [docs/BRANCHING.md](docs/BRANCHING.md)。
