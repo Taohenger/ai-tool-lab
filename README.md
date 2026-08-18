@@ -76,21 +76,35 @@ bash fill-report.sh  →  横展开报告-OOO-XXXX-XXXX.xlsx
 | **运行日志** | [run-output.log](validations/nablarch-batch-api/run-output.log) |
 | **详细报告** | 见上一轮对话总结 |
 
-### ⭐ 新增：Nabledge 离线副本（给 Claude Code 用的 Nablarch 6 知识库）
+### ⭐ 新增：Nabledge 离线副本（给 Claude Code 用的 Nablarch 全版本知识库）
 
-**位置**：`vendor/nabledge-6/`　**手顺**：[vendor/README.md](vendor/README.md)
+**位置**：`vendor/nabledge/`　**手顺**：[vendor/README.md](vendor/README.md)
 
-把 [nablarch/nabledge](https://github.com/nablarch/nabledge) 的 `nabledge-6` plugin（28MB，对应 Nablarch 6u3）做成离线副本，配套一键安装脚本：
+把 [nablarch/nabledge](https://github.com/nablarch/nabledge) 仓库**完整 clone**（191MB，5 个版本：6/5/1.4/1.3/1.2）做成离线副本，配套多版本一键安装脚本：
 
 ```bash
-# 装到 nablarch-batch-api 验证工程
+# 默认装 Nablarch 6（对应本仓库的 nablarch-batch-api 验证工程）
 bash vendor/install-offline.sh /workspace/validations/nablarch-batch-api
+
+# 装 Nablarch 5
+bash vendor/install-offline.sh -v 5 /path/to/nablarch5-project
+
+# 全装 5 个版本（同时维护多版本工程时用）
+bash vendor/install-offline.sh -v all /path/to/project
 
 # 装完后在 Claude Code 里用 /n6 命令问 Nablarch 6 问题（纯本地知识检索，无网络）
 /n6 BatchAction の createReader で外部 API を呼び出す方法を教えて
 ```
 
-**特性**：运行时全部本地操作（scripts 无任何 `curl`/`wget`/`git fetch`），知识检索完全离线；Claude 推理若用本地模型则端到端离线。
+| Plugin | 对应 Nablarch | 大小 | 命令 |
+|--------|-------------|------|------|
+| nabledge-6 | 6u3 | 28 MB | `/n6` |
+| nabledge-5 | 5 | 38 MB | `/n5` |
+| nabledge-1.4 | 1.4 | 50 MB | `/n1.4` |
+| nabledge-1.3 | 1.3 | 38 MB | `/n1.3` |
+| nabledge-1.2 | 1.2 | 38 MB | `/n1.2` |
+
+**特性**：运行时全部本地操作（scripts 无任何 `curl`/`wget`/`git fetch`），知识检索完全离线；Claude 推理若用本地模型则端到端离线。多版本可并存于同一项目。
 
 ### ⭐ 新增：Excel 设计文档转 Markdown（任务 009）
 
@@ -124,8 +138,8 @@ ai-tool-lab/
 │   ├── nablarch-batch-api/  # Nablarch batch 调 API 验证（feat/nablarch-batch-api-验证 分支）
 │   └── ...
 ├── vendor/                  # 第三方工具离线副本
-│   ├── nabledge-6/          # nablarch/nabledge 的 nabledge-6 plugin 离线副本（28MB）
-│   ├── install-offline.sh   # 一键安装脚本：vendor → 项目 .claude/
+│   ├── nabledge/            # nablarch/nabledge 完整离线副本（191MB，5 个版本）
+│   ├── install-offline.sh   # 多版本一键安装脚本：vendor → 项目 .claude/（-v 6/5/1.4/1.3/1.2/all）
 │   └── README.md            # 离线安装手顺 + 使用说明
 └── docs/                    # 项目文档
     ├── BRANCHING.md         # 分支管理规范

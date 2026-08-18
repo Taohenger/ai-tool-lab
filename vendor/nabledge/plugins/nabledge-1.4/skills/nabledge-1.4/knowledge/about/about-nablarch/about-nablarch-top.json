@@ -1,0 +1,38 @@
+{
+  "id": "about-nablarch-top",
+  "title": "",
+  "content": "* [Nablarchのコンセプト](../../about/about-nablarch/about-nablarch-about-nablarch-concept.json)\n* [Nablarchの目指す姿](../../about/about-nablarch/about-nablarch-development-policy.json)\n* [Nablarchの製品構成](../../about/about-nablarch/about-nablarch-contents.json)\n* [Nablarchのサポートサービス](../../about/about-nablarch/about-nablarch-support-service.json)\n* [Nablarchの知的財産権と利用制限](../../about/about-nablarch/about-nablarch-restriction.json)\n* [Nablarch のバージョンアップ方針](../../about/about-nablarch/about-nablarch-versionup-policy.json)\n* [Nablarchフレームワークの稼動環境](../../about/about-nablarch/about-nablarch-about-nablarch-platform.json)\n\n* [Nablarchのコンテンツ](../../about/about-nablarch/about-nablarch-top-nablarch.json)\n\n![Nablarch.jpg](assets/about-nablarch-top/Nablarch.jpg)",
+  "no_knowledge_content": false,
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Nablarch 1.4.11版",
+      "content": "",
+      "level": 2
+    },
+    {
+      "id": "s2",
+      "title": "Nablarchについて",
+      "content": "Nablarch(ナブラーク)は、TISの豊富な基幹システム構築経験から得られたナレッジを集約したJavaアプリケーション開発/実行基盤です。\n\n[コンセプト](./about_nablarch/concept.html)\n[目指す姿](./about_nablarch/development_policy.html)\n[製品構成](./about_nablarch/contents.html)\n[サポートサービス](./about_nablarch/support_service.html)\n[知的財産権と利用制限](./about_nablarch/restriction.html)\n[バージョンアップ方針](./about_nablarch/versionup_policy.html)\n[稼動環境](./about_nablarch/platform.html)",
+      "level": 3
+    },
+    {
+      "id": "s3",
+      "title": "Nablarchのコンテンツについて",
+      "content": "Nablarchのコンテンツとコンテンツの見方を説明します。\n\n[コンテンツとコンテンツの見方](./nablarch/index.html)\n\nまた、Nablarchを使用したアプリケーション開発に関する質問については、FAQを参照してください。\n\n[FAQ](./FAQ/index.html)",
+      "level": 3
+    },
+    {
+      "id": "s4",
+      "title": "リファレンス",
+      "content": "Nablarchのコンテンツは下記リンクから参照してください。\n\nアプリケーション実行環境\n\n[アプリケーションフレームワーク](./nablarch/app_exe_env/fw)\n\n[オブジェクトコード](./nablarch/app_exe_env/fw/dist) | [依存ライブラリ](./nablarch/app_exe_env/fw/lib) | [ソースコード](./nablarch/app_exe_env/fw/src)\n\n[解説書](./nablarch/app_exe_env/fw_doc/doc/index.html) | [APIドキュメント(アーキテクト向け)](./nablarch/app_exe_env/fw_doc/javadoc/index.html) | [APIドキュメント(アプリケーションプログラマ向け)](./nablarch/app_exe_env/fw_doc/javadoc_pg/index.html)\n\nアプリケーション開発環境\n\n[アプリケーション開発基盤](./nablarch/app_dev_env/app_dev)\n\n[開発環境構築ガイド](./nablarch/app_dev_env/app_dev/開発環境構築ガイド.doc) | [開発環境パッケージ](./nablarch/app_dev_env/app_dev/Nablarch-dev-env.zip)\n\n[開発リポジトリ構築ガイド](./nablarch/app_dev_env/app_dev/開発リポジトリ構築ガイド.doc)  | [開発リポジトリ構築ビルドファイル](./nablarch/app_dev_env/app_dev/開発リポジトリ構築ビルドファイル)\n\n[UI 開発基盤](./nablarch/app_dev_env/ui_dev)\n\n[解説書](./nablarch/app_dev_env/ui_dev/doc/index.html) | [JSP/HTML作成ガイド](./nablarch/app_dev_env/ui_dev/guide/index.html) | [ソースコード](./nablarch/app_dev_env/ui_dev/src)\n\n[モバイルライブラリ](./nablarch/app_dev_env/mobile)\n\n[解説書](./nablarch/app_dev_env/mobile/doc/arch_doc/index.html) | [iOS版](./nablarch/app_dev_env/mobile/ios/)\n\n[ワークフローライブラリ](./nablarch/app_dev_env/workflow/)\n\n[解説書](./nablarch/app_dev_env/workflow/doc/index.html) | [ソースコード](./nablarch/app_dev_env/workflow/src/)\n\n[ワークフロー設計ガイド](./nablarch/app_dev_env/workflow/design_guide/ワークフロー設計ガイド.doc) | [ワークフロー定義データ自動生成ツール](./nablarch/app_dev_env/workflow/tool/doc/index.html)\n\n[ワークフローアプリケーション実装ガイド](./nablarch/app_dev_env/workflow/sample_application/doc/index.html) | [サンプルアプリケーション](./nablarch/app_dev_env/workflow/sample_application/src)\n\n[アプリケーションライブラリ](./nablarch/app_dev_env/app_lib)\n\n[業務機能サンプル](./nablarch/app_dev_env/app_lib/biz_sample/doc/index.html) | [拡張モジュールサンプル](./nablarch/app_dev_env/app_lib/fw_integration_sample)\n\n[メッセージング基盤テストシミュレータサンプル](./nablarch/app_dev_env/app_lib/messaging_simulator_sample) | [運用機能サンプル](./nablarch/app_dev_env/app_lib/operation_sample)\n\n[テスティングフレームワーク](./nablarch/app_dev_env/tfw)\n\n[オブジェクトコード](./nablarch/app_dev_env/tfw/dist/auto_test) | [依存ライブラリ](./nablarch/app_dev_env/tfw/lib) | [ソースコード](./nablarch/app_dev_env/tfw/src)\n\n[APIドキュメント(アーキテクト向け)](./nablarch/app_dev_env/tfw_doc/javadoc/index.html) | [APIドキュメント(アプリケーションプログラマ向け)](./nablarch/app_dev_env/tfw_doc/javadoc_pg/index.html)\n\n[ツールボックス](./nablarch/app_dev_env/toolbox)\n\n[解説書](./nablarch/app_dev_env/toolbox/doc/index.html) | [ソースコード](./nablarch/app_dev_env/toolbox/src)\n\nアプリケーション開発標準\n\n[開発プロセス標準](./nablarch/app_dev_guide/standard/dev_process_standard) | [設計標準](./nablarch/app_dev_guide/standard/design_standard)\n\n[コーディング規約](./nablarch/app_dev_guide/standard/coding_rule) | [単体テスト標準](./nablarch/app_dev_guide/standard/unit_test)\n\n[ドキュメント規約](./nablarch/app_dev_guide/standard/document_standard_style) | [設計書](./nablarch/app_dev_guide/standard/document_format)\n\nアプリケーション開発ガイド\n\n[プログラミング・単体テストガイド](./nablarch/app_dev_guide/guide/development_guide/index.html)\n\n[チュートリアル用サンプル](./nablarch/app_dev_guide/guide/tutorial/Nablarch-tutorial-workspace.zip)",
+      "level": 3
+    },
+    {
+      "id": "s5",
+      "title": "リリース情報",
+      "content": "本リリースのリリース情報は下記のとおりです。\n\n| 配布元 | TIS株式会社 テクノロジー開発部 |\n|---|---|\n| バージョン番号 | 1.4.11 |\n| リリース日 | 2024年05月30日 |\n| リリース内容 | [リリースノート](./nablarch/release_note/nablarch-releasenote.xlsx) |\n| 既知不具合 | [既知不具合](./nablarch/release_note/既知不具合.xls) |\n| リリース履歴 | 2013年05月13日 1.1.9 リリース 2024年05月30日 1.2.8 リリース 2024年05月30日 1.3.7 リリース 2021年06月30日 1.4.10 リリース |",
+      "level": 3
+    }
+  ]
+}

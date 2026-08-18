@@ -1,0 +1,104 @@
+# GitHub Copilot 利用ガイド
+
+Nabledge-1.2を GitHub Copilot で使用するためのガイドです。
+
+## 前提条件
+
+- **WSL または GitBash 環境**
+  - VS Code のターミナルを使用する場合は、ターミナルを WSL または GitBash に設定してください
+  - PowerShell や Command Prompt では動作しません（セットアップスクリプトが `jq` コマンドを使用するため）
+- プロジェクトディレクトリで作業していること
+- VS Code の GitHub Copilot 拡張機能がインストール済みであること
+
+## インストール
+
+### 1. スキルをプロジェクトに追加
+
+プロジェクトルートで以下のコマンドを実行：
+
+```bash
+curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash -s -- -v 1.2
+```
+
+実行後、以下のファイルが自動的に作成されます：
+- `.claude/skills/nabledge-1.2/` - スキル定義（GitHub Copilot が自動認識）
+- `.vscode/settings.json` - VS Code 設定（GitHub Copilot スキル機能を有効化）
+
+### 2. チーム共有
+
+`.claude` ディレクトリと `.vscode/settings.json` をGitにコミット・プッシュしてください。チームメンバーがリポジトリをクローンすると、自動的に以下が有効になります：
+- nabledge-1.2 スキルの利用
+- GitHub Copilot スキル機能の有効化
+
+**注**: チームメンバーは VS Code を再起動する必要があります。
+
+## 使い方
+
+### `/n1.2` プロンプト
+
+Nablarchに関する質問やコード分析を実行するには、`/n1.2` プロンプトを使用します。
+
+**基本的な使い方**:
+```bash
+/n1.2 ウェブアプリでUniversalDaoを使ったページング検索を実装したい
+/n1.2 常駐バッチでのエラーハンドリング方式を調べたい
+/n1.2 ウェブアプリでトランザクション管理ハンドラを設定する方法を教えて
+/n1.2 code-analysis LoginActionの構造を理解したい
+```
+
+> **ヒント**: 処理方式（ウェブ、バッチ、メッセージングなど）と目的（実装方法を知りたい、設定を調べたいなど）を質問に含めると、確認なしでより的確な回答が得られます。
+
+### コマンドリファレンス
+
+| コマンド | 説明 | 入力形式 | 出力場所・内容 |
+|---------|------|---------|--------------|
+| `/n1.2 <質問>` | 知識検索を実行 | 質問<br>例: `/n1.2 UniversalDaoのページング` | 回答をメインコンテキストに返す |
+| `/n1.2 code-analysis <対象>` | コード分析を実行 | コマンド<br>例: `/n1.2 code-analysis LoginAction` | サマリー結果をメインコンテキストに返す<br>詳細: `.nabledge/YYYYMMDD/code-analysis-<target>.md` |
+
+## バージョンアップ
+
+### 最新版へのアップデート（推奨）
+
+セットアップスクリプトを再実行すると、常に最新版がインストールされます：
+
+```bash
+curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh | bash -s -- -v 1.2
+```
+
+更新後、`.claude/` と `.github/` ディレクトリの変更をGitにコミット・プッシュしてください。
+
+### 特定バージョンの指定（オプション）
+
+特定のバージョンにしたい場合は、タグを指定できます：
+
+```bash
+# バージョン 0.1 にする場合
+curl -sSL https://raw.githubusercontent.com/nablarch/nabledge/main/setup-ghc.sh -o setup.sh
+NABLEDGE_BRANCH=0.1 bash setup.sh -v 1.2
+```
+
+更新後、`.claude/` と `.github/` ディレクトリの変更をGitにコミット・プッシュしてください。
+
+**注**: 通常は最新版の使用を推奨します。特定バージョンの指定は、動作検証やトラブルシューティングが必要な場合のみ使用してください。
+
+## コマンドの自動承認について
+
+nabledge-1.2 が実行するコマンドのうち、`scripts/` 配下のスクリプト（`find-file.sh`、`read-file.sh` など）はインストール時に `.vscode/settings.json` へ自動承認ルールが設定されるため、確認プロンプトなしで実行されます。
+
+それ以外の汎用シェルコマンド（`find | xargs grep` など）は GitHub Copilot のデフォルトルールで承認が必要になる場合があります。nabledge-1.2 はすべての操作をスクリプト経由で実行するよう設計していますが、汎用コマンドが使われるケースも起こり得ます。その場合は `.vscode/settings.json` の `chat.tools.terminal.autoApprove` に同様のパターンを追加することをご検討ください。
+
+## トラブルシューティング
+
+インストール時に問題が発生した場合は、以下を参照してください。
+
+- プロキシ環境・権限不足でインストールが失敗する場合：nablarch/nabledge#10
+
+### ワークフロー実行中に「The terminal is awaiting input」と表示される
+
+**症状**: ワークフロー実行中に VS Code のチャットパネルに以下のメッセージが表示される場合がある。
+
+> The terminal is awaiting input. Please provide the required input to the terminal.
+
+**原因**: VS Code の Copilot 拡張に含まれるターミナル出力監視（`chat-terminal-output-monitor`）がコマンドの完了を誤検知する既知の問題です。本プラグイン固有の問題ではありません（microsoft/vscode#309107）。
+
+**対処法**: 操作不要です。そのまま待てばワークフローは正常に完了します。メッセージが消えない場合は「Focus terminal」をクリックしてから Enter を押すと処理が続行します。

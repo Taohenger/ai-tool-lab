@@ -1,0 +1,32 @@
+{
+  "id": "testing-framework-ui-dev-guide",
+  "title": "JSP/HTML作成ガイド",
+  "content": "この文書では、業務画面JSPの作成方法について記載する。",
+  "no_knowledge_content": false,
+  "sections": [
+    {
+      "id": "s1",
+      "title": "業務画面JSP作成フロー",
+      "content": "UI開発基盤を使用し、業務画面JSPを作成する際の開発概要を以下に示す。\n\n![create_jsp.png](assets/testing-framework-ui-dev-guide/create_jsp.png)\n\n作成する業務画面JSPは、ブラウザで開くことで画面遷移も含めた動作確認を行うことができる。\nまた、画面に表示されている項目からシステム機能設計書に記載する項目定義を生成できる。\n\nなお、ここで作成された業務画面JSPにPG/UT工程でサーバサイドでの処理に必要な情報が追加され、本番環境で動作する業務画面JSPとなる。",
+      "level": 2
+    },
+    {
+      "id": "s2",
+      "title": "業務画面JSP作成に使用する開発環境",
+      "content": "業務画面JSPを作成する際に、ブラウザで動作確認を行うためには指定されたディレクトリ構造でファイルを配置する必要がある。\n\nディレクトリ構造の詳細については、以下を参照。\n\n* [業務画面JSP作成時のディレクトリ構造](../../development-tools/testing-framework/testing-framework-project-structure.json)\n\n業務画面JSPは、統合開発環境(IDE)を使用して作成することを推奨している。\n\n統合開発環境での開発方法は以下を参照。\n\n* [統合開発環境を使用して業務画面JSPを作成する](../../development-tools/testing-framework/testing-framework-develop-environment.json)\n\nまた、下記ドキュメントを参考にEclipseのテンプレートを導入すると、より効率的に開発できる。\n\n* [UI部品の実装サンプルで提供しているEclipse補完テンプレート](../../development-tools/testing-framework/testing-framework-template-list.json)",
+      "level": 2
+    },
+    {
+      "id": "s3",
+      "title": "業務画面JSPの作成方法",
+      "content": "開発環境を構築した後は、業務画面テンプレートと、UI部品（JavaScript、ウィジェット）を使用して業務画面JSPを作成していく。\n\n* [業務画面テンプレートとUI部品を使用して業務画面JSPを作成する](../../development-tools/testing-framework/testing-framework-create-with-widget.json)",
+      "level": 2
+    },
+    {
+      "id": "s4",
+      "title": "画面項目定義一覧の作成方法",
+      "content": "作成した業務画面JSPから、システム機能設計書に張り付ける画面項目定義を作成する。\n\n* [業務画面JSPから画面項目定義を作成する](../../development-tools/testing-framework/testing-framework-create-screen-item-list.json)",
+      "level": 2
+    }
+  ]
+}

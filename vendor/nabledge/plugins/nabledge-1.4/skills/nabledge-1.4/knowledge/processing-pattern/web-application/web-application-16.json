@@ -1,0 +1,7 @@
+{
+  "id": "web-application-16",
+  "title": "JavaScriptから操作できるようにHTMLのinput(type=\"hidden\")タグを出力することはできますか？",
+  "content": "> **question:**\n> JavaScriptから操作できるようにHTMLのinput(type=\"hidden\")タグを出力することはできますか？\n\n> n:hiddenタグを使用するとHTMLにinput(type=\"hidden\")タグが出力されません。\n\n> **answer:**\n> n:hiddenタグはHTMLのタグを出力せずに、ウィンドウスコープに値を出力します。\n\n> HTMLのinput(type=\"hidden\")タグを出力する場合は、n:plainHiddenタグを使用します。\n\n> ```jsp\n> <%-- n:plainHiddenタグの使用例 --%>\n> <n:plainHidden name=\"user.id\" />\n> ```",
+  "no_knowledge_content": false,
+  "sections": []
+}

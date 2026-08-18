@@ -1,0 +1,92 @@
+{
+  "id": "restful-web-service-feature-details",
+  "title": "機能詳細",
+  "content": "**目次**\n\n* Nablarchの初期化\n* 入力値のチェック\n* データベースアクセス\n* 排他制御\n* URIとリソース(アクション)クラスのマッピング\n* パスパラメータやクエリーパラメータ\n* レスポンスヘッダ\n* 国際化対応\n* 認証\n* 認可チェック\n* エラー時に返却するレスポンス\n* Webアプリケーションのスケールアウト設計\n* CSRF対策\n* CORS",
+  "no_knowledge_content": false,
+  "sections": [
+    {
+      "id": "s1",
+      "title": "Nablarchの初期化",
+      "content": "[ウェブアプリケーションのNablarchの初期化](../../processing-pattern/web-application/web-application-feature-details.json#nablarchの初期化) を参照。",
+      "level": 2
+    },
+    {
+      "id": "s2",
+      "title": "入力値のチェック",
+      "content": "* [入力値のチェック](../../component/libraries/libraries-validation.json#入力値のチェック)",
+      "level": 2
+    },
+    {
+      "id": "s3",
+      "title": "データベースアクセス",
+      "content": "* [データベースアクセス](../../component/libraries/libraries-database-management.json#データベースアクセス)",
+      "level": 2
+    },
+    {
+      "id": "s4",
+      "title": "排他制御",
+      "content": "* [ユニバーサルDAO](../../component/libraries/libraries-universal-dao.json#ユニバーサルdao)\n\n  * [楽観的ロックを行う](../../component/libraries/libraries-universal-dao.json#楽観的ロックを行う)\n  * [悲観的ロックを行う](../../component/libraries/libraries-universal-dao.json#悲観的ロックを行う)\n\n> **Important:**\n> RESTfulウェブサービスでは ETag や If-Match を使用した楽観的ロックには対応していない。\n> そのため、RESTfulウェブサービスで楽観的ロックを行う際は、リクエストボディに直接バージョン番号を含めること。\n\n> **Important:**\n> [排他制御](../../component/libraries/libraries-exclusive-control.json#排他制御) 機能は、クライアント(taglib)との連動が前提であるため、\n> RESTfulウェブサービスでは使用できない。",
+      "level": 2
+    },
+    {
+      "id": "s5",
+      "title": "URIとリソース(アクション)クラスのマッピング",
+      "content": "* [リソース(アクション)クラスの実装に関して](../../processing-pattern/restful-web-service/restful-web-service-resource-signature.json)\n\n* [ルーティングアダプタ](../../component/adapters/adapters-router-adaptor.json#ルーティングアダプタ)\n* [リソースクラスのメソッドのシグネチャ](../../processing-pattern/restful-web-service/restful-web-service-resource-signature.json#リソースクラスのメソッドのシグネチャ)",
+      "level": 2
+    },
+    {
+      "id": "s6",
+      "title": "パスパラメータやクエリーパラメータ",
+      "content": "* [パスパラメータを扱う](../../processing-pattern/restful-web-service/restful-web-service-resource-signature.json#パスパラメータを扱う)\n* [クエリーパラメータを扱う](../../processing-pattern/restful-web-service/restful-web-service-resource-signature.json#クエリーパラメータを扱う)",
+      "level": 2
+    },
+    {
+      "id": "s7",
+      "title": "レスポンスヘッダ",
+      "content": "* [リソースクラスのメソッドで個別にレスポンスヘッダを設定する](../../processing-pattern/restful-web-service/restful-web-service-resource-signature.json#レスポンスヘッダを設定する)\n* [クライアントに返すレスポンスに共通処理を追加する](../../component/handlers/handlers-jaxrs-response-handler.json#クライアントに返すレスポンスに共通処理を追加する)",
+      "level": 2
+    },
+    {
+      "id": "s8",
+      "title": "国際化対応",
+      "content": "静的リソースの多言語化対応については以下を参照。\n\n* [メッセージの多言語化](../../component/libraries/libraries-message.json#多言語化対応)\n* [コード名称の多言語化](../../component/libraries/libraries-code.json#名称の多言語化対応)",
+      "level": 2
+    },
+    {
+      "id": "s9",
+      "title": "認証",
+      "content": "認証については、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。",
+      "level": 2
+    },
+    {
+      "id": "s10",
+      "title": "認可チェック",
+      "content": "認可チェックについては、プロジェクト要件により仕様が異なるため、フレークワークとしては提供していない。",
+      "level": 2
+    },
+    {
+      "id": "s11",
+      "title": "エラー時に返却するレスポンス",
+      "content": "* [エラー時のレスポンスにメッセージを設定する](../../component/handlers/handlers-jaxrs-response-handler.json#エラー時のレスポンスにメッセージを設定する)\n* [特定のエラーの場合に個別に定義したエラーレスポンスを返却する](../../component/handlers/handlers-jaxrs-response-handler.json#特定のエラーの場合に個別に定義したエラーレスポンスを返却する)",
+      "level": 2
+    },
+    {
+      "id": "s12",
+      "title": "Webアプリケーションのスケールアウト設計",
+      "content": "* [Webアプリケーションをステートレスにする](../../component/libraries/libraries-stateless-web-app.json#webアプリケーションをステートレスにする)",
+      "level": 2
+    },
+    {
+      "id": "s13",
+      "title": "CSRF対策",
+      "content": "* [CSRF対策](../../component/handlers/handlers-csrf-token-verification-handler.json#csrfトークン検証ハンドラ)",
+      "level": 2
+    },
+    {
+      "id": "s14",
+      "title": "CORS",
+      "content": "* [CORS](../../component/handlers/handlers-cors-preflight-request-handler.json#corsプリフライトリクエストハンドラ)",
+      "level": 2
+    }
+  ]
+}
