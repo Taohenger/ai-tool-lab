@@ -1,0 +1,12 @@
+<routes>
+    <get  path="/action/userRegistration"           to="UserRegistration#input"/>
+    <post path="/action/userRegistration/confirm"   to="UserRegistration#confirm"/>
+    <post path="/action/userRegistration/register" to="UserRegistration#register"/>
+    <get  path="/action/userRegistration/complete" to="UserRegistration#completeOfRegister"/>
+    <match path="/action/:controller/:action"/>
+    <match path="/action/:controller/:action/:id">
+        <requirements>
+            <requirement name="id" value="\d+$" />
+        </requirements>
+    </match>
+</routes>
