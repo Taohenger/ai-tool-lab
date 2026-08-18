@@ -1,0 +1,15 @@
+Test No,テスト目的,区分 (正常/異常),入力データ,期待結果,メッセージID,備考
+TC01,正常系:全項目有効値で確認画面へ遷移,正常,"userName=山田太郎 / email=user@example.com / password=Pass1234",確認画面表示・セッションに User 保存,-,正常登録の基本経路
+TC02,正常系:登録実行で DB INSERT され完了画面へリダイレクト,正常,(セッションの User を使用) UniversalDao.insert が1件 INSERT / 303 redirect://completeOfRegister,-,PRG パターン検証
+TC03,異常系:ユーザー名未入力(@Required 違反),異常,userName="" / email=user@example.com / password=Pass1234,入力画面へフォワード・エラーメッセージ表示,errors.required,必須チェック
+TC04,異常系:ユーザー名51文字(@Length.max 違反),異常,userName=あいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあいうえおあ(51文字) / email=user@example.com / password=Pass1234,入力画面へフォワード,errors.length.max,桁数上限
+TC05,異常系:メール未入力(@Required 違反),異常,userName=山田太郎 / email="" / password=Pass1234,入力画面へフォワード,errors.required,必須チェック
+TC06,異常系:メール形式違反(@Email 違反),異常,userName=山田太郎 / email=invalid-email / password=Pass1234,入力画面へフォワード,errors.email,Email 形式
+TC07,異常系:メール254文字超過(@Length.max 違反),異常,"userName=山田太郎 / email=<255文字の文字列> / password=Pass1234",入力画面へフォワード,errors.length.max,桁数上限
+TC08,異常系:パスワード未入力(@Required 違反),異常,userName=山田太郎 / email=user@example.com / password="",入力画面へフォワード,errors.required,必須チェック
+TC09,異常系:パスワード7文字(@Length.min 違反),異常,userName=山田太郎 / email=user@example.com / password=Pass123(7文字),入力画面へフォワード,errors.length.min,桁数下限
+TC10,異常系:パスワード101文字(@Length.max 違反),異常,userName=山田太郎 / email=user@example.com / password=<101文字の半角英数字>,入力画面へフォワード,errors.length.max,桁数上限
+TC11,異常系:パスワード全角混在(@Pattern 違反),異常,userName=山田太郎 / email=user@example.com / password=Passあ1234,入力画面へフォワード,errors.pattern,半角英数字のみ
+TC12,異常系:メール重複(DB 相関バリデーション),異常,(DBに email=user@example.com が既存) / userName=山田太郎 / email=user@example.com / password=Pass1234,ApplicationException 送出・入力画面へフォワード,errors.duplicate.email,UniversalDao#exists で検出
+TC13,異常系:二重サブミット(@OnDoubleSubmission 違反),異常,トークン無しで register を2度呼出,二重サブミットエラー・入力画面へ遷移,-,setValidToken=false で検証
+TC14,正常系:初期表示で空フォームがリクエストスコープに設定,正常,GET /action/userRegistration,input メソッド・form が空・INPUT_JSP へフォワード,-,初期表示検証

@@ -14,6 +14,7 @@ AI 工具验证实验室 —— 用于系统性验证各种 AI CLI 工具、AI �
 |--------|------|----------|------|
 | 🔴 P0 | **Office CLI** | `verify/office-cli` | ✅ 验证完成（**79 用例，89.9% 完全通过**） |
 | 🔴 P0 | **Nablarch batch 调 API** | `feat/nablarch-batch-api-验证` | ✅ 验证完成（FileDeleteAction 启动时调 HTTP API,status=200） |
+| 🔴 P0 | **Nablarch ユーザー登録 端到端** | `feat/nablarch-user-registration-验证` | ✅ 验证完成（**nabledge-5 + Python,5 阶段全流程 + Excel 設計書产出**） |
 | 🟡 P1 | 其他 AI 工具（后续添加） | `verify/<tool-name>` | — |
 
 ### Office CLI 验证结果速览
@@ -58,6 +59,23 @@ bash fill-report.sh  →  横展开报告-OOO-XXXX-XXXX.xlsx
 ```
 
 → **いますぐデモを再現するには**：`cd validations/office-cli/test-data/template-demo && bash fill-report.sh`（1 分程度で完成版 Excel が新規作成されます）
+
+### ⭐ 新增：Nablarch ユーザー登録機能 端到端验证（nabledge-5 + Python 全流程）
+
+**位置**：`validations/nablarch-user-registration/`　**分支**：`feat/nablarch-user-registration-验证`
+
+验证 Agent 利用 **nabledge-5 知识库** + **Python(openpyxl)** 完成 Nablarch 5 用户注册功能从要件理解 → Excel 設計書产出的全流程。
+
+| 维度 | 结果 |
+|------|------|
+| **5 阶段全流程** | ✅ 外部设计 MD / 内部设计 + CSV / 代码生成 / 测试规格 + JUnit / Excel 灌入 |
+| **知识源** | `vendor/nabledge/plugins/nabledge-5/skills/nabledge-5/`(38MB Nablarch 5 知识库) |
+| **生成代码** | Form.java(@Required/@Length/@Email/@Pattern/@Domain)+ Action.java(@InjectForm/@OnError/@OnDoubleSubmission/PRG)+ User.sql(UniversalDao 規約) |
+| **测试用例** | 14 ケース(正常 3 + 异常 11 含边界值) + JUnit Test 类(BasicHttpRequestTestTemplate 継承) |
+| **最终成果物** | [W11AC01_ユーザー登録機能_詳細設計書.xlsx](validations/nablarch-user-registration/W11AC01_ユーザー登録機能_詳細設計書.xlsx)(3 Sheet 灌入) |
+| **数据对齐** | ✅ Excel 項目定義 Sheet 的「物理名/精査規則」== Form.java 注解 100% 一致 |
+| **离线部署清单** | README 第四章明确打包模型/Skill/脚本/Prompt 集 4 类资产 |
+| **详细报告** | [validations/nablarch-user-registration/README.md](validations/nablarch-user-registration/README.md) |
 
 ### ⭐ 新增：Nablarch batch 调用外部 API 验证
 
@@ -155,6 +173,7 @@ ai-tool-lab/
 | `main` | 主分支，稳定的项目结构和模板 |
 | `verify/office-cli` | Office CLI 验证分支 |
 | `feat/nablarch-batch-api-验证` | Nablarch batch 调 API 验证 + nabledge 离线副本 |
+| `feat/nablarch-user-registration-验证` | Nablarch 5 ユーザー登録機能 端到端验证（nabledge-5 全流程 + Excel 設計書） |
 | `verify/<tool-name>` | 其他工具验证分支 |
 
 完整分支管理规范见 [docs/BRANCHING.md](docs/BRANCHING.md)。

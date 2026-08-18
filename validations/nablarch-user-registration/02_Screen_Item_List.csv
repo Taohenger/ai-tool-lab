@@ -1,0 +1,4 @@
+No,画面ID,項目名 (論理名),物理名,Java型,桁数,精査ルール (Validation)
+1,W11AC01,ユーザー名,userName,String,50,"@Required + @Length(max=50) + @Domain(""userName"")"
+2,W11AC01,メールアドレス,email,String,254,"@Required + @Email + @Length(max=254) + @Domain(""email"")"
+3,W11AC01,パスワード,password,String,100,"@Required + @Length(min=8, max=100) + @Pattern(regexp=""[0-9a-zA-Z]+"") + @Domain(""password"")"
