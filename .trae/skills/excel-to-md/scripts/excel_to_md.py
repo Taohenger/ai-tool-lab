@@ -267,9 +267,11 @@ class Block:
 
 
 class ExcelConverter:
-    def __init__(self, source: Path, output_dir: Path, flavors: list[str], auto_tables: bool = True):
+    def __init__(self, source: Path, output_dir: Path, flavors: list[str], auto_tables: bool = True,
+                 values_source: Path | None = None):
         self.original_source = source
         self.source = source
+        self.values_source = values_source
         self.output_dir = output_dir
         self.flavors = flavors
         self.auto_tables = auto_tables
@@ -819,7 +821,10 @@ class ExcelConverter:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.archive = zipfile.ZipFile(self.source)
         self.wb = openpyxl.load_workbook(self.source, data_only=False, rich_text=True)
-        self.values_wb = openpyxl.load_workbook(self.source, data_only=True)
+        self.values_wb = openpyxl.load_workbook(self.values_source or self.source, data_only=True)
+        if self.values_source:
+            self.report["cached_values_source"] = str(self.values_source.resolve())
+            self.warn("公式结果来自单独的重算副本；原始工作簿的结构、格式和公式表达式保持不变。")
         self.themes = theme_colors(self.wb)
         parts = self.sheet_parts()
         objects_by_sheet = {
@@ -901,6 +906,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("-o", "--output-dir", type=Path, help="输出目录，默认 <文件名>-markdown")
     parser.add_argument("--flavor", choices=["pure", "rich", "both"], default="both", help="输出版本，默认 both")
     parser.add_argument("--no-auto-tables", action="store_true", help="仅转换 Excel 已定义的表，不自动识别表格")
+    parser.add_argument("--values-from", type=Path, help="从重算副本读取公式结果，正文仍使用原始工作簿")
     return parser.parse_args()
 
 
@@ -915,7 +921,10 @@ def main() -> int:
     try:
         prepared, temporary = prepare_source(source)
         flavors = ["pure", "rich"] if args.flavor == "both" else [args.flavor]
-        converter = ExcelConverter(source, output_dir, flavors, not args.no_auto_tables)
+        values_source = args.values_from.expanduser().resolve() if args.values_from else None
+        if values_source and not values_source.is_file():
+            raise ConversionError(f"公式结果副本不存在：{values_source}")
+        converter = ExcelConverter(source, output_dir, flavors, not args.no_auto_tables, values_source)
         converter.source = prepared
         report = converter.convert()
         print(json.dumps({"status": "ok", "outputs": report["outputs"], "report": report["report"],
