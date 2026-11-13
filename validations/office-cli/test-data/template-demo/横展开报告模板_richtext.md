@@ -1,0 +1,122 @@
+# 横展开报告模板
+
+<!-- 由 excel-to-md Skill 生成；源 Excel 未被修改。 -->
+
+> 来源文件：`横展开报告模板.xlsx`；工作表：3 个
+
+> 公式保留表达式及缓存结果；无法直接转换的对象见 conversion-report.json。
+
+# 工作表：1\_横展开报告
+
+> 原序号：1；状态：可见；范围：A1:F32；合并单元格：10 个
+
+## <span style="background-color:#1F4E78"><span style="color:#FFFFFF">**横展开报告**</span></span>
+
+- **A3**：**报告编号：**
+- **B3**：{{report\_id}}
+- **D3**：**作成日：**
+- **E3**：{{create\_date}}
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**1. 横展开目的**</span></span>
+
+{{purpose}}
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**2. 横展开分支（対象ブランチ）**</span></span>
+
+| **対象ブランチ：** | {{branches}} |
+|---|---|
+| **コミットハッシュ：** | {{commit\_hash}} |
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**3. 横展开作业时间**</span></span>
+
+- **A13**：**开始时间：**
+- **B13**：{{start\_time}}
+- **D13**：**结束时间：**
+- **E13**：{{end\_time}}
+
+- **A14**：**总工时：**
+- **B14**：{{total\_hours}} 小时
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**4. 横展开方法**</span></span>
+
+{{method}}
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**5. 横展开观点（检查项目）**</span></span>
+
+| <span style="background-color:#BDD7EE">**No.**</span> | <span style="background-color:#BDD7EE">**检查观点**</span> | <span style="background-color:#BDD7EE">**检查说明**</span> | <span style="background-color:#BDD7EE">**优先级**</span> |
+|---|---|---|---|
+| 1 | {{viewpoint\_1}} | {{viewpoint\_1\_desc}} | {{viewpoint\_1\_priority}} |
+| 2 | {{viewpoint\_2}} | {{viewpoint\_2\_desc}} | {{viewpoint\_2\_priority}} |
+| 3 | {{viewpoint\_3}} | {{viewpoint\_3\_desc}} | {{viewpoint\_3\_priority}} |
+| **总文件数：** | {{total\_files}} |  |  |
+| **检查总项目数：** | {{total\_checks}} |  |  |
+
+<span style="background-color:#DDEBF7"><span style="color:#1F4E78">**6. 横展开结论**</span></span>
+
+- **A28**：**问题数：**
+- **B28**：{{issue\_count}}
+- **D28**：**横展开状态：**
+- **E28**：{{status}}
+
+- **A29**：**结论总结：**
+- **B29**：{{conclusion}}
+
+- **A32**：**作成者：**
+- **B32**：{{author}}
+- **D32**：**承认者：**
+- **E32**：{{approver}}
+
+# 工作表：2\_监测一览
+
+> 原序号：2；状态：可见；范围：A1:H16；合并单元格：2 个
+
+<span style="background-color:#4472C4"><span style="color:#FFFFFF">**コード検索・モニタリング結果一覧（监测一览）**</span></span>
+
+| **报告编号：** | {{report\_id}} | 列3 | **対象ブランチ：** | {{branches}} | 列6 | **集计日：** | {{create\_date}} |
+|---|---|---|---|---|---|---|---|
+| <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**No.**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**ファイル名 (文件)**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**观点1 該当数**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**观点2 該当数**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**观点3 該当数**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**合計**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**ステータス**</span></span> | <span style="background-color:#D6E4F0"><span style="color:#1F4E78">**備考**</span></span> |
+| {file\_1\_no} | {file\_1\_name} | {file\_1\_vp1} | {file\_1\_vp2} | {file\_1\_vp3} | {file\_1\_total} | {file\_1\_status} | {file\_1\_remark} |
+| {file\_2\_no} | {file\_2\_name} | {file\_2\_vp1} | {file\_2\_vp2} | {file\_2\_vp3} | {file\_2\_total} | {file\_2\_status} | {file\_2\_remark} |
+| {file\_3\_no} | {file\_3\_name} | {file\_3\_vp1} | {file\_3\_vp2} | {file\_3\_vp3} | {file\_3\_total} | {file\_3\_status} | {file\_3\_remark} |
+| {file\_4\_no} | {file\_4\_name} | {file\_4\_vp1} | {file\_4\_vp2} | {file\_4\_vp3} | {file\_4\_total} | {file\_4\_status} | {file\_4\_remark} |
+| {file\_5\_no} | {file\_5\_name} | {file\_5\_vp1} | {file\_5\_vp2} | {file\_5\_vp3} | {file\_5\_total} | {file\_5\_status} | {file\_5\_remark} |
+| {file\_6\_no} | {file\_6\_name} | {file\_6\_vp1} | {file\_6\_vp2} | {file\_6\_vp3} | {file\_6\_total} | {file\_6\_status} | {file\_6\_remark} |
+| {file\_7\_no} | {file\_7\_name} | {file\_7\_vp1} | {file\_7\_vp2} | {file\_7\_vp3} | {file\_7\_total} | {file\_7\_status} | {file\_7\_remark} |
+| {file\_8\_no} | {file\_8\_name} | {file\_8\_vp1} | {file\_8\_vp2} | {file\_8\_vp3} | {file\_8\_total} | {file\_8\_status} | {file\_8\_remark} |
+| {file\_9\_no} | {file\_9\_name} | {file\_9\_vp1} | {file\_9\_vp2} | {file\_9\_vp3} | {file\_9\_total} | {file\_9\_status} | {file\_9\_remark} |
+| {file\_10\_no} | {file\_10\_name} | {file\_10\_vp1} | {file\_10\_vp2} | {file\_10\_vp3} | {file\_10\_total} | {file\_10\_status} | {file\_10\_remark} |
+| <mark>**合計**</mark> |  | <mark>**{total\_c}**</mark> | <mark>**{total\_d}**</mark> | <mark>**{total\_e}**</mark> | <mark>**{total\_f}**</mark> | <mark></mark> | <mark></mark> |
+
+# 工作表：3\_详细明細
+
+> 原序号：3；状态：可见；范围：A1:I25；合并单元格：2 个
+
+## <span style="background-color:#ED7D31"><span style="color:#FFFFFF">**コード検索詳細明細（详细检测结果）**</span></span>
+
+- **A3**：**报告编号：**
+- **B3**：{{report\_id}}
+- **D3**：**检查观点：**
+- **E3**：{{viewpoints\_summary}}
+
+| <span style="background-color:#FBE5D6"><span style="color:#843C0C">**No.**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**ファイルパス (文件路径)**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**行番号**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**列番号**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**コード内容 (代码片段)**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**该当検査観点**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**重要度**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**要修正**</span></span> | <span style="background-color:#FBE5D6"><span style="color:#843C0C">**修正内容 / コメント**</span></span> |
+|---|---|---|---|---|---|---|---|---|
+| {detail\_1\_no} | {detail\_1\_file} | {detail\_1\_line} | {detail\_1\_col} | {detail\_1\_code} | {detail\_1\_viewpoint} | {detail\_1\_severity} | {detail\_1\_needfix} | {detail\_1\_comment} |
+| {detail\_2\_no} | {detail\_2\_file} | {detail\_2\_line} | {detail\_2\_col} | {detail\_2\_code} | {detail\_2\_viewpoint} | {detail\_2\_severity} | {detail\_2\_needfix} | {detail\_2\_comment} |
+| {detail\_3\_no} | {detail\_3\_file} | {detail\_3\_line} | {detail\_3\_col} | {detail\_3\_code} | {detail\_3\_viewpoint} | {detail\_3\_severity} | {detail\_3\_needfix} | {detail\_3\_comment} |
+| {detail\_4\_no} | {detail\_4\_file} | {detail\_4\_line} | {detail\_4\_col} | {detail\_4\_code} | {detail\_4\_viewpoint} | {detail\_4\_severity} | {detail\_4\_needfix} | {detail\_4\_comment} |
+| {detail\_5\_no} | {detail\_5\_file} | {detail\_5\_line} | {detail\_5\_col} | {detail\_5\_code} | {detail\_5\_viewpoint} | {detail\_5\_severity} | {detail\_5\_needfix} | {detail\_5\_comment} |
+| {detail\_6\_no} | {detail\_6\_file} | {detail\_6\_line} | {detail\_6\_col} | {detail\_6\_code} | {detail\_6\_viewpoint} | {detail\_6\_severity} | {detail\_6\_needfix} | {detail\_6\_comment} |
+| {detail\_7\_no} | {detail\_7\_file} | {detail\_7\_line} | {detail\_7\_col} | {detail\_7\_code} | {detail\_7\_viewpoint} | {detail\_7\_severity} | {detail\_7\_needfix} | {detail\_7\_comment} |
+| {detail\_8\_no} | {detail\_8\_file} | {detail\_8\_line} | {detail\_8\_col} | {detail\_8\_code} | {detail\_8\_viewpoint} | {detail\_8\_severity} | {detail\_8\_needfix} | {detail\_8\_comment} |
+| {detail\_9\_no} | {detail\_9\_file} | {detail\_9\_line} | {detail\_9\_col} | {detail\_9\_code} | {detail\_9\_viewpoint} | {detail\_9\_severity} | {detail\_9\_needfix} | {detail\_9\_comment} |
+| {detail\_10\_no} | {detail\_10\_file} | {detail\_10\_line} | {detail\_10\_col} | {detail\_10\_code} | {detail\_10\_viewpoint} | {detail\_10\_severity} | {detail\_10\_needfix} | {detail\_10\_comment} |
+| {detail\_11\_no} | {detail\_11\_file} | {detail\_11\_line} | {detail\_11\_col} | {detail\_11\_code} | {detail\_11\_viewpoint} | {detail\_11\_severity} | {detail\_11\_needfix} | {detail\_11\_comment} |
+| {detail\_12\_no} | {detail\_12\_file} | {detail\_12\_line} | {detail\_12\_col} | {detail\_12\_code} | {detail\_12\_viewpoint} | {detail\_12\_severity} | {detail\_12\_needfix} | {detail\_12\_comment} |
+| {detail\_13\_no} | {detail\_13\_file} | {detail\_13\_line} | {detail\_13\_col} | {detail\_13\_code} | {detail\_13\_viewpoint} | {detail\_13\_severity} | {detail\_13\_needfix} | {detail\_13\_comment} |
+| {detail\_14\_no} | {detail\_14\_file} | {detail\_14\_line} | {detail\_14\_col} | {detail\_14\_code} | {detail\_14\_viewpoint} | {detail\_14\_severity} | {detail\_14\_needfix} | {detail\_14\_comment} |
+| {detail\_15\_no} | {detail\_15\_file} | {detail\_15\_line} | {detail\_15\_col} | {detail\_15\_code} | {detail\_15\_viewpoint} | {detail\_15\_severity} | {detail\_15\_needfix} | {detail\_15\_comment} |
+| {detail\_16\_no} | {detail\_16\_file} | {detail\_16\_line} | {detail\_16\_col} | {detail\_16\_code} | {detail\_16\_viewpoint} | {detail\_16\_severity} | {detail\_16\_needfix} | {detail\_16\_comment} |
+| {detail\_17\_no} | {detail\_17\_file} | {detail\_17\_line} | {detail\_17\_col} | {detail\_17\_code} | {detail\_17\_viewpoint} | {detail\_17\_severity} | {detail\_17\_needfix} | {detail\_17\_comment} |
+| {detail\_18\_no} | {detail\_18\_file} | {detail\_18\_line} | {detail\_18\_col} | {detail\_18\_code} | {detail\_18\_viewpoint} | {detail\_18\_severity} | {detail\_18\_needfix} | {detail\_18\_comment} |
+| {detail\_19\_no} | {detail\_19\_file} | {detail\_19\_line} | {detail\_19\_col} | {detail\_19\_code} | {detail\_19\_viewpoint} | {detail\_19\_severity} | {detail\_19\_needfix} | {detail\_19\_comment} |
+| {detail\_20\_no} | {detail\_20\_file} | {detail\_20\_line} | {detail\_20\_col} | {detail\_20\_code} | {detail\_20\_viewpoint} | {detail\_20\_severity} | {detail\_20\_needfix} | {detail\_20\_comment} |

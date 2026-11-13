@@ -1,0 +1,63 @@
+{
+  "source": "/workspace/validations/office-cli/test-data/excel-to-md/设计文档测试.xlsx",
+  "converter_version": "1.0.0",
+  "sheets": [
+    {
+      "title": "设计说明",
+      "state": "visible",
+      "range": "A1:E20",
+      "nonempty_cells": 32,
+      "formula_cells": 0,
+      "formula_cells_without_cached_result": 0,
+      "merged_ranges": [
+        "A1:E1"
+      ],
+      "hidden_rows": [],
+      "hidden_columns": [],
+      "actual_tables": 0,
+      "auto_tables": 1,
+      "comments": 0,
+      "images": 0,
+      "shapes": 2,
+      "charts": 0
+    },
+    {
+      "title": "UI设计说明",
+      "state": "visible",
+      "range": "A1:D9",
+      "nonempty_cells": 6,
+      "formula_cells": 0,
+      "formula_cells_without_cached_result": 0,
+      "merged_ranges": [
+        "A1:D1"
+      ],
+      "hidden_rows": [],
+      "hidden_columns": [],
+      "actual_tables": 0,
+      "auto_tables": 0,
+      "comments": 0,
+      "images": 0,
+      "shapes": 0,
+      "charts": 0
+    }
+  ],
+  "warnings": [],
+  "unreferenced_media": [],
+  "embedded_files": [],
+  "outputs": {
+    "pure": "/workspace/validations/office-cli/test-data/excel-to-md/设计文档测试.md",
+    "rich": "/workspace/validations/office-cli/test-data/excel-to-md/设计文档测试_richtext.md"
+  },
+  "totals": {
+    "sheets": 2,
+    "nonempty_cells": 38,
+    "formula_cells": 0,
+    "formula_cells_without_cached_result": 0,
+    "actual_tables": 0,
+    "auto_tables": 1,
+    "images": 0,
+    "shapes": 2,
+    "charts": 0,
+    "comments": 0
+  }
+}

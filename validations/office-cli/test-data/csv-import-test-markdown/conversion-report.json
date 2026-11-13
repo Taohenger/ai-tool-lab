@@ -1,0 +1,42 @@
+{
+  "source": "/workspace/validations/office-cli/test-data/csv-import-test.xlsx",
+  "converter_version": "1.0.0",
+  "sheets": [
+    {
+      "title": "Sheet1",
+      "state": "visible",
+      "range": "A1:A1",
+      "nonempty_cells": 0,
+      "formula_cells": 0,
+      "formula_cells_without_cached_result": 0,
+      "merged_ranges": [],
+      "hidden_rows": [],
+      "hidden_columns": [],
+      "actual_tables": 0,
+      "auto_tables": 0,
+      "comments": 0,
+      "images": 0,
+      "shapes": 0,
+      "charts": 0
+    }
+  ],
+  "warnings": [],
+  "unreferenced_media": [],
+  "embedded_files": [],
+  "outputs": {
+    "pure": "/workspace/validations/office-cli/test-data/csv-import-test-markdown/csv-import-test.md",
+    "rich": "/workspace/validations/office-cli/test-data/csv-import-test-markdown/csv-import-test_richtext.md"
+  },
+  "totals": {
+    "sheets": 1,
+    "nonempty_cells": 0,
+    "formula_cells": 0,
+    "formula_cells_without_cached_result": 0,
+    "actual_tables": 0,
+    "auto_tables": 0,
+    "images": 0,
+    "shapes": 0,
+    "charts": 0,
+    "comments": 0
+  }
+}
