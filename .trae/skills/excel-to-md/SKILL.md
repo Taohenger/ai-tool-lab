@@ -70,6 +70,7 @@ python scripts/excel_to_md.py "输入.xlsx" -o "输出目录" --flavor both
 | `--flavor rich` | 仅生成带 HTML 颜色和背景的富文本版 |
 | `--flavor both` | 两个版本都生成，默认 |
 | `--no-auto-tables` | 关闭未命名区域自动表格识别，仅保留 Excel 已定义的表 |
+| `--values-from` | 从重算副本读取公式结果；结构、格式和公式表达式仍使用原始工作簿 |
 
 ## 输出
 

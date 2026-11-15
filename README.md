@@ -77,6 +77,10 @@ bash fill-report.sh  →  横展开报告-OOO-XXXX-XXXX.xlsx
 
 **快速复现**：`cd validations/office-cli/test-data/excel-to-md && python3 excel_to_md.py`
 
+**独立 Skill（不依赖 OfficeCLI）**：`.trae/skills/excel-to-md/`；完整说明见 [SKILL.md](.trae/skills/excel-to-md/SKILL.md)。
+
+**跨电脑交接与复验**：按 [EXCEL_TO_MD_HANDOFF.md](docs/EXCEL_TO_MD_HANDOFF.md) 在另一台电脑实际安装、测试并转换样例。
+
 ## 目录结构
 
 ```
