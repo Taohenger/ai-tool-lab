@@ -78,10 +78,13 @@ def enrich_drawings(converter, sheets: dict[str, str], mode: str) -> list[dict]:
         shutil.copy2(converter.original_source, original)
     for info in records:
         info['source_workbook'] = original.relative_to(converter.output_dir).as_posix()
-    if mode == 'never':
+    if mode == 'never' or converter.backend == 'openpyxl':
         for info in records:
             info['render_status'] = 'disabled'
         converter.warn('绘图预览已禁用；保留连接信息和原始工作簿附件，不能将文字描述视为完整流程图。')
+        return records
+    if converter.backend == 'officecli':
+        export_officecli(converter, records)
         return records
     executable = shutil.which('libreoffice') or shutil.which('soffice')
     if not executable:
@@ -134,7 +137,10 @@ def enrich_drawings(converter, sheets: dict[str, str], mode: str) -> list[dict]:
 
 def drawing_markdown(info: dict) -> str:
     lines = ['## 流程图与绘图', '']
-    if info['render_status'] == 'rendered':
+    if info['render_status'] == 'auxiliary':
+        lines += [f"[OfficeCLI 辅助预览]({info['officecli_html']})", '',
+                  '> 此预览可能遗漏连接线、箭头、组合图形；不能作为流程图完整还原的凭证。', '']
+    elif info['render_status'] == 'rendered':
         lines += [f"![工作表绘图预览]({info['preview']})", '',
                   f"[高清矢量 PDF（第 {info['pdf_page']} 页）]({info['pdf']})", '',
                   '> 预览由 LibreOffice 渲染，复杂图形及公式显示请与原文件核对。', '']
@@ -162,3 +168,32 @@ def drawing_markdown(info: dict) -> str:
     if not info['connectors']:
         lines.append('- 未发现带端点信息的独立连接线；不据此判断工作表没有流程图。')
     return '\n'.join(lines)
+
+
+def export_officecli(converter, records: list[dict]) -> None:
+    """Export OfficeCLI's HTML as auxiliary evidence, never certify complete diagrams."""
+    executable = converter.officecli or shutil.which('officecli')
+    if not executable:
+        for info in records:
+            info['render_status'] = 'unavailable'
+        converter.warn('未找到 OfficeCLI；未生成辅助预览，已保留连接信息和原始工作簿。可用 --officecli 指定路径。')
+        return
+    try:
+        with tempfile.TemporaryDirectory(prefix='excel-officecli-') as temp:
+            work = Path(temp)
+            source = work/('source'+converter.source.suffix)
+            shutil.copy2(converter.source, source)
+            preview = work/'preview.html'
+            process = subprocess.run([str(executable), 'view', str(source), 'html', '-o', str(preview)],
+                                     capture_output=True, text=True, timeout=120)
+            if process.returncode != 0 or not preview.is_file() or not preview.stat().st_size:
+                raise RuntimeError((process.stderr or process.stdout or '未输出 HTML')[-1000:])
+            target = converter.assets_dir/'officecli-preview.html'
+            shutil.copy2(preview, target)
+            for info in records:
+                info.update(render_status='auxiliary', officecli_html=target.relative_to(converter.output_dir).as_posix())
+        converter.warn('OfficeCLI 输出仅为辅助 HTML 预览，可能遗漏原生连接线、箭头、组合图形或 SmartArt，不能当作完整流程图；连接关系仍以源 OOXML 为准，原始工作簿已附带。')
+    except (OSError, RuntimeError, subprocess.SubprocessError) as exc:
+        for info in records:
+            info['render_status'] = 'failed'
+        converter.warn(f'OfficeCLI 辅助预览失败：{exc}；已保留连接信息和原始工作簿。')

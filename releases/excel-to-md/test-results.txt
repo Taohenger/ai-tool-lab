@@ -1,0 +1,47 @@
+Backend/flowchart regression suite (OFFICECLI_TEST enabled):
+test_legacy_xls_cannot_sneak_libreoffice_into_base_profiles (test_backends.BackendTest.test_legacy_xls_cannot_sneak_libreoffice_into_base_profiles) ... ok
+test_officecli_failure_does_not_claim_preview_success (test_backends.BackendTest.test_officecli_failure_does_not_claim_preview_success) ... ok
+test_officecli_missing_is_reported_without_trying_libreoffice (test_backends.BackendTest.test_officecli_missing_is_reported_without_trying_libreoffice) ... ok
+test_openpyxl_does_not_run_external_tools (test_backends.BackendTest.test_openpyxl_does_not_run_external_tools) ... ok
+test_real_officecli_exports_html_but_does_not_certify_arrows (test_backends.BackendTest.test_real_officecli_exports_html_but_does_not_certify_arrows) ... ok
+test_complex_workbook_roundtrip (test_excel_to_md.ExcelToMarkdownTest.test_complex_workbook_roundtrip) ... ok
+test_bidirectional_and_undirected_edges_are_not_forced_one_way (test_flowcharts.FlowchartTest.test_bidirectional_and_undirected_edges_are_not_forced_one_way) ... ok
+test_dangling_connections_not_invented_and_unknown_frames_reported (test_flowcharts.FlowchartTest.test_dangling_connections_not_invented_and_unknown_frames_reported) ... ok
+test_grouped_branches_and_reverse_arrow_keep_exact_endpoints (test_flowcharts.FlowchartTest.test_grouped_branches_and_reverse_arrow_keep_exact_endpoints) ... ok
+test_missing_renderer_preserves_source_and_warns (test_flowcharts.FlowchartTest.test_missing_renderer_preserves_source_and_warns) ... ok
+test_real_render_with_hidden_sheet_keeps_preview_and_relative_links (test_flowcharts.FlowchartTest.test_real_render_with_hidden_sheet_keeps_preview_and_relative_links) ... ok
+test_renderer_failure_retains_connections_and_source (test_flowcharts.FlowchartTest.test_renderer_failure_retains_connections_and_source) ... ok
+test_required_missing_renderer_returns_error_but_keeps_report (test_flowcharts.FlowchartTest.test_required_missing_renderer_returns_error_but_keeps_report) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 34.625s
+
+OK
+
+Standalone distribution/reproducible ZIP test:
+test_three_standalone_packages_have_correct_defaults_and_dependencies (test_excel_variant_packages.DistributionTest.test_three_standalone_packages_have_correct_defaults_and_dependencies) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.845s
+
+OK
+
+Fresh base venv (openpyxl/Pillow only, no PyMuPDF):
+test_legacy_xls_cannot_sneak_libreoffice_into_base_profiles (test_backends.BackendTest.test_legacy_xls_cannot_sneak_libreoffice_into_base_profiles) ... ok
+test_officecli_failure_does_not_claim_preview_success (test_backends.BackendTest.test_officecli_failure_does_not_claim_preview_success) ... ok
+test_officecli_missing_is_reported_without_trying_libreoffice (test_backends.BackendTest.test_officecli_missing_is_reported_without_trying_libreoffice) ... ok
+test_openpyxl_does_not_run_external_tools (test_backends.BackendTest.test_openpyxl_does_not_run_external_tools) ... ok
+test_real_officecli_exports_html_but_does_not_certify_arrows (test_backends.BackendTest.test_real_officecli_exports_html_but_does_not_certify_arrows) ... skipped 'Set OFFICECLI_TEST to test real OfficeCLI'
+test_complex_workbook_roundtrip (test_excel_to_md.ExcelToMarkdownTest.test_complex_workbook_roundtrip) ... ok
+test_bidirectional_and_undirected_edges_are_not_forced_one_way (test_flowcharts.FlowchartTest.test_bidirectional_and_undirected_edges_are_not_forced_one_way) ... ok
+test_dangling_connections_not_invented_and_unknown_frames_reported (test_flowcharts.FlowchartTest.test_dangling_connections_not_invented_and_unknown_frames_reported) ... ok
+test_grouped_branches_and_reverse_arrow_keep_exact_endpoints (test_flowcharts.FlowchartTest.test_grouped_branches_and_reverse_arrow_keep_exact_endpoints) ... ok
+test_missing_renderer_preserves_source_and_warns (test_flowcharts.FlowchartTest.test_missing_renderer_preserves_source_and_warns) ... ok
+test_real_render_with_hidden_sheet_keeps_preview_and_relative_links (test_flowcharts.FlowchartTest.test_real_render_with_hidden_sheet_keeps_preview_and_relative_links) ... skipped 'LibreOffice/PyMuPDF not installed'
+test_renderer_failure_retains_connections_and_source (test_flowcharts.FlowchartTest.test_renderer_failure_retains_connections_and_source) ... skipped 'PyMuPDF not installed'
+test_required_missing_renderer_returns_error_but_keeps_report (test_flowcharts.FlowchartTest.test_required_missing_renderer_returns_error_but_keeps_report) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.026s
+
+OK (skipped=3)

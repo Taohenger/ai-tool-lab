@@ -1,4 +1,4 @@
-import hashlib,json,os,re,shutil,subprocess,sys,tempfile,unittest
+import hashlib,json,os,re,shutil,subprocess,sys,tempfile,unittest,importlib.util
 from pathlib import Path
 from PIL import Image
 from flowchart_fixture import workbook
@@ -7,7 +7,7 @@ SCRIPT=Path(__file__).resolve().parents[1]/'scripts/excel_to_md.py'
 class FlowchartTest(unittest.TestCase):
     def convert(self,root,*args,env=None,**fixture):
         source=root/'流程图.xlsx';workbook(source,**fixture);before=source.read_bytes()
-        run=subprocess.run([sys.executable,str(SCRIPT),str(source),'-o',str(root/'output'),*args],capture_output=True,text=True,env=env,timeout=150)
+        run=subprocess.run([sys.executable,str(SCRIPT),str(source),'-o',str(root/'output'),'--backend','libreoffice',*args],capture_output=True,text=True,env=env,timeout=150)
         self.assertEqual(source.read_bytes(),before)
         self.assertEqual(run.returncode,0,run.stderr)
         return json.loads((root/'output/conversion-report.json').read_text()),(root/'output/流程图.md').read_text()
@@ -74,12 +74,13 @@ class FlowchartTest(unittest.TestCase):
     def test_required_missing_renderer_returns_error_but_keeps_report(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);src=root/'required.xlsx';workbook(src)
-            run=subprocess.run([sys.executable,str(SCRIPT),str(src),'-o',str(root/'out'),'--diagram-render','required'],env=dict(os.environ,PATH=td),capture_output=True,text=True)
+            run=subprocess.run([sys.executable,str(SCRIPT),str(src),'-o',str(root/'out'),'--backend','libreoffice','--diagram-render','required'],env=dict(os.environ,PATH=td),capture_output=True,text=True)
             self.assertNotEqual(run.returncode,0)
             report=json.loads((root/'out/conversion-report.json').read_text())
             self.assertEqual(report['drawings'][0]['render_status'],'unavailable')
             self.assertTrue((root/'out'/report['drawings'][0]['source_workbook']).is_file())
 
+    @unittest.skipUnless(importlib.util.find_spec("pymupdf"), "PyMuPDF not installed")
     def test_renderer_failure_retains_connections_and_source(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);fake=root/'soffice'
@@ -90,7 +91,7 @@ class FlowchartTest(unittest.TestCase):
             self.assertIn('审核通过？ → 通过：执行',md)
             self.assertNotIn('![工作表绘图预览]',md)
 
-    @unittest.skipUnless(shutil.which('soffice') or shutil.which('libreoffice'),'LibreOffice not installed')
+    @unittest.skipUnless((shutil.which('soffice') or shutil.which('libreoffice')) and importlib.util.find_spec('pymupdf'),'LibreOffice/PyMuPDF not installed')
     def test_real_render_with_hidden_sheet_keeps_preview_and_relative_links(self):
         with tempfile.TemporaryDirectory() as td:
             root=Path(td);report,md=self.convert(root,'--diagram-render','required',hidden_drawing=True)

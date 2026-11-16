@@ -162,3 +162,7 @@ python -m pip download -r .trae/skills/excel-to-md/requirements.txt -d .trae/ski
 ```bash
 .trae/skills/excel-to-md/.venv/bin/python -m unittest discover -s .trae/skills/excel-to-md/tests -v
 ```
+
+## 13. 三种独立发行包（1.2.0）
+
+现在提供纯 Python、OfficeCLI 辅助、LibreOffice 增强三个独立 Skill 和 ZIP；请先阅读 [版本对比与下载](EXCEL_TO_MD_VERSIONS.md)。纯 Python/OfficeCLI 版不安装 PyMuPDF、不调用 LibreOffice，也不会为旧 `.xls` 暗中使用它。OfficeCLI 版实际调用 `officecli view ... html`，但只提供辅助预览，不能承诺箭头完整。

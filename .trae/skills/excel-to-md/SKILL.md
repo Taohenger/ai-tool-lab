@@ -143,3 +143,11 @@ python -m unittest discover -s tests -v
 ```
 
 LibreOffice 安装示例：Debian/Ubuntu 使用 `sudo apt install libreoffice-calc`；macOS 可使用 `brew install --cask libreoffice`；Windows 安装 LibreOffice 后将其 `program` 目录加入 PATH。部分系统还需安装适当的中文字体。不是用 OfficeCLI 截图兜底：已验证其当前 Excel 渲染路径会遗漏原生连接线。
+
+## 三种独立发行包（1.2.0）
+
+纯 Python、OfficeCLI 辅助、LibreOffice 增强版现分别位于同级的 `excel-to-md-openpyxl`、`excel-to-md-officecli`、`excel-to-md-libreoffice`。本目录为统一开发源码，默认采用 LibreOffice 后端；生成目录通过 `variant.json` 固定各自默认值。
+
+`--backend openpyxl|officecli|libreoffice` 可明确选择后端。纯 Python 不调用外部程序；OfficeCLI 仅调用 OfficeCLI 导出辅助 HTML（`--officecli` 可指定路径），不调用 LibreOffice，且不保证流程箭头完整；增强版才生成 LibreOffice PNG/PDF。纯 Python 和 OfficeCLI 版拒绝 `.xls`，要求先另存为 `.xlsx`。
+
+用户安装时优先选有明确名称的独立 ZIP，具体对比见仓库 `docs/EXCEL_TO_MD_VERSIONS.md`。

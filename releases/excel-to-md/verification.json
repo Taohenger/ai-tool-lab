@@ -1,0 +1,111 @@
+{
+  "openpyxl": {
+    "totals": {
+      "sheets": 5,
+      "nonempty_cells": 2278,
+      "formula_cells": 93,
+      "formula_cells_without_cached_result": 93,
+      "actual_tables": 0,
+      "auto_tables": 13,
+      "images": 5,
+      "shapes": 5,
+      "charts": 0,
+      "comments": 0
+    },
+    "render_status": [
+      "disabled"
+    ],
+    "assets_links_verified": {
+      "完整设计文档测试_richtext.md": 6,
+      "完整设计文档测试.md": 6
+    },
+    "source_sha256": "67ce6c08da1d81ec25d0f765ae6683fb90ea5f81d420fc05d02b63d67bca184e",
+    "warnings": [
+      "绘图预览已禁用；保留连接信息和原始工作簿附件，不能将文字描述视为完整流程图。",
+      "93 个公式没有缓存结果，已保留公式表达式并标记“无缓存结果”。如需结果，请先用 Excel 或 LibreOffice 重新计算并保存，再执行转换。"
+    ],
+    "command": [
+      "/workspace/excel-base-venv/bin/python",
+      "/workspace/ai-tool-lab/.trae/skills/excel-to-md-openpyxl/scripts/excel_to_md.py",
+      "/workspace/ai-tool-lab/validations/office-cli/test-data/excel-to-md/完整设计文档测试.xlsx",
+      "-o",
+      "/workspace/ai-tool-lab/variant-verification/openpyxl",
+      "--flavor",
+      "both"
+    ]
+  },
+  "officecli": {
+    "totals": {
+      "sheets": 5,
+      "nonempty_cells": 2278,
+      "formula_cells": 93,
+      "formula_cells_without_cached_result": 93,
+      "actual_tables": 0,
+      "auto_tables": 13,
+      "images": 5,
+      "shapes": 5,
+      "charts": 0,
+      "comments": 0
+    },
+    "render_status": [
+      "auxiliary"
+    ],
+    "assets_links_verified": {
+      "完整设计文档测试_richtext.md": 7,
+      "完整设计文档测试.md": 7
+    },
+    "source_sha256": "67ce6c08da1d81ec25d0f765ae6683fb90ea5f81d420fc05d02b63d67bca184e",
+    "warnings": [
+      "OfficeCLI 输出仅为辅助 HTML 预览，可能遗漏原生连接线、箭头、组合图形或 SmartArt，不能当作完整流程图；连接关系仍以源 OOXML 为准，原始工作簿已附带。",
+      "93 个公式没有缓存结果，已保留公式表达式并标记“无缓存结果”。如需结果，请先用 Excel 或 LibreOffice 重新计算并保存，再执行转换。"
+    ],
+    "command": [
+      "/workspace/excel-base-venv/bin/python",
+      "/workspace/ai-tool-lab/.trae/skills/excel-to-md-officecli/scripts/excel_to_md.py",
+      "/workspace/ai-tool-lab/validations/office-cli/test-data/excel-to-md/完整设计文档测试.xlsx",
+      "-o",
+      "/workspace/ai-tool-lab/variant-verification/officecli",
+      "--flavor",
+      "both",
+      "--officecli",
+      "/workspace/officecli-bin/officecli"
+    ]
+  },
+  "libreoffice": {
+    "totals": {
+      "sheets": 5,
+      "nonempty_cells": 2278,
+      "formula_cells": 93,
+      "formula_cells_without_cached_result": 93,
+      "actual_tables": 0,
+      "auto_tables": 13,
+      "images": 5,
+      "shapes": 5,
+      "charts": 0,
+      "comments": 0
+    },
+    "render_status": [
+      "rendered"
+    ],
+    "assets_links_verified": {
+      "完整设计文档测试_richtext.md": 8,
+      "完整设计文档测试.md": 8
+    },
+    "source_sha256": "67ce6c08da1d81ec25d0f765ae6683fb90ea5f81d420fc05d02b63d67bca184e",
+    "warnings": [
+      "绘图预览由 LibreOffice 渲染，可能重算公式或改变字体、SmartArt 和复杂排版；仅作视觉参考，公式正文仍使用源文件缓存。原始工作簿附件为准。",
+      "93 个公式没有缓存结果，已保留公式表达式并标记“无缓存结果”。如需结果，请先用 Excel 或 LibreOffice 重新计算并保存，再执行转换。"
+    ],
+    "command": [
+      "/workspace/ai-tool-lab/.trae/skills/excel-to-md/.venv/bin/python",
+      "/workspace/ai-tool-lab/.trae/skills/excel-to-md-libreoffice/scripts/excel_to_md.py",
+      "/workspace/ai-tool-lab/validations/office-cli/test-data/excel-to-md/完整设计文档测试.xlsx",
+      "-o",
+      "/workspace/ai-tool-lab/variant-verification/libreoffice",
+      "--flavor",
+      "both",
+      "--diagram-render",
+      "required"
+    ]
+  }
+}
