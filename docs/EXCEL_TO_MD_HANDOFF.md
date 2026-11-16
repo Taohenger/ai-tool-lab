@@ -146,3 +146,19 @@ python -m pip download -r .trae/skills/excel-to-md/requirements.txt -d .trae/ski
 ```text
 请克隆 https://github.com/Taohenger/ai-tool-lab，阅读 docs/EXCEL_TO_MD_HANDOFF.md，并在当前电脑实际执行安装、自动化测试和完整样例转换。不要只检查文件存在。请核对工作表数、非空单元格数、表格数、真实图片、吹出泡、删除线、背景色和公式，检查 conversion-report.json 的全部警告，并验证图片相对链接。最后报告操作系统、Python 版本、实际执行命令、通过项、失败项和限制。不要修改源 Excel。
 ```
+
+## 12. 可编辑流程图增强（1.1.0）
+
+新增 `scripts/flowcharts.py` 和 PyMuPDF 依赖；迁移时请携带整个 Skill，不要仅替换主脚本。
+
+转换默认会为包含绘图对象的工作表尝试生成 `assets/sheetNN-drawing.png`、`assets/drawing-preview.pdf`，并附 `assets/original-workbook.*` 源文件副本。Markdown 直接展示预览图，随后列出能够从 OOXML 端点 ID 确认的连接关系。源文件仍只读。
+
+图形渲染需要目标电脑额外安装 LibreOffice，并使 `soffice` 或 `libreoffice` 可从 PATH 调用。只有 Python 和 Skill 依赖时，仍能完成单元格、原图提取及明确连接关系的转换，但缺失绘图预览必须告警。可用 `--diagram-render required` 将缺失或失败的预览视为命令失败，防止把不完整流程图误当成功。
+
+`conversion-report.json` 新增 `drawings[]`：每张表的节点、连接线起止 ID、方向、端点是否解析、渲染状态、PNG/PDF/原始工作簿相对路径。状态 `rendered` 只说明输出了预览；不能证明 SmartArt 或复杂版式已像素级还原。LibreOffice 可能重算截图中的公式，正文仍保留原文件缓存状态，不能将截图数值当原始缓存。
+
+完整样例原有的 5 张图片统计不变；新增绘图预览另外记录在 `drawings[]`，因此 Markdown 中图片引用数可能大于 5。验证相对链接时也须检查 PDF 和原始工作簿附件。运行全部测试：
+
+```bash
+.trae/skills/excel-to-md/.venv/bin/python -m unittest discover -s .trae/skills/excel-to-md/tests -v
+```
