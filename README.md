@@ -147,3 +147,9 @@ git add .
 git commit -m "验证(<tool-name>): 完成完整验证报告"
 git push -u origin verify/<tool-name>
 ```
+
+### Excel 转 Markdown：三种独立 Skill
+
+现在可按电脑环境选择 [纯 Python（openpyxl）版](.trae/skills/excel-to-md-openpyxl/)、[OfficeCLI 辅助版](.trae/skills/excel-to-md-officecli/) 或 [LibreOffice 增强版](.trae/skills/excel-to-md-libreoffice/)。每种均提供独立安装器、测试和 ZIP。
+
+**[查看版本差异、下载安装和实测结果](docs/EXCEL_TO_MD_VERSIONS.md)**。需要保留可编辑流程图的整图预览时选 LibreOffice 增强版；OfficeCLI 辅助预览不保证流程箭头完整。

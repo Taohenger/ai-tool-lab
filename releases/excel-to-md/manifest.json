@@ -1,0 +1,17 @@
+{
+  "excel-to-md-openpyxl": {
+    "backend": "openpyxl",
+    "sha256": "efe7e6602127d07a78d2a1ae1ce883be1585647065a1c705b5e7b1f699d805ec",
+    "bytes": 28820
+  },
+  "excel-to-md-officecli": {
+    "backend": "officecli",
+    "sha256": "bbd7f706e332b30e952697c9fadb90b00e58588f29c53fe6b24f430792b2b0d6",
+    "bytes": 28868
+  },
+  "excel-to-md-libreoffice": {
+    "backend": "libreoffice",
+    "sha256": "1f0229f4bbfc483e14d2286e1d9b9cba5b13a35e75b7c8d6dab3e60cd2b9094f",
+    "bytes": 28947
+  }
+}

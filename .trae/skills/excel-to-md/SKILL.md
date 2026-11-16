@@ -118,3 +118,36 @@ python tests/test_excel_to_md.py
 ```
 
 交付前至少确认：工作表数、非空单元格数、表格数、图片数、形状数与源文件相符；所有 Markdown 引用的本地资源存在；警告已逐条解释。
+
+## 可编辑流程图与组合绘图（1.1.0）
+
+默认 `--diagram-render auto`：有形状、连接线、组合图形、图表或未知 graphicFrame 的工作表会额外生成整体预览。
+
+- 直接从 OOXML 读取嵌套组合中的形状文字、节点 ID、连接线两端 ID 和箭头方向。只有两端唯一对应到节点时才输出连接关系，不按相邻位置猜测；双向线和无向线分别保留。
+- 用 **LibreOffice** 导出临时工作簿副本的整页 PDF，再由 **PyMuPDF** 生成 PNG。PNG 嵌入 Markdown；PDF 供放大查看。保持整个工作表作为上下文，避免裁掉箭头、分支标签和旁注。
+- `assets/original-workbook.*` 是源文件逐字节副本，保留可编辑图形。报告 `drawings[]` 记录节点、连接线、未解析对象、渲染状态及相对资源路径。
+- `render_status=rendered` 只代表成功输出预览，**不是图形与 Excel 完全一致的认证**。LibreOffice 可能改变字体、SmartArt、复杂排版，也可能重算公式；正文公式与缓存仍只来自原始文件或显式指定的 `--values-from`。
+- SmartArt 仍不保证能提取节点关系；普通线条若未记录端点 ID，也不能可靠推断业务流程。保留整图预览和源工作簿，逐项告警，禁止声称“任意流程图均完整识别”。
+
+普通转换不强制安装 LibreOffice；要保留可编辑流程图的视觉预览，目标电脑需安装 LibreOffice，并确保 `libreoffice` 或 `soffice` 在 PATH 中。Python 安装器会安装 PyMuPDF。
+
+```bash
+# 有绘图但无法渲染时返回非零；报告、文字信息和源文件副本仍保留
+python scripts/excel_to_md.py 输入.xlsx -o 输出目录 --diagram-render required
+
+# 只提取文字和明确的连接关系，不运行外部渲染器
+python scripts/excel_to_md.py 输入.xlsx -o 输出目录 --diagram-render never
+
+# 运行全部测试（含流程图测试；无 LibreOffice 时跳过真实渲染测试）
+python -m unittest discover -s tests -v
+```
+
+LibreOffice 安装示例：Debian/Ubuntu 使用 `sudo apt install libreoffice-calc`；macOS 可使用 `brew install --cask libreoffice`；Windows 安装 LibreOffice 后将其 `program` 目录加入 PATH。部分系统还需安装适当的中文字体。不是用 OfficeCLI 截图兜底：已验证其当前 Excel 渲染路径会遗漏原生连接线。
+
+## 三种独立发行包（1.2.0）
+
+纯 Python、OfficeCLI 辅助、LibreOffice 增强版现分别位于同级的 `excel-to-md-openpyxl`、`excel-to-md-officecli`、`excel-to-md-libreoffice`。本目录为统一开发源码，默认采用 LibreOffice 后端；生成目录通过 `variant.json` 固定各自默认值。
+
+`--backend openpyxl|officecli|libreoffice` 可明确选择后端。纯 Python 不调用外部程序；OfficeCLI 仅调用 OfficeCLI 导出辅助 HTML（`--officecli` 可指定路径），不调用 LibreOffice，且不保证流程箭头完整；增强版才生成 LibreOffice PNG/PDF。纯 Python 和 OfficeCLI 版拒绝 `.xls`，要求先另存为 `.xlsx`。
+
+用户安装时优先选有明确名称的独立 ZIP，具体对比见仓库 `docs/EXCEL_TO_MD_VERSIONS.md`。

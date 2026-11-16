@@ -34,7 +34,7 @@ except ImportError:
     print("缺少依赖，请先运行本 Skill 的 install.sh 或 install.ps1。", file=sys.stderr)
     raise SystemExit(2)
 
-VERSION = "1.0.0"
+VERSION = "1.2.0"
 DOC_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships"
 EMU_PER_PX = 9525
 EMU_PER_PT = 12700
@@ -268,13 +268,17 @@ class Block:
 
 class ExcelConverter:
     def __init__(self, source: Path, output_dir: Path, flavors: list[str], auto_tables: bool = True,
-                 values_source: Path | None = None):
+                 values_source: Path | None = None, diagram_render: str = "auto",
+                 backend: str = "libreoffice", officecli: str | None = None):
         self.original_source = source
         self.source = source
         self.values_source = values_source
         self.output_dir = output_dir
         self.flavors = flavors
         self.auto_tables = auto_tables
+        self.diagram_render = diagram_render
+        self.backend = backend
+        self.officecli = officecli
         self.assets_dir = output_dir / "assets"
         self.archive: zipfile.ZipFile | None = None
         self.wb: Any = None
@@ -468,7 +472,7 @@ class ExcelConverter:
                 elif kind == "grpSp":
                     for shape in element.iter():
                         if local_name(shape.tag) in {"sp", "cxnSp"}:
-                            objects.append(self.parse_shape(ws, anchor, shape, "shape"))
+                            objects.append(self.parse_shape(ws, anchor, shape, "connector" if local_name(shape.tag) == "cxnSp" else "shape"))
                 elif kind == "graphicFrame":
                     chart = next((el for el in element.iter() if local_name(el.tag) == "chart"), None)
                     if chart is not None:
@@ -831,6 +835,10 @@ class ExcelConverter:
             ws.title: self.drawing_objects(ws, parts.get(ws.title, ""), index)
             for index, ws in enumerate(self.wb.worksheets, 1)
         }
+        from flowcharts import enrich_drawings, drawing_markdown
+        drawings = enrich_drawings(self, parts, self.diagram_render)
+        self.report["drawings"] = drawings
+        self.report["backend"] = self.backend
         outputs = {}
         attachments = self.extract_attachments()
         unreferenced = self.unreferenced_media_section()
@@ -843,6 +851,9 @@ class ExcelConverter:
             for ws in self.wb.worksheets:
                 content, stats = self.convert_sheet(ws, self.values_wb[ws.title], objects_by_sheet[ws.title], flavor)
                 lines.extend([content, ""])
+                for drawing in drawings:
+                    if drawing["sheet"] == ws.title:
+                        lines.extend([drawing_markdown(drawing), ""])
                 if flavor == self.flavors[0]:
                     stats_list.append(stats)
             if attachments:
@@ -906,6 +917,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("-o", "--output-dir", type=Path, help="输出目录，默认 <文件名>-markdown")
     parser.add_argument("--flavor", choices=["pure", "rich", "both"], default="both", help="输出版本，默认 both")
     parser.add_argument("--no-auto-tables", action="store_true", help="仅转换 Excel 已定义的表，不自动识别表格")
+    profile = Path(__file__).resolve().parents[1] / "variant.json"
+    default_backend = json.loads(profile.read_text(encoding="utf-8"))["backend"] if profile.is_file() else "libreoffice"
+    parser.add_argument("--backend", choices=["openpyxl", "officecli", "libreoffice"], default=default_backend,
+                        help="选择纯 Python、OfficeCLI 辅助或 LibreOffice 渲染后端")
+    parser.add_argument("--officecli", help="OfficeCLI 可执行文件路径，默认从 PATH 查找")
+    parser.add_argument("--diagram-render", choices=["auto", "never", "required"], default="auto",
+                        help="绘图预览：auto 自动尝试 LibreOffice；never 禁用；required 失败返回非零")
     parser.add_argument("--values-from", type=Path, help="从重算副本读取公式结果，正文仍使用原始工作簿")
     return parser.parse_args()
 
@@ -919,14 +937,18 @@ def main() -> int:
     output_dir = (args.output_dir or source.with_name(source.stem + "-markdown")).expanduser().resolve()
     temporary = None
     try:
+        if source.suffix.lower() == ".xls" and args.backend != "libreoffice":
+            raise ConversionError("纯 Python/OfficeCLI 版不调用 LibreOffice 转换 .xls；请先另存为 .xlsx，或选择 LibreOffice 增强版。")
         prepared, temporary = prepare_source(source)
         flavors = ["pure", "rich"] if args.flavor == "both" else [args.flavor]
         values_source = args.values_from.expanduser().resolve() if args.values_from else None
         if values_source and not values_source.is_file():
             raise ConversionError(f"公式结果副本不存在：{values_source}")
-        converter = ExcelConverter(source, output_dir, flavors, not args.no_auto_tables, values_source)
+        converter = ExcelConverter(source, output_dir, flavors, not args.no_auto_tables, values_source, args.diagram_render, args.backend, args.officecli)
         converter.source = prepared
         report = converter.convert()
+        if args.diagram_render == "required" and any(d["render_status"] != "rendered" for d in report["drawings"]):
+            raise ConversionError("必需的绘图预览未生成，详情见 conversion-report.json。")
         print(json.dumps({"status": "ok", "outputs": report["outputs"], "report": report["report"],
                           "totals": report["totals"], "warnings": len(report["warnings"])},
                          ensure_ascii=False, indent=2))
